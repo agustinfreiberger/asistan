@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_live"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Inicio" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Perfil"/>
+        <item
+            android:id="@+id/nav_movements"
+            android:icon="@drawable/ic_timeline_black_24dp"
+            android:title="Mis movimientos" />
+        <item
+            android:id="@+id/nav_places"
+            android:icon="@drawable/ic_place_black_24dp"
+            android:title="Mis lugares" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/ic_assessment_black_24dp"
+            android:title="Estadisticas" />
+        <item
+            android:id="@+id/nav_config"
+            android:icon="@drawable/ic_build_black_24dp"
+            android:title="Ajustes" />
+    </group>
+
+</menu>

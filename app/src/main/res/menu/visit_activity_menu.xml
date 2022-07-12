@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/locked"
+        android:icon="@drawable/ic_locked_white_24dp"
+        android:title="Bloqueado"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/confirm"
+        android:icon="@drawable/ic_check_white_24dp"
+        android:title="Aplicar cambios"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/cancel"
+        android:icon="@drawable/ic_clear_white_24dp"
+        android:title="Cancelar cambios"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/edit_labels"
+        android:title="Editar etiquetas"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/select_place"
+        android:title="Seleccionar lugar"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/forgotten_mobile"
+        android:title="Me olvide el celular"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/casual_stop"
+        android:title="Detención casual"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/delete_visit"
+        android:title="Borrar visita"
+        app:showAsAction="never"/>
+
+</menu>

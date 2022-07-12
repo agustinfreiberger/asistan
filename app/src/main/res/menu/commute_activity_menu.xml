@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/locked"
+        android:icon="@drawable/ic_locked_white_24dp"
+        android:title="Bloqueado"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/confirm"
+        android:icon="@drawable/ic_check_white_24dp"
+        android:title="Aplicar"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/cancel"
+        android:icon="@drawable/ic_clear_white_24dp"
+        android:title="Cancelar"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/edit_labels"
+        android:title="Editar etiquetas"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/edit_transport_mode"
+        android:title="Editar modo de viaje"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/cancel_edit_transport_mode"
+        android:title="Cancelar edicion"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/delete_commute"
+        android:title="Borrar viaje"
+        app:showAsAction="never"/>
+
+</menu>

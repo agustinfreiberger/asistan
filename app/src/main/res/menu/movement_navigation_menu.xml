@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item
+    android:icon="@drawable/ic_timeline_black_24dp"
+    android:title="Diario" />
+
+<item
+    android:id="@+id/navigation_map"
+    android:icon="@drawable/ic_map_black_24dp"
+    android:title="Mapa" />
+
+<item
+    android:id="@+id/navigation_stats"
+    android:icon="@drawable/ic_assessment_black_24dp"
+    android:title="Estadisticas" />
+
+</menu>

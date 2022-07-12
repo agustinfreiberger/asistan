@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ar.edu.unicen.isistan.asistan">
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:name=".application.Asistan"
+        android:allowBackup="false"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/icon_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".views.LauncherActivity"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.asistan.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.login.LoginActivity"
+            android:label="@string/app_name"/>
+        <activity android:name=".views.login.ConfirmProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".views.asistan.movements.visits.VisitActivity" />
+        <activity android:name=".views.asistan.movements.visits.PlaceSelectorActivity" />
+        <activity android:name=".views.asistan.places.edit.PlaceActivity" />
+        <activity android:name=".views.asistan.movements.commutes.CommuteActivity" />
+        <activity android:name=".views.asistan.movements.commutes.TransportModeActivity" />
+        <activity android:name=".views.asistan.places.edit.PlaceCategoryActivity" />
+        <activity android:name=".views.asistan.movements.labels.LabelPickerActivity" />
+        <activity android:name=".views.login.PrivacyPolicyActivity" />
+
+        <!-- Periodically restart sync works -->
+        <receiver
+            android:label="RestartSyncWorkReceiver"
+            android:enabled="true"
+            android:name=".application.AlarmReceiver" />
+
+        <!-- Restart app if needed -->
+        <receiver
+            android:enabled="true"
+            android:label="PackageReplacedReceiver"
+            android:name=".application.PackageReplacedReceiver">
+            <!-- If app is updated -->
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:enabled="true"
+            android:label="BootReceiver"
+            android:name=".application.BootReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <!-- If smartphone restarts -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Foreground service -->
+        <service
+            android:label="ForegroundService"
+            android:name=".tracker.mobility.ForegroundService"
+            android:stopWithTask="false"
+            android:foregroundServiceType="location" />
+
+        <!-- Activity receiver -->
+        <receiver
+            android:enabled="true"
+            android:name=".tracker.mobility.receivers.ActivityReceiver"/>
+
+        <!-- Location receiver -->
+        <receiver
+            android:enabled="true"
+            android:name=".tracker.mobility.receivers.GpsLocationReceiver" />
+
+        <receiver
+            android:enabled="true"
+            android:name=".tracker.mobility.receivers.NetworkLocationReceiver" />
+
+        <receiver
+            android:enabled="true"
+            android:name=".tracker.mobility.receivers.PassiveLocationReceiver" />
+
+        <!-- AirPlane receiver -->
+        <receiver
+        android:enabled="true"
+
+        android:name=".tracker.mobility.receivers.AirPlaneReceiver" />
+
+
+        <!-- Phone event receiver -->
+        <receiver
+            android:enabled="true"
+            android:name=".tracker.phone.PhoneEventReceiver" />
+
+        <!-- WiFi scan receiver -->
+        <receiver
+            android:enabled="true"
+            android:name=".tracker.wifi.WiFiReceiver" />
+
+        <!-- GoogleMaps api key-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+    </application>
+
+</manifest>

@@ -1,0 +1,99 @@
+<resources>
+    <string name="app_name" translatable="false">AsisTan</string>
+    <string name="json_url" translatable="false">https://si.isistan.unicen.edu.ar/asistan/app/update.json</string>
+
+    <string name="navigation_drawer_open" translatablenano ="false" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="service_stopped_label" translatable="false">AsisTan esta desactivado</string>
+    <string name="activity" translatable="false">Actividad</string>
+    <string name="location" translatable="false">Ubicación</string>
+    <string name="provider" translatable="false">Prov:</string>
+    <string name="type" translatable="false">Tipo:</string>
+    <string name="confidence" translatable="false">Prob:</string>
+    <string name="accuracy" translatable="false">Acc:</string>
+    <string name="timeAgo" translatable="false">Hace:</string>
+    <string name="client_id" translatable="false">926225416054-hap9035lkfd41ivluo7s6tlb5u4r19au.apps.googleusercontent.com</string>
+
+    <string name="android_auto_update_dialog_title" translatable="false">Hay una version de AsisTan</string>
+    <string name="android_auto_update_dialog_btn_download" translatable="false">Descargar</string>
+    <string name="android_auto_update_dialog_btn_cancel" translatable="false">Cancelar</string>
+
+    <string name="standard_channel" translatable="false">Notificaciones</string>
+    <string name="errors_channel" translatable="false">Errores</string>
+    <string name="updates_channel" translatable="false">Actualizaciones</string>
+    <string name="foreground_channel" translatable="false">Notificación de Estado</string>
+    <string name="foreground_silence_channel" translatable="false">Notificación silenciada de Estado</string>
+
+    <string name="welcome" translatable="false">Bienvenido!</string>
+    <string name="letsStart" translatable="false">Empecemos por saber algo sobre ti...</string>
+    <string name="enter" translatable="false">Ingresar</string>
+
+    <string name="userProfile" translatable="false">Perfil de usuario</string>
+    <string name="selectedLabels" translatable="false">Etiquetas seleccionadas</string>
+    <string name="otherLabels" translatable="false">Otras etiquetas</string>
+
+    <string name="placeSelection" translatable="false">Seleccion de lugar</string>
+    <string name="placeDescription" translatable="false">Descripción del lugar</string>
+
+    <string name="myNearbyPlaces" translatable="false">Mis lugares cercanos</string>
+    <string name="otherNearbyPlaces" translatable="false">Otros lugares cercanos</string>
+    <string name="newPlace" translatable="false">Nuevo lugar</string>
+
+    <string name="notifications" translatable="false">Notificaciones</string>
+    <string name="asistanState" translatable="false">Estado de AsisTan</string>
+    <string name="asistanStateDesc" translatable="false">Se muestra el estado de AsisTan de forma permanente en la barra de notificaciones.</string>
+    <string name="smartNotification" translatable="false">Notificacion inteligente</string>
+    <string name="smartNotificationDesc" translatable="false">Las notificaciones se postergan hasta que el usuario se haya detenido en algun lugar y esté utilizando el dispositivo.</string>
+    <string name="programming" translatable="false">Programación</string>
+    <string name="programmingDesc" translatable="false">Solo se muestran notificaciones dentro de la franja horaria determinada por el usuario.</string>
+    <string name="since" translatable="false">Desde </string>
+    <string name="defaultTime" translatable="false">10:00</string>
+    <string name="until" translatable="false">Hasta </string>
+
+    <string name="dataCollection" translatable="false">Recolección de datos</string>
+    <string name="accuratePaths" translatable="false">Recorridos precisos</string>
+    <string name="accuratePathsDesc" translatable="false">Se aumenta la precisión de AsisTan mientras te mueves en automóvil.</string>
+
+    <string name="visual" translatable="false">Visual</string>
+    <string name="map" translatable="false">Mapa</string>
+    <string name="mapDesc" translatable="false">Seleccion el mapa de su preferencia. Esta configuración es solo visual y no afecta la funcionalidad de AsisTan.</string>
+
+    <string name="general" translatable="false">General</string>
+    <string name="autoStart" translatable="false">Inicio automático</string>
+    <string name="autoStartDesc" translatable="false">Habilita AsisTan para que pueda iniciar automaticamente cada vez que reinicies el celular.</string>
+    <string name="disableOptimizations" translatable="false">Desactivar optimizaciones</string>
+    <string name="disableOptimizationsDesc" translatable="false">Desactiva las optimizaciones de bateria para AsisTan. Esto permite a AsisTan solicitar tu ubicación en segundo plano.</string>
+    <string name="version" translatable="false">Version</string>
+    <string name="versionDesc" translatable="false">Version actual de AsisTan.</string>
+
+    <string name="noData" translatable="false">-</string>
+
+    <string name="date" translatable="false">Fecha:</string>
+    <string name="leftArrow" translatable="false">&lt;&lt;</string>
+    <string name="rightArrow" translatable="false">&gt;&gt;</string>
+
+    <string name="stays" translatable="false">Visitas</string>
+    <string name="commutes" translatable="false">Viajes</string>
+
+    <string name="userName" translatable="false">Nombre</string>
+    <string name="userLastName" translatable="false">Apellido</string>
+
+    <string name="genre" translatable="false">Genero</string>
+    <string name="birthday" translatable="false">Nacimiento</string>
+    <string name="selectDate" translatable="false">Seleccionar una fecha</string>
+    <string name="contact" translatable="false">Contacto</string>
+    <string name="civilStatus" translatable="false">Estado civil</string>
+    <string name="minorsInHome" translatable="false">Menores en el hogar</string>
+    <string name="interval" translatable="false">Intervalo:</string>
+    <string name="transportMode" translatable="false">Modo de transporte</string>
+    <string name="accept">Aceptar</string>
+    <string name="disclosure_explain">Antes de comenzar es importante que comprendas que en este estudio se recolectara información sensible tales como tus datos de autenticación, datos de tu perfil e información sobre tu movilidad díaria.</string>
+    <string name="secured_data">Cuidamos tus datos</string>
+    <string name="dont_worry">No te preocupes, tus datos se transfieren y almacenan de manera segura en nuestros servidores.</string>
+    <string name="disclosure_diagram">Diagrama de envío de datos</string>
+    <string name="location_disabled">Ubicación desactivada</string>
+    <string name="location_disabled_explain">La ubicación esta desactivada.</string>
+    <string name="permission_required">Permisos requeridos</string>
+    <string name="permission_required_explain">La aplicación no dispone de los permisos necesarios para ejecutar</string>
+
+</resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genders">
+        <item>Sin especificar</item>
+        <item>Masculino</item>
+        <item>Femenino</item>
+        <item>Otro</item>
+    </string-array>
+
+    <string-array name="education_levels">
+        <item>Sin especificar</item>
+        <item>Sin estudios</item>
+        <item>Primario incompleto</item>
+        <item>Primario completo</item>
+        <item>Secundario incompleto</item>
+        <item>Secundario completo</item>
+        <item>Terciario incompleto</item>
+        <item>Universitario incompleto</item>
+        <item>Terciario completo</item>
+        <item>Universitario completo</item>
+    </string-array>
+
+    <string-array name="occupation">
+        <item>Sin especificar</item>
+        <item>Empleado asalariado</item>
+        <item>Trabajador por cuenta propia</item>
+        <item>Desempleado</item>
+        <item>Jubilado</item>
+        <item>Incapacitado para trabajar</item>
+        <item>Menor de edad</item>
+        <item>Ama de casa</item>
+        <item>Estudiante y empleado asalariado</item>
+        <item>Estudiante y trabajador por cuenta propia</item>
+        <item>Estudiante</item>
+    </string-array>
+
+    <string-array name="incomes">
+        <item>Sin especificar</item>
+        <item>Mas de $130.000</item>
+        <item>Entre $50.000 y $130.000</item>
+        <item>Entre $30.000 y $50.000</item>
+        <item>Entre $20.000 y $30.000</item>
+        <item>Menos de $20.000</item>
+    </string-array>
+
+    <string-array name="vehicles">
+        <item>Ninguno</item>
+        <item>Bicicleta</item>
+        <item>Moto</item>
+        <item>Auto</item>
+    </string-array>
+
+    <string-array name="civilStatus">
+        <item>Sin especificar</item>
+        <item>Soltero</item>
+        <item>En pareja</item>
+        <item>Conviviendo juntos</item>
+        <item>Separada/o</item>
+        <item>Viuda/o</item>
+    </string-array>
+
+    <string-array name="minors">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+</resources>
