@@ -13,12 +13,24 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import ar.edu.unicen.isistan.asistan.storage.database.activity.Activity;
+import ar.edu.unicen.isistan.asistan.storage.database.asistan.AsistanEvent;
+import ar.edu.unicen.isistan.asistan.storage.database.geolocation.GeoLocation;
+import ar.edu.unicen.isistan.asistan.storage.database.mobility.commutes.Commute;
+import ar.edu.unicen.isistan.asistan.storage.database.mobility.events.Event;
+import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
+import ar.edu.unicen.isistan.asistan.storage.database.mobility.visits.Visit;
+import ar.edu.unicen.isistan.asistan.storage.database.phone.PhoneEvent;
 import ar.edu.unicen.isistan.asistan.storage.database.reports.Report;
+import ar.edu.unicen.isistan.asistan.storage.database.wifi.WiFiScan;
 import ar.edu.unicen.isistan.asistan.storage.preferences.user.UserManager;
 import ar.edu.unicen.isistan.asistan.storage.preferences.user.User;
 import ar.edu.unicen.isistan.asistan.synchronizer.data.Data;
+import ar.edu.unicen.isistan.asistan.views.asistan.places.PlacesFragment;
 
 public class AsistanAPI {
 
@@ -137,17 +149,30 @@ public class AsistanAPI {
             connection.setRequestMethod("GET");
             connection.setRequestProperty(ACCESS_TOKEN,token);
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            connection.connect();
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                BufferedReader buffered = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder builder = new StringBuilder();
-                String line;
-                while ((line = buffered.readLine()) != null)
-                    builder.append(line);
-                //CREAR UN DATA Y RETORNARLO
-                return new Gson().fromJson(builder.toString(), Data.class);
-            } else
-                return null;
+            //connection.connect();
+//            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//                BufferedReader buffered = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                StringBuilder builder = new StringBuilder();
+//                String line;
+//                while ((line = buffered.readLine()) != null)
+//                    builder.append(line);
+//
+//                return new Gson().fromJson(builder.toString(), Data.class);
+//            } else
+//                return null;
+            //CREAR UN DATA Y RETORNARLO
+            Data mydata = new Data();
+            mydata.setUser(new User("1"));
+            mydata.setEvents(new ArrayList<Event>());
+            mydata.setActivities(new ArrayList<Activity>());
+            mydata.setAsistanEvents(new ArrayList<AsistanEvent>());
+            mydata.setPlaces(new ArrayList<Place>());
+            mydata.setCommutes(new ArrayList<Commute>());
+            mydata.setGeolocations(new ArrayList<GeoLocation>());
+            mydata.setPhoneEvents(new ArrayList<PhoneEvent>());
+            mydata.setVisits(new ArrayList<Visit>());
+            mydata.setWifiScans(new ArrayList<WiFiScan>());
+            return mydata;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

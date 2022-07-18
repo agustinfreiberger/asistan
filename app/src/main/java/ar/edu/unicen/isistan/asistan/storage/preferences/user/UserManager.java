@@ -29,9 +29,9 @@ public class UserManager {
             if (json == null)
                 return null;
             User user = new Gson().fromJson(json, User.class);
-            FileInputStream input = context.openFileInput(UserManager.PROFILE_IMAGE);
-            Bitmap bitmap = BitmapFactory.decodeStream(input);
-            user.setPhoto(bitmap);
+//            FileInputStream input = context.openFileInput(UserManager.PROFILE_IMAGE);
+//            Bitmap bitmap = BitmapFactory.decodeStream(input);
+//            user.setPhoto(bitmap);
             return user;
         } catch (Exception e) {
             e.printStackTrace();
