@@ -49,6 +49,8 @@ public abstract class MobilityDao {
     @Query("SELECT * FROM " + Visit.TABLE_NAME + " WHERE _id = :id")
     public abstract Visit selectVisit(long id);
 
+
+
     @Nullable
     public Visit selectVisitAndContext(long id) {
         Visit visit = selectVisit(id);
@@ -158,6 +160,9 @@ public abstract class MobilityDao {
 
     @Query("SELECT * FROM " + Commute.TABLE_NAME + " WHERE _id = :id")
     public abstract Commute selectCommute(long id);
+
+    @Query("SELECT * FROM " + Commute.TABLE_NAME)
+    public abstract List<Commute> selectCommutes();
 
     @Nullable
     public Commute selectCommuteAndContext(long id) {

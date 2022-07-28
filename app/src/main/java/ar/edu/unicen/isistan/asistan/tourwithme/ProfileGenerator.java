@@ -1,40 +1,54 @@
 package ar.edu.unicen.isistan.asistan.tourwithme;
 
+import java.util.HashMap;
+import java.util.List;
+
+import ar.edu.unicen.isistan.asistan.storage.database.Database;
+import ar.edu.unicen.isistan.asistan.storage.database.mobility.commutes.Commute;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.visits.Visit;
 
 public class ProfileGenerator {
 
-    //ver como setear -> user = logged user
-    //por ahi conviene tener una lista de intereses por cada POI (Place) e ir actualizandolá
+    //por ahi conviene tener una Hash lugar/interes e ir actualizandolá
+    HashMap <Place, Float> userPlacePreference;
 
-    public ProfileGenerator(){}
+    HashMap <PlaceCategory, Float> userCategoryPreference;
 
+    public ProfileGenerator(){
+        this.userPlacePreference = new HashMap <Place, Float> ();
+        this.userCategoryPreference = new HashMap <PlaceCategory, Float> ();
+    }
 
+    //Este método debería llamarse cada vez que se genera un VISIT a un Place
     //Interes de usuario en POI
-    public void UserPoiInterest(Place place, Visit visit, int travelid) {
-        float result = VisitTimeAverage(place) + IntTravelTime(travelid, visit);
+    public void UserPoiInterest(Place place, Visit visit, Commute commute) {
+        long TotalVisitTime = 0;
+        int cantVisitas = 0;
 
-    }
+        //visitas a ese lugar
+        List<Visit> visits = Database.getInstance().mobility().selectVisits(place.getId());
 
-    //Promedio de estadia en POI
-    private float VisitTimeAverage(Place place) {
-        //for each visit in place { TotalVisitTime =+ visit.VisitTime ; cantVisitas++; }
-        //result = TotalVisitTime / cantVisitas
-        return 0;
-    }
+        for (Visit v: visits) {
+            TotalVisitTime =+ v.duration();
+            cantVisitas++;
+        }
 
-    //Métrica asociada al tiempo de viaje y estadía
-    private float IntTravelTime(int travelid, Visit visit) {
-        // float result = traveltime / (traveltime + visit.VisitTime);
-        return 0;
+        float VisitTimeAverage = TotalVisitTime / cantVisitas;
+
+        float IntTravelTime = commute.duration() / (commute.duration() + visit.duration());
+
+        float userInterestInPlace = (VisitTimeAverage + IntTravelTime) / 2;
+
+        userPlacePreference.put(place, userInterestInPlace);
     }
 
     //Interés de usuario en una categoría. ej: "pub"
     public float UserCategoryInterest(PlaceCategory category){
         //Por cada poi de la zona de categoría "pub" llamar a UserPoiInterest y sumarlos
         //float result = totalUserPoiInterest / cantCategories;
+        //userCategoryPreference.put(category, result);
         return 0;
     }
 
