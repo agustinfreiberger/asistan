@@ -22,7 +22,7 @@ public class Asistan extends Application {
 
         SharedPreferences preferences = this.getApplicationContext().getSharedPreferences(Asistan.PREFERENCE, Context.MODE_PRIVATE);
         String lastRun = preferences.getString(Asistan.LAST_RUN, null);
-        String currentRun = this.getApplicationContext().getResources().getString(R.string.app_version);
+        String currentRun = this.getApplicationContext().getResources().getString(R.string.version);
 
         this.prepareStorage();
 
@@ -48,4 +48,5 @@ public class Asistan extends Application {
         MapManager.prepare(this.getApplicationContext());
     }
 
+    //acá arranca todo
 }

@@ -109,6 +109,7 @@ public enum PlaceCategory {
     THEME_PARK("Parque temático", 612, "Parque temático.", R.drawable.themepark, R.drawable.ic_nature_people_black_24dp),
     AQUARIUM("Aquarium", 613, "Aquarium", R.drawable.aquarium, R.drawable.ic_nature_people_black_24dp),
     VIEWPOINT("Punto de vista", 614, "Punto de vista", R.drawable.panoramicview, R.drawable.ic_nature_people_black_24dp),
+    ATTRACTION("Atracción", 1500, "Atracción turística", R.drawable.urbanpark, R.drawable.ic_nature_people_black_24dp),
 
     // Deporte
     GYM("Gimnasio", 701, "Gimnasio, centro de fitness o spa", R.drawable.weights, R.drawable.ic_fitness_center_black_24dp),
@@ -129,7 +130,7 @@ public enum PlaceCategory {
     // Arte y entretenimiento
     LIBRARY("Biblioteca", 901, "Biblioteca o sala de lectura", R.drawable.book, R.drawable.ic_ticket_black_24dp),
     MUSEUM("Museo", 902, "Museo", R.drawable.art_museum, R.drawable.ic_ticket_black_24dp),
-    THEATER("Teatro", 903, "Teatro", R.drawable.theater, R.drawable.ic_ticket_black_24dp),
+    THEATRE("Teatro", 903, "Teatro", R.drawable.theater, R.drawable.ic_ticket_black_24dp),
     CINEMA("Cine", 904, "Cine", R.drawable.cinema, R.drawable.ic_ticket_black_24dp),
     CASINO("Casino", 905, "Casino, bingo o lugar de apuestas", R.drawable.poker, R.drawable.ic_ticket_black_24dp),
     AMPHITHEATER("Anfiteatro", 906, "Anfiteatro", R.drawable.amphitheater, R.drawable.ic_ticket_black_24dp),
@@ -175,14 +176,14 @@ public enum PlaceCategory {
     TRANSPORT_CATEGORY("TRANSPORT_CATEGORY",400,"Transporte", R.drawable.car, R.drawable.ic_in_vehicle_24dp, PARKING,BUS_STOP,TAXI_STOP,TERMINAL,AIRPORT,PORT,TRAIN_STATION,FUEL,CAR_WASH,CAR_RENTAL,TRANSPORT),
     ENTITY("Otro",599,"Otra entidad u organización",R.drawable.office_building,R.drawable.ic_entity_black_24dp),
     ENTITIES_CATEGORY("ENTITIES_CATEGORY",500,"Entidades y organizaciones", R.drawable.office_building, R.drawable.ic_entity_black_24dp, PUBLIC_SERVICE, FINANCIAL_ENTITY,PUBLIC_ORGANIZATION,PRIVATE_SERVICE,COMMUNITY_CENTRE,SOCIAL_FACILITY,EMBASSY,COURTHOUSE,POLICE,FIRE_STATION,PRISON,POST_OFFICE,LABOR_UNION,ENTITY),
-    OUTDOOR("Otro",699,"Otro lugare para realizar actividades al aire libre",R.drawable.tree, R.drawable.ic_nature_people_black_24dp),
+    OUTDOOR("Otro",699,"Otro lugar para realizar actividades al aire libre",R.drawable.tree, R.drawable.ic_nature_people_black_24dp),
     OUTDOOR_CATEGORY("OUTDOOR_CATEGORY",600,"Al aire libre",R.drawable.tree, R.drawable.ic_nature_people_black_24dp,PARK,BEACH,GOLF,CAMP_SITE,DOG_PARK,HORSE_RIDING,NATURE_RESERVE,WATER_PARK,WOOD,BARE_ROCK,ZOO,THEME_PARK,AQUARIUM,VIEWPOINT,OUTDOOR),
     SPORT("Otro",799,"Otro lugar dedicado a la practica de deportes o actividad fisica",R.drawable.weights,R.drawable.ic_fitness_center_black_24dp),
     SPORT_CATEGORY("SPORT_CATEGORY",700,"Deporte y actividad física",R.drawable.weights,R.drawable.ic_fitness_center_black_24dp,GYM,SPORT_CLUB,SPORT_FIELD,STADIUM,DOJO,SPORT,SWIMMING_POOL),
     FOOD("Otro",899,"Otro lugar de comida.",R.drawable.restaurant,R.drawable.ic_restaurant_black_24dp),
     FOOD_CATEGORY("FOOD_CATEGORY",800,"Comida",R.drawable.restaurant,R.drawable.ic_restaurant_black_24dp,RESTAURANT,CAFE,FAST_FOOD,ICE_CREAM,PUB,PIZZA,FOOD),
     ART_AND_ENTERTAINMENT("Otro",999,"Otros lugares relacionados al arte o entretenimiento",R.drawable.theater, R.drawable.ic_ticket_black_24dp),
-    ART_AND_ENTERTAINMENT_CATEGORY("ART_AND_ENTERTAINMENT_CATEGORY",900,"Arte y entretenimiento",R.drawable.theater, R.drawable.ic_ticket_black_24dp,LIBRARY,MUSEUM,THEATER,CINEMA,CASINO,AMPHITHEATER,CIRCUS,MINIATURE_GOLF,BOWLING,AMUSEMENT_ARCADE,ARTS_CENTRE,PLANETARIUM,ART_AND_ENTERTAINMENT),
+    ART_AND_ENTERTAINMENT_CATEGORY("ART_AND_ENTERTAINMENT_CATEGORY",900,"Arte y entretenimiento",R.drawable.theater, R.drawable.ic_ticket_black_24dp,LIBRARY,MUSEUM,THEATRE,CINEMA,CASINO,AMPHITHEATER,CIRCUS,MINIATURE_GOLF,BOWLING,AMUSEMENT_ARCADE,ARTS_CENTRE,PLANETARIUM,ART_AND_ENTERTAINMENT),
     SOCIAL("Otro",1099,"Otro lugar para interactuar con otras personas",R.drawable.group, R.drawable.ic_people_black_24dp),
     SOCIAL_CATEGORY("SOCIAL_CATEGORY",1000,"Social",R.drawable.group, R.drawable.ic_people_black_24dp,NIGHT_CLUB,PARTY_ROOM),
     OTHERS("Otros",1199,"Otros lugares",R.drawable.notvisited, R.drawable.ic_others_black_25dp),

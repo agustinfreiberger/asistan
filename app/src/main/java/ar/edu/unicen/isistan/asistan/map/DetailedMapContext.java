@@ -15,7 +15,7 @@ public class DetailedMapContext extends MapContext {
     private static final int RADIUS = 400;
 
     @NotNull
-    private ArrayList<Place> places;
+    private ArrayList<Place> places; //estos serían los lugares personales
     @NotNull
     private ArrayList<OSMArea> osmAreas;
     @NotNull
@@ -132,9 +132,11 @@ public class DetailedMapContext extends MapContext {
     private void updateData(@NotNull Coordinate location) {
 
         if (this.city != null) {
+            //si esta detallada quiere decir que tengo los lugares
             if (!this.city.isDetailed()) {
                 MapManager.getInstance().enqueueDownloadCity(this.city);
             } else if (this.center.isEmpty() || this.center.distance(location) > RADIUS) {
+                //si está detallado cargo los cercanos a memoria en ese momento
                 Database database = Database.getInstance();
                 this.places = new ArrayList<>(database.mobility().allPlaces());
                 this.osmAreas = new ArrayList<>(database.openStreetMap().nearAreas(location, RADIUS));

@@ -1,5 +1,6 @@
 package ar.edu.unicen.isistan.asistan.views.asistan.places.edit;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -25,6 +27,7 @@ import java.util.Locale;
 
 import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
@@ -33,6 +36,7 @@ import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 import ar.edu.unicen.isistan.asistan.storage.preferences.configuration.Configuration;
 import ar.edu.unicen.isistan.asistan.storage.preferences.configuration.ConfigurationManager;
+import ar.edu.unicen.isistan.asistan.tourwithme.ShowSuggestedLocations;
 import ar.edu.unicen.isistan.asistan.utils.geo.areas.Area;
 import ar.edu.unicen.isistan.asistan.utils.geo.areas.Circle;
 import ar.edu.unicen.isistan.asistan.views.map.GoogleMapController;
@@ -57,6 +61,7 @@ public class PlaceActivity extends AppCompatActivity implements OnMapReadyCallba
     private SeekBar radio_bar;
     private Place originalPlace;
     private Place place;
+    private Button CompassButton;
     private MapController.PlaceController placeController;
 
     @Override
@@ -106,6 +111,7 @@ public class PlaceActivity extends AppCompatActivity implements OnMapReadyCallba
                 PlaceActivity.this.changeCategory();
             }
         };
+
 
         this.type = this.findViewById(R.id.place_type);
         this.type_icon = this.findViewById(R.id.place_type_icon);
@@ -198,6 +204,7 @@ public class PlaceActivity extends AppCompatActivity implements OnMapReadyCallba
         PlaceActivity.this.startActivityForResult(intent,PLACE_CATEGORY_REQUEST_CODE);
     }
 
+    @SuppressLint("RestrictedApi")
     private void init() {
         if (this.place != null) {
             this.name.setText(this.place.getName());

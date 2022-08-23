@@ -11,7 +11,7 @@
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name=".application.Asistan"
         android:allowBackup="false"
@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true">
         <activity
             android:name=".views.LauncherActivity"
             android:theme="@android:style/Theme.NoDisplay">
@@ -46,6 +47,7 @@
         <activity android:name=".views.asistan.places.edit.PlaceCategoryActivity" />
         <activity android:name=".views.asistan.movements.labels.LabelPickerActivity" />
         <activity android:name=".views.login.PrivacyPolicyActivity" />
+        <activity android:name=".tourwithme.ShowSuggestedLocations" />
 
         <!-- Periodically restart sync works -->
         <receiver

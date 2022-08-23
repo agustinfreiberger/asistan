@@ -4,6 +4,7 @@ import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +31,8 @@ import ar.edu.unicen.isistan.asistan.storage.preferences.configuration.Configura
 import ar.edu.unicen.isistan.asistan.storage.database.activity.Activity;
 import ar.edu.unicen.isistan.asistan.storage.database.geolocation.GeoLocation;
 import ar.edu.unicen.isistan.asistan.storage.preferences.configuration.ConfigurationManager;
+import ar.edu.unicen.isistan.asistan.tourwithme.ShowSuggestedLocations;
+import ar.edu.unicen.isistan.asistan.views.asistan.places.edit.PlaceActivity;
 import ar.edu.unicen.isistan.asistan.views.map.GoogleMapController;
 import ar.edu.unicen.isistan.asistan.views.map.MapController;
 import ar.edu.unicen.isistan.asistan.views.map.OsmMapController;
@@ -58,6 +62,7 @@ public class LiveFragment extends Fragment implements OnMapReadyCallback {
     private SharedPreferences.OnSharedPreferenceChangeListener config_listener;
     private GeoLocation last_loc;
     private Activity last_act;
+    private Button CompassButton;
     @Nullable
     private LiveData<Activity> activityLiveData;
     @Nullable
@@ -163,6 +168,15 @@ public class LiveFragment extends Fragment implements OnMapReadyCallback {
             this.loc_accuracy = view.findViewById(R.id.accuracy);
             this.loc_time = view.findViewById(R.id.loc_time_ago);
             this.provider_img = view.findViewById(R.id.provider_icon);
+            this.CompassButton = view.findViewById(R.id.btn_tourwithme);
+
+            CompassButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), ShowSuggestedLocations.class);
+                    startActivity(i);
+                }
+            });
 
             Configuration configuration = ConfigurationManager.load(context);
             if (configuration.getMapView() == MapController.Map.OPEN_STREET_MAP.getCode())

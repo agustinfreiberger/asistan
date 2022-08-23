@@ -131,11 +131,13 @@ public class StateMachine {
 
     }
 
+    //acá se actualiza la visita
     private void store(@NotNull Visit visit) {
         if (visit.isClosed()) {
             if (visit.hasPlace())
                 updatePlace(visit);
             else
+                //si no está el lugar dentro de los lugares visitados, lo creo (se dispara el cartel ¿Lugar nuevo?)
                 createPlace(visit);
         }
 
@@ -145,6 +147,7 @@ public class StateMachine {
             Database.getInstance().mobility().insert(visit);
     }
 
+    //acá podria ir la condicion lugar = lugar turístico
     private void updatePlace(@NotNull Visit visit) {
         Place place = visit.getPlace();
         if (place != null && !place.isFixedLocation() && place.getArea().getType().equals(Area.AreaType.CIRCLE)) {
@@ -159,6 +162,7 @@ public class StateMachine {
         }
     }
 
+    //es posible que tenga que comentar este método
     private void createPlace(@NotNull Visit visit) {
         Place place = new Place();
         place.setArea(new Circle(visit.getCenter(),30));
@@ -262,6 +266,7 @@ public class StateMachine {
         this.fixedVisit = false;
     }
 
+    //acá chequeo el lugar en cada momento
     private void check(@NotNull Visit visit) {
         if (!this.fixedVisit) {
             Place visitedPlace = this.detailedMapContext.getPlace(visit.getCenter());

@@ -79,7 +79,7 @@ public class CategoryMapper {
         amenityMap.put("community_centre",PlaceCategory.COMMUNITY_CENTRE);
         amenityMap.put("nightclub",PlaceCategory.NIGHT_CLUB);
         amenityMap.put("planetarium",PlaceCategory.PLANETARIUM);
-        amenityMap.put("theatre",PlaceCategory.THEATER);
+        amenityMap.put("theatre",PlaceCategory.THEATRE);
         amenityMap.put("courthouse",PlaceCategory.COURTHOUSE);
         amenityMap.put("crematorium",PlaceCategory.CREMATORIUM);
         amenityMap.put("dojo",PlaceCategory.DOJO);

@@ -50,7 +50,6 @@ public abstract class MobilityDao {
     public abstract Visit selectVisit(long id);
 
 
-
     @Nullable
     public Visit selectVisitAndContext(long id) {
         Visit visit = selectVisit(id);

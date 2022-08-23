@@ -41,6 +41,10 @@ public class OverpassAPI {
     private static final String NEARBY_PLACES = "[timeout:30][out:json][bbox:%f,%f,%f,%f];(way(if:is_closed())['aeroway'='aerodrome'];relation(if:is_closed())['aeroway'='aerodrome'];node['leisure'~'amusement_arcade|bowling_alley|fitness_center|sports_centre']['name'];way(if:is_closed())['leisure'~'amusement_arcade|bowling_alley|fitness_center|miniature_golf|sports_centre|stadium']['name']['building'];relation(if:is_closed())['leisure'~'amusement_arcade|bowling_alley|fitness_center|miniature_golf|sports_centre|stadium']['name']['building'];way(if:is_closed())['leisure'~'dog_park|golf_course|horse_riding|marina|nature_reserve|stadium|water_park|park|garden|sports_centre|stadium']['building'!~'.'];relation(if:is_closed())['leisure'~'dog_park|golf_course|horse_riding|marina|nature_reserve|stadium|water_park|park|garden|sports_centre|stadium']['building'!~'.'];node['amenity'~'bar|biergarten|cafe|fast_food|ice_cream|pub|restaurant|college|kindergarten|library|school|music_school|language_school|driving_school|university|research_institute|bus_station|car_wash|car_rental|taxi|bank|clinic|dentist|hospital|pharmacy|social_facility|veterinary|arts_centre|casino|cinema|community_centre|nightclub|planetarium|theatre|courthouse|crematorium|dojo|embassy|fire_station|gym|internet_cafe|marketplace|place_of_worship|police|post_office|prison|townhall']['name'];way(if:is_closed())['amenity'~'bar|biergarten|cafe|fast_food|ice_cream|pub|restaurant|college|kindergarten|library|school|music_school|language_school|driving_school|university|research_institute|bus_station|car_wash|car_rental|taxi|bank|clinic|dentist|hospital|pharmacy|social_facility|veterinary|arts_centre|casino|cinema|community_centre|nightclub|planetarium|theatre|courthouse|crematorium|dojo|embassy|fire_station|gym|internet_cafe|marketplace|place_of_worship|police|post_office|prison|townhall']['name']['building'];relation(if:is_closed())['amenity'~'bar|biergarten|cafe|fast_food|ice_cream|pub|restaurant|college|kindergarten|library|school|music_school|language_school|driving_school|university|research_institute|bus_station|car_wash|car_rental|taxi|bank|clinic|dentist|hospital|pharmacy|social_facility|veterinary|arts_centre|casino|cinema|community_centre|nightclub|planetarium|theatre|courthouse|crematorium|dojo|embassy|fire_station|gym|internet_cafe|marketplace|place_of_worship|police|post_office|prison|townhall']['name']['building'];node['amenity'~'fuel']['brand'];way(if:is_closed())['amenity'~'fuel']['brand']['building'];relation(if:is_closed())['amenity'~'fuel']['brand']['building'];way(if:is_closed())['natural'~'wood|scrub|heath|moor|bare_rock|beach|sand|shingle|grassland|fell'];relation(if:is_closed())['natural'~'wood|scrub|heath|moor|bare_rock|beach|sand|shingle|grassland|fell'];node['shop']['name'];way(if:is_closed())['shop']['name']['building'];relation(if:is_closed())['shop']['name']['building'];node['building'~'hotel|commercial|office|supermarket|retail|warehouse|cathedral|church|temple|synagogue|kindergarten|hospital|civic|government|school|stadium|train_station|university|public|parking']['name'];way(if:is_closed())['building'~'hotel|commercial|office|supermarket|retail|warehouse|cathedral|church|temple|synagogue|kindergarten|hospital|civic|government|school|stadium|train_station|university|public|parking']['name']['building'];relation(if:is_closed())['building'~'hotel|commercial|office|supermarket|retail|warehouse|cathedral|church|temple|synagogue|kindergarten|hospital|civic|government|school|stadium|train_station|university|public|parking']['name']['building'];node['tourism'~'zoo|viewpoint|theme_park|museum|motel|information|hotel|hostel|guest_house|gallery|aquarium']['name'];way(if:is_closed())['tourism'~'zoo|viewpoint|theme_park|museum|motel|information|hotel|hostel|guest_house|gallery|aquarium']['name']['building'];relation(if:is_closed())['tourism'~'zoo|viewpoint|theme_park|museum|motel|information|hotel|hostel|guest_house|gallery|aquarium']['name']['building'];way(if:is_closed())['tourism'~'caravan_site|camp_site']['name']['building'!~'.*'];relation(if:is_closed())['tourism'~'caravan_site|camp_site']['name']['building'!~'.*'];way(if:is_closed())['landuse'~'cemetery|forest|farmland|recreation_ground']['name']['building'!~'.*'];relation(if:is_closed())['landuse'~'cemetery|forest|farmland|recreation_ground']['name']['building'!~'.*'];node['craft']['name'];way(if:is_closed())['craft']['name']['building'];relation(if:is_closed())['craft']['name']['building'];);(._;>;);out body;";
     private static final String CITY_BUS_ROUTES = "[timeout:30][out:json][bbox:%f,%f,%f,%f];(relation['route'='bus'];);(._;>;);out body;";
 
+
+    private static final String TANDIL_AMENITIES_QUERY = "[timeout:30][out:json]; (node['amenity'~'pub|cafe|restaurant'](-37.35160114495477,-59.163780212402344,-37.29754420029534,-59.08927917480469);); out body;";
+
+
     private enum CityType {
         CITY("city",10000), TOWN("town",5000), VILLAGE("village",3250);
 
@@ -423,6 +427,46 @@ public class OverpassAPI {
             return null;
         }
     }
+
+    public static ArrayList<JsonObject> getPois(String query)  {
+        try {
+            URL osm = new URL(OVERPASS_API);
+            HttpURLConnection connection = (HttpURLConnection) osm.openConnection();
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setConnectTimeout(30000);
+            connection.setRequestProperty("Content-Type", "x-www-form-urlencoded; charset=UTF-8");
+            connection.setRequestMethod("POST");
+
+            DataOutputStream printout = new DataOutputStream(connection.getOutputStream());
+            printout.writeBytes("data=" + URLEncoder.encode(query, "utf-8"));
+            printout.flush();
+            printout.close();
+
+            BufferedReader buffered = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder builder = new StringBuilder();
+            String line;
+
+            while ((line = buffered.readLine()) != null) {
+                builder.append(line);
+            }
+
+            JsonParser parser = new JsonParser();
+            JsonObject root = parser.parse(builder.toString()).getAsJsonObject();
+            JsonArray elements = root.getAsJsonArray("elements");
+            ArrayList<JsonObject> out = new ArrayList<>();
+
+            for (JsonElement element: elements) {
+                out.add(element.getAsJsonObject());
+            }
+
+            return out;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     private static Coordinate readCoordinate(JsonObject element) {
         double lat = element.get("lat").getAsDouble();

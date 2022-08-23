@@ -6,11 +6,15 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import androidx.annotation.NonNull;
 
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import java.util.List;
+
 import ar.edu.unicen.isistan.asistan.storage.database.activity.Activity;
 import ar.edu.unicen.isistan.asistan.storage.database.activity.ActivityDao;
 import ar.edu.unicen.isistan.asistan.storage.database.asistan.AsistanEventDao;
@@ -24,6 +28,7 @@ import ar.edu.unicen.isistan.asistan.storage.database.mobility.events.Event;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.events.EventDao;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.visits.Visit;
+import ar.edu.unicen.isistan.asistan.storage.database.osm.OverpassAPI;
 import ar.edu.unicen.isistan.asistan.storage.database.phone.PhoneEvent;
 import ar.edu.unicen.isistan.asistan.storage.database.phone.PhoneEventDao;
 import ar.edu.unicen.isistan.asistan.storage.database.sensor.PhoneSensorEvent;
@@ -36,6 +41,7 @@ import ar.edu.unicen.isistan.asistan.storage.database.wifi.WiFiScan;
 import ar.edu.unicen.isistan.asistan.utils.geo.areas.Area;
 import ar.edu.unicen.isistan.asistan.utils.geo.bound.Bound;
 
+//agregar las entities acá
 @androidx.room.Database(entities = {
         AsistanEvent.class, PhoneEvent.class, WiFiScan.class,
         GeoLocation.class, Activity.class,
@@ -49,6 +55,9 @@ public abstract class Database extends RoomDatabase {
     private static final String DB_NAME = "database.db";
 
     private static volatile Database INSTANCE = null;
+
+    private static final String TANDIL_AMENITIES_QUERY = "[timeout:30][out:json]; (node['amenity'~'pub|cafe|restaurant'](-37.35160114495477,-59.163780212402344,-37.29754420029534,-59.08927917480469);); out body;";
+    private static final String TANDIL_TOURISM_QUERY = "[timeout:30][out:json]; (nwr['tourism'~'attraction|gallery|zoo'](-37.35160114495477,-59.163780212402344,-37.29754420029534,-59.08927917480469);); out body;";
 
     private static final Migration MIGRATION_1_2 = new Migration(1,2) {
         @Override
@@ -241,6 +250,14 @@ public abstract class Database extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_17_18 = new Migration(17,18) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DELETE FROM `osm_place`");
+        }
+    };
+
+
     public static synchronized void prepare(Context context) {
         if (INSTANCE == null)
             INSTANCE = create(context);
@@ -256,7 +273,7 @@ public abstract class Database extends RoomDatabase {
                 context.getApplicationContext(),
                 Database.class,
                 DB_NAME)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,MIGRATION_5_6,MIGRATION_6_7,MIGRATION_7_8,MIGRATION_8_9,MIGRATION_9_10,MIGRATION_10_11,MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5,MIGRATION_5_6,MIGRATION_6_7,MIGRATION_7_8,MIGRATION_8_9,MIGRATION_9_10,MIGRATION_10_11,MIGRATION_11_12, MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18)
                 .build();
     }
 
@@ -275,6 +292,8 @@ public abstract class Database extends RoomDatabase {
     public abstract OSMDao openStreetMap();
 
     public abstract WiFiDao wifi();
+
+    //si creo un dao añadirlo
 
 }
 

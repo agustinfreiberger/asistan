@@ -100,7 +100,7 @@ public class Labeler {
         labelCultural.add(Label.CULTURAL.getCode());
         this.predefinedLabels.put(PlaceCategory.MUSEUM.getCode(), labelCultural);
         this.predefinedLabels.put(PlaceCategory.LIBRARY.getCode(), labelCultural);
-        this.predefinedLabels.put(PlaceCategory.THEATER.getCode(), labelCultural);
+        this.predefinedLabels.put(PlaceCategory.THEATRE.getCode(), labelCultural);
         this.predefinedLabels.put(PlaceCategory.CINEMA.getCode(), labelCultural);
         this.predefinedLabels.put(PlaceCategory.AMPHITHEATER.getCode(), labelCultural);
         this.predefinedLabels.put(PlaceCategory.ARTS_CENTRE.getCode(), labelCultural);

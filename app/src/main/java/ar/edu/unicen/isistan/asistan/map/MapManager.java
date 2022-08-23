@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Pair;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import net.sf.geographiclib.Geodesic;
 import net.sf.geographiclib.GeodesicData;
 import net.sf.geographiclib.GeodesicMask;
@@ -26,6 +28,7 @@ import ar.edu.unicen.isistan.asistan.map.works.DownloadCityWork;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
 import ar.edu.unicen.isistan.asistan.storage.database.geolocation.Coordinate;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMBusLine;
+import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMDao;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMPlace;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OverpassAPI;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMArea;
@@ -39,6 +42,8 @@ public class MapManager {
     private static final String CENTER = "center";
 
     private static final int DOWNLOAD_RADIUS = 250000;
+
+
 
     private static MapManager INSTANCE = null;
 
@@ -70,13 +75,14 @@ public class MapManager {
         this.center = new Coordinate();
         this.mapContexts = new ArrayList<>();
 
+
         Gson gson = new Gson();
         SharedPreferences preferences = context.getSharedPreferences(MapManager.PREFERENCES, Context.MODE_PRIVATE);
         String json = preferences.getString(MapManager.CENTER, null);
         Coordinate coordinate = gson.fromJson(json, Coordinate.class);
-        if (coordinate != null)
+        if (coordinate != null) {
             this.center.init(coordinate);
-
+        }
     }
 
     private void enqueueDownloadCities(@NotNull Coordinate coordinate) {
