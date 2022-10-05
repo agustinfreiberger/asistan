@@ -3,6 +3,8 @@ package ar.edu.unicen.isistan.asistan.views.asistan.live;
 import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,7 +34,6 @@ import ar.edu.unicen.isistan.asistan.storage.database.activity.Activity;
 import ar.edu.unicen.isistan.asistan.storage.database.geolocation.GeoLocation;
 import ar.edu.unicen.isistan.asistan.storage.preferences.configuration.ConfigurationManager;
 import ar.edu.unicen.isistan.asistan.tourwithme.ShowSuggestedLocations;
-import ar.edu.unicen.isistan.asistan.views.asistan.places.edit.PlaceActivity;
 import ar.edu.unicen.isistan.asistan.views.map.GoogleMapController;
 import ar.edu.unicen.isistan.asistan.views.map.MapController;
 import ar.edu.unicen.isistan.asistan.views.map.OsmMapController;
@@ -170,13 +171,12 @@ public class LiveFragment extends Fragment implements OnMapReadyCallback {
             this.provider_img = view.findViewById(R.id.provider_icon);
             this.CompassButton = view.findViewById(R.id.btn_tourwithme);
 
-            CompassButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(getActivity(), ShowSuggestedLocations.class);
-                    startActivity(i);
-                }
+            Intent intent = new Intent();
+            CompassButton.setOnClickListener(v -> {
+                intent.setClass(getActivity(), ShowSuggestedLocations.class);
+                startActivity(intent);
             });
+
 
             Configuration configuration = ConfigurationManager.load(context);
             if (configuration.getMapView() == MapController.Map.OPEN_STREET_MAP.getCode())
@@ -285,6 +285,7 @@ public class LiveFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     private void updateActivity(final Activity activity) {
         if (this.getActivity() != null) {
             LiveFragment.this.last_act = activity;
@@ -323,6 +324,7 @@ public class LiveFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     private void updateLocation(final GeoLocation location) {
         if (this.getActivity() != null) {
             LiveFragment.this.last_loc = location;

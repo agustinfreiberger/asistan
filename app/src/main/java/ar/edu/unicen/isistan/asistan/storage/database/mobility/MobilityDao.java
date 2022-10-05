@@ -49,6 +49,9 @@ public abstract class MobilityDao {
     @Query("SELECT * FROM " + Visit.TABLE_NAME + " WHERE _id = :id")
     public abstract Visit selectVisit(long id);
 
+    @Query("SELECT * FROM "+ Visit.TABLE_NAME +" GROUP BY place_id")
+    public abstract List<Visit> selectVisits();
+
 
     @Nullable
     public Visit selectVisitAndContext(long id) {
