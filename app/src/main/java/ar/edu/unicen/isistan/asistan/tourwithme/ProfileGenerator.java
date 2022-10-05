@@ -81,7 +81,7 @@ public class ProfileGenerator extends AsyncTask {
             }
         }
 
-        return userPoiPreferenceList.size() == 0;
+        return null;
     }
 
 
@@ -93,7 +93,6 @@ public class ProfileGenerator extends AsyncTask {
                aux.add("Lugar: "+userPoiPreference.getPlaceId()+" Preferencia:"+ userPoiPreference.getPreference());
            }
        }
-
         return aux;
     }
 

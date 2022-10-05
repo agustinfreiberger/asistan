@@ -3,6 +3,7 @@ package ar.edu.unicen.isistan.asistan.tourwithme;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -11,7 +12,7 @@ import androidx.annotation.Nullable;
 
 import ar.edu.unicen.isistan.asistan.R;
 
-public class ShowSuggestedLocations extends Activity {
+public class ShowSuggestedLocations extends Activity{
 
     private ProfileGenerator profileGenerator;
     private ListView lv_suggestedLocations;
@@ -25,15 +26,12 @@ public class ShowSuggestedLocations extends Activity {
         lv_suggestedLocations = findViewById(R.id.lv_suggestedLocations);
         btn_getRecommendations = findViewById(R.id.btn_getRecommendations);
 
-        profileGenerator = new ProfileGenerator(); //al crearse ejecuta la generación del perfil
+        profileGenerator = new ProfileGenerator();
         profileGenerator.execute();
 
-        btn_getRecommendations.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                lv_suggestedLocations.setAdapter((ListAdapter) profileGenerator.getUserPoiPreferences());
-            }
-        });
+        btn_getRecommendations.setOnClickListener(view ->
+                lv_suggestedLocations.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, profileGenerator.getUserPoiPreferences()))
+        );
     }
 
 
