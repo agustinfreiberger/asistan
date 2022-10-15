@@ -97,6 +97,7 @@ dependencies {
     implementation 'com.github.MKergall:osmbonuspack:6.6.0'
     implementation 'com.github.florent37:viewtooltip:1.2.2'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'org.mongodb:mongodb-driver-sync:4.7.2'
 }
 
 repositories {

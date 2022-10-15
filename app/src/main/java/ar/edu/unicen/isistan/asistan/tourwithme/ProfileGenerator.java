@@ -15,86 +15,109 @@ import ar.edu.unicen.isistan.asistan.storage.database.mobility.visits.Visit;
 
 public class ProfileGenerator extends AsyncTask {
 
-    HashMap<Place, Float> userPlacePreference;
-    HashMap<Integer, Float> userCategoryPreference;
     List<UserPoiPreference> userPoiPreferenceList;
 
     public ProfileGenerator()
     {
-        this.userPlacePreference = new HashMap <Place, Float> ();
-        this.userCategoryPreference = new HashMap <Integer , Float> ();
         this.userPoiPreferenceList = new ArrayList();
     }
 
 
     @Override
     protected Object doInBackground(Object[] objects) {
-        //visitas a lugares agrupadas por place_id
+
+        //Todas las visitas a pois únicas (agrupadas por place_id)
         List<Visit> allUserVisits = Database.getInstance().mobility().selectVisits();
 
-        if(allUserVisits != null){
-            //por cada lugar visitado calculo su interés
-            for (Visit visit : allUserVisits) {
-                if(visit != null){
+        if(allUserVisits != null)
+        {
+            long intTravelTime, userInterestInPlace, averageVisitDuration = 0, cantVisitas = 0, averageTravelDuration = 0, cantViajes = 0;
+            Commute loadedCommute;
+            Place poi;
 
-                    long intTravelTime, userInterestInPlace, averageVisitDuration = 0, cantVisitas = 0, averageTravelDuration = 0, cantViajes = 0;
-                    Commute loadedCommute;
+            //Por cada lugar visitado calculo su interés
+            for (Visit visit : allUserVisits)
+            {
+                if(visit != null)
+                {
+                    //Todas las visitas a ese lugar
+                    List<Visit> allPoiVisits = Database.getInstance().mobility().selectVisits(visit.getPlaceId());
 
-                    //visitas a ese lugar
-                    List<Visit> visits = Database.getInstance().mobility().selectVisits(visit.getPlaceId());
-
-                    for (Visit v: visits) {
+                    for (Visit v: allPoiVisits)
+                    {
                         averageVisitDuration += v.duration();
                         cantVisitas++;
                     }
 
-                    //promedio de duración de la visita
+                    //Promedio de duración de la visita
                     averageVisitDuration = averageVisitDuration / cantVisitas;
 
-                    //viajes
+                    //Todos los viajes
                     List<Commute> commutes = Database.getInstance().mobility().selectCommutes();
 
-                    if(commutes != null && commutes.size() > 0){
-                        for (Commute commute:commutes) {
-                            //cargo origen y destino del viaje
+                    if(commutes != null && commutes.size() > 0)
+                    {
+                        for (Commute commute:commutes)
+                        {
+                            //Cargo origen y destino del viaje
                             loadedCommute = Database.getInstance().mobility().selectCommuteAndContext(commute.getId());
-                            //viajó a ese poi?
-                            if (loadedCommute.getDestination() != null && loadedCommute.getDestination().getPlaceId() == visit.getPlaceId()) {
+
+                            //Viajó a ese poi?
+                            if (loadedCommute.getDestination() != null && loadedCommute.getDestination().getPlaceId() == visit.getPlaceId())
+                            {
                                 averageTravelDuration += commute.duration();
                                 cantViajes++;
                             }
                         }
-                        //promedio de duración de viaje a ese destino
-                        if(cantViajes != 0){
+                        //Promedio de duración de viaje a ese destino
+                        if(cantViajes != 0)
+                        {
                             averageTravelDuration = averageVisitDuration/cantViajes;
                         }
                     }
 
-                    //interés basado en tiempo de viaje
-                    intTravelTime =  (averageTravelDuration/ (averageTravelDuration + averageVisitDuration));
 
-                    //coeficiente estimado de interés de ese poi
+
+                    //Interés basado en tiempo de viaje
+                    intTravelTime = (averageTravelDuration / (averageTravelDuration + averageVisitDuration));
+
+                    //Coeficiente estimado de interés de ese poi
                     userInterestInPlace = (averageVisitDuration + intTravelTime) / 2;
 
-                    userPoiPreferenceList.add(new UserPoiPreference(visit.getPlaceId(), userInterestInPlace));
+                    poi = Database.getInstance().mobility().selectPlace(visit.getPlaceId()); //Si no existe devuelve null
+                    userPoiPreferenceList.add(new UserPoiPreference(poi, userInterestInPlace));
                 }
+                averageVisitDuration = 0;
+                cantVisitas = 0;
+                averageTravelDuration = 0;
+                cantViajes = 0;
             }
+
         }
 
         return null;
     }
 
 
-    public ArrayList<String> getUserPoiPreferences(){
+    public ArrayList<String> getUserPoiPreferences()
+    {
        ArrayList<String> aux = new ArrayList<>();
 
-       if(userPoiPreferenceList != null && userPoiPreferenceList.size() > 0){
-           for (UserPoiPreference userPoiPreference:userPoiPreferenceList) {
-               aux.add("Lugar: "+userPoiPreference.getPlaceId()+" Preferencia:"+ userPoiPreference.getPreference());
+       if(userPoiPreferenceList != null && userPoiPreferenceList.size() > 0)
+       {
+           for (UserPoiPreference userPoiPreference:userPoiPreferenceList)
+           {
+               aux.add("Lugar: "+userPoiPreference.getPlaceName()+" Categoria: "+userPoiPreference.getCategoryName()+" Preferencia:"+ userPoiPreference.getPreference());
            }
        }
-        return aux;
+       else
+       {
+           aux.add("No se han encontrado visitas");
+       }
+       return aux;
     }
+
+
 
 
     //Interés de usuario en una categoría. ej: "pub"
