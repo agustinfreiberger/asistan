@@ -62,7 +62,8 @@ public class ProfileGenerator extends AsyncTask {
                             //Cargo origen y destino del viaje
                             loadedCommute = Database.getInstance().mobility().selectCommuteAndContext(commute.getId());
 
-                            //Viajó a ese poi?
+                            //Tomo sólo el viaje con destino al POI
+                            //TODO: Tomar solo los lugares turísticos (no Casa, ni hospitales, etc...)
                             if (loadedCommute.getDestination() != null && loadedCommute.getDestination().getPlaceId() == visit.getPlaceId())
                             {
                                 averageTravelDuration += commute.duration();
@@ -118,7 +119,14 @@ public class ProfileGenerator extends AsyncTask {
     }
 
 
-
+    public ArrayList<String> getTourReco(){
+        ArrayList<String> aux = new ArrayList<>();
+        for (UserPoiPreference userPoiPreference:userPoiPreferenceList)
+        {
+            //TODO: SUMAR TODAS LAS PREFERENCIAS Y CALCULAR SU PORCENTAJE EJ: <82% OUTDOOR, 18% NIGHT>
+        }
+        return aux;
+    }
 
     //Interés de usuario en una categoría. ej: "pub"
 //    public float UserCategoryInterest(PlaceCategory category){

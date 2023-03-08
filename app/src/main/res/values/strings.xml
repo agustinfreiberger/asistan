@@ -96,5 +96,7 @@
     <string name="permission_required">Permisos requeridos</string>
     <string name="permission_required_explain">La aplicación no dispone de los permisos necesarios para ejecutar</string>
     <string name="obtener_recomendacion">Obtener Recomendación</string>
+    <string name="guardar_preferencias">Guardar Preferencias</string>
+
 
 </resources>
