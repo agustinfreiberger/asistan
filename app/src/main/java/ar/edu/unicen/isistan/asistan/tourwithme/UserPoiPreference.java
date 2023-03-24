@@ -13,13 +13,7 @@ public class UserPoiPreference {
         this.userPreference = pref;
     }
 
-    public String getPlaceName(){
-        return poi.getName();
-    }
+    public Place getPlace() { return poi; }
 
-    public String getPreference(){
-        return String.valueOf(userPreference);
-    }
-
-    public String getCategoryName() { return PlaceCategory.get(poi.getPlaceCategory()).getName(); }
+    public float getPreference() { return userPreference; }
 }

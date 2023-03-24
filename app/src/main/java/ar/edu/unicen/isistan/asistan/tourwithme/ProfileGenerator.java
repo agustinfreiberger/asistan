@@ -1,8 +1,11 @@
 package ar.edu.unicen.isistan.asistan.tourwithme;
 
 import android.os.AsyncTask;
+import android.os.Build;
 
-import java.sql.Array;
+import androidx.annotation.RequiresApi;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,9 +20,12 @@ public class ProfileGenerator extends AsyncTask {
 
     List<UserPoiPreference> userPoiPreferenceList;
 
+    HashMap<String, Float> categoriesPreferenceList;
+
     public ProfileGenerator()
     {
         this.userPoiPreferenceList = new ArrayList();
+        categoriesPreferenceList = new HashMap<>();
     }
 
 
@@ -31,7 +37,7 @@ public class ProfileGenerator extends AsyncTask {
 
         if(allUserVisits != null)
         {
-            long intTravelTime, userInterestInPlace, averageVisitDuration = 0, cantVisitas = 0, averageTravelDuration = 0, cantViajes = 0;
+            float intTravelTime, userInterestInPlace2, averageVisitDuration = 0, cantVisitas = 0, averageTravelDuration = 0, cantViajes = 0;
             Commute loadedCommute;
             Place poi;
 
@@ -77,16 +83,14 @@ public class ProfileGenerator extends AsyncTask {
                         }
                     }
 
-
-
                     //Interés basado en tiempo de viaje
-                    intTravelTime = (averageTravelDuration / (averageTravelDuration + averageVisitDuration));
+                    intTravelTime = (averageTravelDuration/(averageTravelDuration + averageVisitDuration));
 
-                    //Coeficiente estimado de interés de ese poi
-                    userInterestInPlace = (averageVisitDuration + intTravelTime) / 2;
+                    //Coeficiente estimado de interés en ese poi
+                    userInterestInPlace2 = (averageVisitDuration + intTravelTime) / 2;
 
                     poi = Database.getInstance().mobility().selectPlace(visit.getPlaceId()); //Si no existe devuelve null
-                    userPoiPreferenceList.add(new UserPoiPreference(poi, userInterestInPlace));
+                    userPoiPreferenceList.add(new UserPoiPreference(poi, userInterestInPlace2));
                 }
                 averageVisitDuration = 0;
                 cantVisitas = 0;
@@ -96,36 +100,56 @@ public class ProfileGenerator extends AsyncTask {
 
         }
 
+        //TODO: agregar un emoticon de 'Listo' cuando termina
         return null;
     }
 
 
+    //unas vez que tengo los intereses de cada lugar pondero por categorías
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<String> getUserPoiPreferences()
     {
-       ArrayList<String> aux = new ArrayList<>();
+        float interesTotal = 0;
+        if(categoriesPreferenceList.size() >0){
+            categoriesPreferenceList.clear();
+        }
 
        if(userPoiPreferenceList != null && userPoiPreferenceList.size() > 0)
        {
            for (UserPoiPreference userPoiPreference:userPoiPreferenceList)
            {
-               aux.add("Lugar: "+userPoiPreference.getPlaceName()+" Categoria: "+userPoiPreference.getCategoryName()+" Preferencia:"+ userPoiPreference.getPreference());
+               //filtro las categorías que no sirven
+               if(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()) != PlaceCategory.HOME && PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()) != PlaceCategory.OTHERS)
+               {
+                   if(!categoriesPreferenceList.containsKey(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()).getName()))
+                   {
+                       //cargo el hashmap de categorías con la suma de intereses
+                        categoriesPreferenceList.put(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()).getName(), userPoiPreference.getPreference());
+                        interesTotal = interesTotal + userPoiPreference.getPreference();
+                   }
+                   else
+                   {
+                       categoriesPreferenceList.computeIfPresent(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()).getName(),
+                               (key, val) -> val + userPoiPreference.getPreference());
+                   }
+               }
            }
        }
-       else
-       {
-           aux.add("No se han encontrado visitas");
-       }
-       return aux;
-    }
 
+       ArrayList<String> aux  = new ArrayList<>();
 
-    public ArrayList<String> getTourReco(){
-        ArrayList<String> aux = new ArrayList<>();
-        for (UserPoiPreference userPoiPreference:userPoiPreferenceList)
-        {
-            //TODO: SUMAR TODAS LAS PREFERENCIAS Y CALCULAR SU PORCENTAJE EJ: <82% OUTDOOR, 18% NIGHT>
+        for (String key:categoriesPreferenceList.keySet()) {
+            aux.add("Categoria: "+ key + "Preferencia: " +(categoriesPreferenceList.get(key).floatValue()/interesTotal));
         }
-        return aux;
+
+        //final float interesTotalFinal = interesTotal;
+       //hago la ponderacion y la guardo
+       // categoriesPreferenceList.forEach((key,val) -> val = val/(interesTotalFinal));
+
+        //TODO: a GenerateTour le paso categoriesPreferenceList/interesTotal
+        //TourGenerator.GenerateTour(categoriesPreferenceList);
+        return  aux;
     }
 
     //Interés de usuario en una categoría. ej: "pub"
