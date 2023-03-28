@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">AsisTan</string>
     <string name="json_url" translatable="false">https://si.isistan.unicen.edu.ar/asistan/app/update.json</string>
 
-    <string name="navigation_drawer_open" translatablenano ="false" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false" translatablenano="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="service_stopped_label" translatable="false">AsisTan esta desactivado</string>
     <string name="activity" translatable="false">Actividad</string>
@@ -95,8 +95,8 @@
     <string name="location_disabled_explain">La ubicación esta desactivada.</string>
     <string name="permission_required">Permisos requeridos</string>
     <string name="permission_required_explain">La aplicación no dispone de los permisos necesarios para ejecutar</string>
-    <string name="obtener_recomendacion">Obtener Recomendación</string>
-    <string name="guardar_preferencias">Guardar Preferencias</string>
+    <string name="show_profile">Mostrar Perfil</string>
+    <string name="show_tour">Mostrar Tour</string>
 
 
 </resources>

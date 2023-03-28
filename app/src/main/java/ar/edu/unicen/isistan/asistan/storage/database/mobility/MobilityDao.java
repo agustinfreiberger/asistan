@@ -23,6 +23,7 @@ import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCateg
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.visits.Visit;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.visits.VisitCategory;
 import ar.edu.unicen.isistan.asistan.map.MapManager;
+import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMPlace;
 import ar.edu.unicen.isistan.asistan.tracker.mobility.MobilityTracker;
 import ar.edu.unicen.isistan.asistan.tracker.statemachine.StateMachineTracker;
 import ar.edu.unicen.isistan.asistan.utils.geo.areas.Area;
@@ -222,6 +223,12 @@ public abstract class MobilityDao {
     @Query("SELECT * FROM " + Place.TABLE_NAME + " WHERE place_category != -3 AND NOT((west > :east) OR (:west > east) OR (south > :north) OR (:south > north))")
     public abstract List<Place> allPlaces(double north, double south, double east, double west);
 
+    @Query("SELECT * FROM " + OSMPlace.TABLE_NAME + " WHERE NOT((:east > longitude) OR (:west > longitude) OR (latitude > :north) OR (:south > latitude))")
+    public abstract List<OSMPlace> allOSMPlaces(double north, double south, double east, double west);
+
+    @Query("SELECT * FROM " + OSMPlace.TABLE_NAME)
+    public abstract List<OSMPlace> allOSMPlaces2();
+
     public List<Place> near(Coordinate location, double maxDistance) {
         Bound bound = new Bound(location,maxDistance);
         return this.allPlaces(bound.getNorth(), bound.getSouth(), bound.getEast(), bound.getWest());
@@ -232,6 +239,7 @@ public abstract class MobilityDao {
 
     @Query("SELECT * FROM " + Place.TABLE_NAME + " WHERE _id = :id")
     public abstract Place selectPlace(long id);
+
 
     public void insert(Place place) {
         place.setUpload(true);

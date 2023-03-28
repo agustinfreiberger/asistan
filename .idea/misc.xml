@@ -3,10 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/activity_place.xml" value="0.1" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/activity_place.xml" value="0.25" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_live.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_movements.xml" value="0.1" />
-        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/list_suggestedlocations.xml" value="0.536" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_my_map.xml" value="0.20108695652173914" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_my_places.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_places.xml" value="0.20108695652173914" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_recommendations.xml" value="0.1382488479262673" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_visits.xml" value="0.20108695652173914" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/list_suggestedlocations.xml" value="0.2" />
       </map>
     </option>
   </component>

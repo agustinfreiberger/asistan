@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +19,7 @@ public class ProfileGenerator extends AsyncTask {
 
     List<UserPoiPreference> userPoiPreferenceList;
 
-    HashMap<String, Float> categoriesPreferenceList;
+    HashMap<PlaceCategory, Float> categoriesPreferenceList;
 
     public ProfileGenerator()
     {
@@ -108,7 +107,7 @@ public class ProfileGenerator extends AsyncTask {
     //unas vez que tengo los intereses de cada lugar pondero por categorías
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<String> getUserPoiPreferences()
+    public HashMap<PlaceCategory, Float> getUserPoiPreferences()
     {
         float interesTotal = 0;
         if(categoriesPreferenceList.size() >0){
@@ -125,31 +124,27 @@ public class ProfileGenerator extends AsyncTask {
                    if(!categoriesPreferenceList.containsKey(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()).getName()))
                    {
                        //cargo el hashmap de categorías con la suma de intereses
-                        categoriesPreferenceList.put(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()).getName(), userPoiPreference.getPreference());
+                        categoriesPreferenceList.put(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()), userPoiPreference.getPreference());
                         interesTotal = interesTotal + userPoiPreference.getPreference();
                    }
                    else
                    {
-                       categoriesPreferenceList.computeIfPresent(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()).getName(),
+                       categoriesPreferenceList.computeIfPresent(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()),
                                (key, val) -> val + userPoiPreference.getPreference());
                    }
                }
            }
        }
 
-       ArrayList<String> aux  = new ArrayList<>();
-
-        for (String key:categoriesPreferenceList.keySet()) {
-            aux.add("Categoria: "+ key + "Preferencia: " +(categoriesPreferenceList.get(key).floatValue()/interesTotal));
+       //hago la ponderacion y la guardo
+       final float interesTotalFinal = interesTotal;
+        for (PlaceCategory key:categoriesPreferenceList.keySet()) {
+            categoriesPreferenceList.put(key, (categoriesPreferenceList.get(key).floatValue()/interesTotal));
         }
 
-        //final float interesTotalFinal = interesTotal;
-       //hago la ponderacion y la guardo
-       // categoriesPreferenceList.forEach((key,val) -> val = val/(interesTotalFinal));
+       //categoriesPreferenceList.forEach((key,val) -> val = val.floatValue()/interesTotalFinal); //esta division no la hace
 
-        //TODO: a GenerateTour le paso categoriesPreferenceList/interesTotal
-        //TourGenerator.GenerateTour(categoriesPreferenceList);
-        return  aux;
+        return  categoriesPreferenceList;
     }
 
     //Interés de usuario en una categoría. ej: "pub"
