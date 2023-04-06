@@ -1,7 +1,10 @@
 package ar.edu.unicen.isistan.asistan.tourwithme;
 
+import android.media.tv.TvContract;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.annotation.RequiresApi;
 
@@ -9,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.commutes.Commute;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
@@ -21,12 +25,22 @@ public class ProfileGenerator extends AsyncTask {
 
     HashMap<PlaceCategory, Float> categoriesPreferenceList;
 
-    public ProfileGenerator()
+    TourWithMeActivity mytourWithMeActivity;
+
+    public ProfileGenerator(TourWithMeActivity tourWithMeActivity)
     {
         this.userPoiPreferenceList = new ArrayList();
         categoriesPreferenceList = new HashMap<>();
+        this.mytourWithMeActivity = tourWithMeActivity;
+        this.execute();
     }
 
+
+    @Override
+    protected void onPostExecute(Object o) {
+        super.onPostExecute(o);
+        mytourWithMeActivity.progress_Bar.setVisibility(View.GONE);
+    }
 
     @Override
     protected Object doInBackground(Object[] objects) {
@@ -107,9 +121,10 @@ public class ProfileGenerator extends AsyncTask {
     //unas vez que tengo los intereses de cada lugar pondero por categorías
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public HashMap<PlaceCategory, Float> getUserPoiPreferences()
+    public HashMap<PlaceCategory, Float> getUserCategoryPreferences()
     {
         float interesTotal = 0;
+        //Limpio para actualizarla en caso que haya nuevas visitas.
         if(categoriesPreferenceList.size() >0){
             categoriesPreferenceList.clear();
         }
@@ -142,9 +157,15 @@ public class ProfileGenerator extends AsyncTask {
             categoriesPreferenceList.put(key, (categoriesPreferenceList.get(key).floatValue()/interesTotal));
         }
 
-       //categoriesPreferenceList.forEach((key,val) -> val = val.floatValue()/interesTotalFinal); //esta division no la hace
-
         return  categoriesPreferenceList;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<String> getUserCategoryPreferencesString(){
+        ArrayList<String> aux = new ArrayList<>();
+        getUserCategoryPreferences().forEach((k,v) -> aux.add(k.getName()+" "+v));
+        return aux;
     }
 
     //Interés de usuario en una categoría. ej: "pub"

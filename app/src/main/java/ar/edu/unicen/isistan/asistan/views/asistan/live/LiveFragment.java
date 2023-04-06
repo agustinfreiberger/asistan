@@ -33,7 +33,7 @@ import ar.edu.unicen.isistan.asistan.storage.preferences.configuration.Configura
 import ar.edu.unicen.isistan.asistan.storage.database.activity.Activity;
 import ar.edu.unicen.isistan.asistan.storage.database.geolocation.GeoLocation;
 import ar.edu.unicen.isistan.asistan.storage.preferences.configuration.ConfigurationManager;
-import ar.edu.unicen.isistan.asistan.tourwithme.ShowSuggestedLocations;
+import ar.edu.unicen.isistan.asistan.tourwithme.TourWithMeActivity;
 import ar.edu.unicen.isistan.asistan.views.map.GoogleMapController;
 import ar.edu.unicen.isistan.asistan.views.map.MapController;
 import ar.edu.unicen.isistan.asistan.views.map.OsmMapController;
@@ -173,7 +173,7 @@ public class LiveFragment extends Fragment implements OnMapReadyCallback {
 
             Intent intent = new Intent();
             CompassButton.setOnClickListener(v -> {
-                intent.setClass(getActivity(), ShowSuggestedLocations.class);
+                intent.setClass(getActivity(), TourWithMeActivity.class);
                 startActivity(intent);
             });
 

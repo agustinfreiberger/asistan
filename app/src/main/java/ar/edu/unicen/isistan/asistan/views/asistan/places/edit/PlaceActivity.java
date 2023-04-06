@@ -9,7 +9,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +26,6 @@ import java.util.Locale;
 
 import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 
 import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
@@ -36,7 +34,6 @@ import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 import ar.edu.unicen.isistan.asistan.storage.preferences.configuration.Configuration;
 import ar.edu.unicen.isistan.asistan.storage.preferences.configuration.ConfigurationManager;
-import ar.edu.unicen.isistan.asistan.tourwithme.ShowSuggestedLocations;
 import ar.edu.unicen.isistan.asistan.utils.geo.areas.Area;
 import ar.edu.unicen.isistan.asistan.utils.geo.areas.Circle;
 import ar.edu.unicen.isistan.asistan.views.map.GoogleMapController;

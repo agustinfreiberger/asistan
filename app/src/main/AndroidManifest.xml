@@ -49,7 +49,7 @@
         <activity android:name=".views.asistan.places.edit.PlaceCategoryActivity" />
         <activity android:name=".views.asistan.movements.labels.LabelPickerActivity" />
         <activity android:name=".views.login.PrivacyPolicyActivity" />
-        <activity android:name=".tourwithme.ShowSuggestedLocations" />
+        <activity android:name=".tourwithme.TourWithMeActivity" />
 
         <!-- Periodically restart sync works -->
         <receiver

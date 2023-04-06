@@ -95,8 +95,9 @@
     <string name="location_disabled_explain">La ubicación esta desactivada.</string>
     <string name="permission_required">Permisos requeridos</string>
     <string name="permission_required_explain">La aplicación no dispone de los permisos necesarios para ejecutar</string>
-    <string name="show_profile">Mostrar Perfil</string>
-    <string name="show_tour">Mostrar Tour</string>
+    <string name="show_profile">Perfil</string>
+    <string name="show_tour">Tour</string>
+    <string name="show_groups">Grupo</string>
 
 
 </resources>
