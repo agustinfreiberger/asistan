@@ -23,11 +23,10 @@ public class UserPreferencesListFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    private static final String ARG_STRING_ARRAY = "string-array";
     // TODO: Customize parameters
     private int mColumnCount = 1;
 
-    private ArrayList<String> myPreferences;
+    private static ArrayList<UserCategoryPreference> myPreferences;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -37,12 +36,11 @@ public class UserPreferencesListFragment extends Fragment {
     }
 
     // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static UserPreferencesListFragment newInstance(int columnCount, ArrayList<String> preferences) {
+    public static UserPreferencesListFragment newInstance(int columnCount, ArrayList<UserCategoryPreference> preferences) {
         UserPreferencesListFragment fragment = new UserPreferencesListFragment();
         Bundle args = new Bundle();
+        myPreferences = preferences;
         args.putInt(ARG_COLUMN_COUNT, columnCount);
-        args.putStringArrayList(ARG_STRING_ARRAY, preferences);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,10 +48,8 @@ public class UserPreferencesListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-            myPreferences = getArguments().getStringArrayList(ARG_STRING_ARRAY);
         }
     }
 

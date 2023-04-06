@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<String> mValues;
+    private final List<UserCategoryPreference> mValues;
 
-    public MyItemRecyclerViewAdapter(ArrayList<String> items) {
+    public MyItemRecyclerViewAdapter(ArrayList<UserCategoryPreference> items) {
         mValues = items;
     }
 
@@ -33,8 +33,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mIdView.setText("");
-        holder.mContentView.setText(mValues.get(position));
+        holder.mIdView.setText(mValues.get(position).getCategory().getName());
+        holder.mContentView.setText(mValues.get(position).getPreference().toString());
     }
 
     @Override

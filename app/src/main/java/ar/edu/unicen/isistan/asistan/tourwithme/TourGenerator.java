@@ -29,15 +29,15 @@ public class TourGenerator extends AsyncTask{
         return null;
     }
 
-    public void GenerateTour(HashMap<PlaceCategory, Float> categoriesPreferenceList){
+    public void GenerateTour(List<UserCategoryPreference> categoriesPreferenceList){
         int tamano = 0;
         Place aux;
         ArrayList<String> agregados = new ArrayList<>();
 
-        for (PlaceCategory categoria: categoriesPreferenceList.keySet()) {
+        for (UserCategoryPreference categoria: categoriesPreferenceList) {
             for (OSMPlace lugar: placesList) {
                 if(tamano < tamanoMaximo && !agregados.contains(lugar.getName())){
-                    if(lugar.getCategory() == categoria.getCode()){
+                    if(lugar.getCategory() == categoria.getCategory().getCode()){
                         aux = new Place();
                         lugar.export(aux);
                         tourList.add(aux);
@@ -47,7 +47,6 @@ public class TourGenerator extends AsyncTask{
                 }
             }
         }
-
         return;
     }
 }

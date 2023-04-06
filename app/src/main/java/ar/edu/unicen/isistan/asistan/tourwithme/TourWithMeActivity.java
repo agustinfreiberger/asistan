@@ -60,6 +60,7 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
 
         fragmentManager = getSupportFragmentManager();
         tourGenerator = new TourGenerator();
+
         progress_Bar.setVisibility(View.VISIBLE);
         profileGenerator = new ProfileGenerator(this);
 
@@ -74,17 +75,18 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showProfileClick() {
-
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        Fragment listFragment = UserPreferencesListFragment.newInstance(1, profileGenerator.getUserCategoryPreferencesString());
+
+        Fragment listFragment = UserPreferencesListFragment.newInstance(1, profileGenerator.getUserCategoryPreferences());
         ft.replace(R.id.myFrameLayout, listFragment);
         ft.commit();
-
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void showTourClick(){
+        progress_Bar.setVisibility(View.VISIBLE);
+
         tourGenerator.GenerateTour(profileGenerator.getUserCategoryPreferences()); //genero la lista de lugares a recomendar
         tourPlaces.postValue(tourGenerator.tourList);
 
@@ -92,6 +94,7 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
         Fragment mapFragment = MyPlacesMapFragment.newInstance(tourPlaces);
         ft.replace(R.id.myFrameLayout, mapFragment);
         ft.commit();
+        progress_Bar.setVisibility(View.GONE);
     }
 
 
