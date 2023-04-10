@@ -62,7 +62,7 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
         tourGenerator = new TourGenerator();
 
         progress_Bar.setVisibility(View.VISIBLE);
-        profileGenerator = new ProfileGenerator(this);
+        profileGenerator = new ProfileGenerator(progress_Bar);
 
         btn_showTour.setOnClickListener(view ->
                 showTourClick()

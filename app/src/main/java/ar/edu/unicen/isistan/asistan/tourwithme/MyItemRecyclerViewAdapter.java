@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ar.edu.unicen.isistan.asistan.databinding.FragmentUserPreferencesBinding;
-import ar.edu.unicen.isistan.asistan.tourwithme.placeholder.PlaceholderContent.PlaceholderItem;
 
 import java.util.ArrayList;
 import java.util.List;

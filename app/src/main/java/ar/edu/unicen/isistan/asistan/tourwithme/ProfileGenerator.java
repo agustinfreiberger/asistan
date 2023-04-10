@@ -23,14 +23,14 @@ public class ProfileGenerator extends AsyncTask {
 
     List <UserPoiPreference> userPoiPreferenceList;
     ArrayList <UserCategoryPreference> userCategoryPreferenceList;
+    ProgressBar loadingProfile;
 
-    TourWithMeActivity mytourWithMeActivity;
 
-    public ProfileGenerator(TourWithMeActivity tourWithMeActivity)
+    public ProfileGenerator(ProgressBar progressBar)
     {
         this.userPoiPreferenceList = new ArrayList();
         this.userCategoryPreferenceList = new ArrayList<>();
-        this.mytourWithMeActivity = tourWithMeActivity;
+        this.loadingProfile = progressBar;
         this.execute();
     }
 
@@ -38,7 +38,7 @@ public class ProfileGenerator extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        mytourWithMeActivity.progress_Bar.setVisibility(View.GONE);
+        loadingProfile.setVisibility(View.GONE);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class ProfileGenerator extends AsyncTask {
     public ArrayList<UserCategoryPreference> getUserCategoryPreferences()
     {
         //Utilizo un hashmap para poder ir acumulando los interéses dentro de
-        // las categorías sin tener que recorrer muchas veces el arreglo
+        // las categorías por eficiencia (recorro menos veces el arreglo ya que accedo por O(1))
         HashMap<PlaceCategory, Float> categoriesPreferenceList  = new HashMap<>();
         float interesTotal = 0;
 
