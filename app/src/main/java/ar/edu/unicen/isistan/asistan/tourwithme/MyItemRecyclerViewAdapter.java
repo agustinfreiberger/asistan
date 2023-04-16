@@ -1,20 +1,21 @@
 package ar.edu.unicen.isistan.asistan.tourwithme;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.databinding.FragmentUserPreferencesBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<UserCategoryPreference> mValues;
@@ -30,8 +31,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.imageView.setImageResource(mValues.get(position).getCategory().getMarkerSrc());
         holder.mIdView.setText(mValues.get(position).getCategory().getName());
         holder.mContentView.setText(mValues.get(position).getPreference().toString());
     }
@@ -42,11 +45,13 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        public final ImageView imageView;
         public final TextView mIdView;
         public final TextView mContentView;
 
         public ViewHolder(FragmentUserPreferencesBinding binding) {
             super(binding.getRoot());
+            imageView = binding.itemIcon;
             mIdView = binding.itemNumber;
             mContentView = binding.content;
         }

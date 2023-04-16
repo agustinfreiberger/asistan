@@ -108,7 +108,7 @@ public enum PlaceCategory {
     ZOO("Zoológico", 611, "Zoológico.", R.drawable.zoo, R.drawable.ic_nature_people_black_24dp),
     THEME_PARK("Parque temático", 612, "Parque temático.", R.drawable.themepark, R.drawable.ic_nature_people_black_24dp),
     AQUARIUM("Aquarium", 613, "Aquarium", R.drawable.aquarium, R.drawable.ic_nature_people_black_24dp),
-    VIEWPOINT("Punto de vista", 614, "Punto de vista", R.drawable.panoramicview, R.drawable.ic_nature_people_black_24dp),
+    VIEWPOINT("Punto de vista", 614, "Punto panorámico", R.drawable.panoramicview, R.drawable.ic_nature_people_black_24dp),
     ATTRACTION("Atracción", 1500, "Atracción turística", R.drawable.urbanpark, R.drawable.ic_nature_people_black_24dp),
 
     // Deporte
