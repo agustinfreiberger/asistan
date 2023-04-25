@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ar.edu.unicen.isistan.asistan">
 
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:maxSdkVersion="30" android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:maxSdkVersion="28" android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:minSdkVersion="31" android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:minSdkVersion="31" android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:minSdkVersion="31" android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:minSdkVersion="32" android:name="android.permission.NEARBY_WIFI_DEVICES" />
+
 
     <application
         android:name=".application.Asistan"
@@ -19,11 +28,11 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true">
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".views.LauncherActivity"
@@ -49,84 +58,67 @@
         <activity android:name=".views.asistan.places.edit.PlaceCategoryActivity" />
         <activity android:name=".views.asistan.movements.labels.LabelPickerActivity" />
         <activity android:name=".views.login.PrivacyPolicyActivity" />
-        <activity android:name=".tourwithme.TourWithMeActivity" />
-
-        <!-- Periodically restart sync works -->
+        <activity android:name=".tourwithme.TourWithMeActivity" /> <!-- Periodically restart sync works -->
+        <activity android:name=".tourwithme.GroupActivity" />
         <receiver
-            android:label="RestartSyncWorkReceiver"
+            android:name=".application.AlarmReceiver"
             android:enabled="true"
-            android:name=".application.AlarmReceiver" />
-
-        <!-- Restart app if needed -->
+            android:label="RestartSyncWorkReceiver" /> <!-- Restart app if needed -->
         <receiver
+            android:name=".application.PackageReplacedReceiver"
             android:enabled="true"
-            android:label="PackageReplacedReceiver"
-            android:name=".application.PackageReplacedReceiver">
+            android:label="PackageReplacedReceiver">
+
             <!-- If app is updated -->
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
-
         <receiver
+            android:name=".application.BootReceiver"
             android:enabled="true"
             android:label="BootReceiver"
-            android:name=".application.BootReceiver"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+
             <!-- If smartphone restarts -->
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </receiver>
-
-        <!-- Foreground service -->
+        </receiver> <!-- Foreground service -->
         <service
-            android:label="ForegroundService"
             android:name=".tracker.mobility.ForegroundService"
-            android:stopWithTask="false"
-            android:foregroundServiceType="location" />
-
-        <!-- Activity receiver -->
+            android:foregroundServiceType="location"
+            android:label="ForegroundService"
+            android:stopWithTask="false" /> <!-- Activity receiver -->
         <receiver
-            android:enabled="true"
-            android:name=".tracker.mobility.receivers.ActivityReceiver"/>
-
-        <!-- Location receiver -->
+            android:name=".tracker.mobility.receivers.ActivityReceiver"
+            android:enabled="true" /> <!-- Location receiver -->
         <receiver
-            android:enabled="true"
-            android:name=".tracker.mobility.receivers.GpsLocationReceiver" />
-
+            android:name=".tracker.mobility.receivers.GpsLocationReceiver"
+            android:enabled="true" />
         <receiver
-            android:enabled="true"
-            android:name=".tracker.mobility.receivers.NetworkLocationReceiver" />
-
+            android:name=".tracker.mobility.receivers.NetworkLocationReceiver"
+            android:enabled="true" />
         <receiver
-            android:enabled="true"
-            android:name=".tracker.mobility.receivers.PassiveLocationReceiver" />
-
-        <!-- AirPlane receiver -->
+            android:name=".tracker.mobility.receivers.PassiveLocationReceiver"
+            android:enabled="true" /> <!-- AirPlane receiver -->
         <receiver
-        android:enabled="true"
-
-        android:name=".tracker.mobility.receivers.AirPlaneReceiver" />
-
-
-        <!-- Phone event receiver -->
+            android:name=".tracker.mobility.receivers.AirPlaneReceiver"
+            android:enabled="true" /> <!-- Phone event receiver -->
         <receiver
-            android:enabled="true"
-            android:name=".tracker.phone.PhoneEventReceiver" />
-
-        <!-- WiFi scan receiver -->
+            android:name=".tracker.phone.PhoneEventReceiver"
+            android:enabled="true" /> <!-- WiFi scan receiver -->
         <receiver
-            android:enabled="true"
-            android:name=".tracker.wifi.WiFiReceiver" />
-
-        <!-- GoogleMaps api key-->
+            android:name=".tracker.wifi.WiFiReceiver"
+            android:enabled="true" /> <!-- GoogleMaps api key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
+        <meta-data
+            android:name="com.google.android.nearby.messages.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

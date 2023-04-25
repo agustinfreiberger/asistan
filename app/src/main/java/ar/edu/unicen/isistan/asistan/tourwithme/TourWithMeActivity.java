@@ -3,6 +3,7 @@ package ar.edu.unicen.isistan.asistan.tourwithme;
 import static android.os.AsyncTask.Status.FINISHED;
 import static android.os.AsyncTask.Status.RUNNING;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -39,9 +40,11 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
     private TourGenerator tourGenerator;
     private Button btn_showProfile;
     private Button btn_showTour;
+    private Button btn_showGroup;
     public ProgressBar progress_Bar;
 
-    private static MutableLiveData<ArrayList<Place>> tourPlaces = new
+
+    protected static MutableLiveData<ArrayList<Place>> tourPlaces = new
             MutableLiveData<>();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -49,14 +52,12 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_tourwithme);
         btn_showProfile = findViewById(R.id.btn_showProfile);
         btn_showTour = findViewById(R.id.btn_showTour);
+        btn_showGroup = findViewById(R.id.btn_showGroup);
         progress_Bar = findViewById(R.id.progressBar);
 
-
-        //TODO: meter ubicacion actual en tourPlaces para que inicie el mapa centrado
 
         fragmentManager = getSupportFragmentManager();
         tourGenerator = new TourGenerator();
@@ -71,7 +72,13 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
         btn_showProfile.setOnClickListener(view ->
                 showProfileClick()
         );
+
+        btn_showGroup.setOnClickListener(view ->
+                showGroupClick()
+        );
+
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showProfileClick() {
@@ -97,6 +104,11 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
         progress_Bar.setVisibility(View.GONE);
     }
 
+
+    private void showGroupClick() {
+        Intent intent = new Intent(this, GroupActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
