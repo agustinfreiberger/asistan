@@ -48,7 +48,7 @@ public class MapContext {
     public void init() {
         this.location.init();
         this.city = null;
-        this.insertPOIS();
+        //this.insertPOIS();
     }
 
     public void init(@Nullable MapContext mapContext) {

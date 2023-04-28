@@ -26,6 +26,11 @@ public class ProfileGenerator extends AsyncTask {
     ProgressBar loadingProfile;
 
 
+    public ProfileGenerator() {
+        this.userPoiPreferenceList = new ArrayList();
+        this.userCategoryPreferenceList = new ArrayList<>();
+    }
+
     public ProfileGenerator(ProgressBar progressBar)
     {
         this.userPoiPreferenceList = new ArrayList();
@@ -33,6 +38,11 @@ public class ProfileGenerator extends AsyncTask {
         this.loadingProfile = progressBar;
         this.execute();
     }
+
+    public ArrayList<UserCategoryPreference> getUserCategoryPreferenceList(){
+        return this.userCategoryPreferenceList;
+    }
+
 
 
     @Override
@@ -136,7 +146,7 @@ public class ProfileGenerator extends AsyncTask {
             userCategoryPreferenceList.clear();
         }
 
-       if(userPoiPreferenceList != null && userPoiPreferenceList.size() > 0)
+       if(userPoiPreferenceList != null && userPoiPreferenceList.size() > 1)
        {
            for (UserPoiPreference userPoiPreference:userPoiPreferenceList)
            {
@@ -156,6 +166,9 @@ public class ProfileGenerator extends AsyncTask {
                    }
                }
            }
+       }else{
+           //Si es null o tiene un lugar directamente la devuelvo vacia
+           return userCategoryPreferenceList;
        }
 
 

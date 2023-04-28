@@ -1,17 +1,11 @@
 package ar.edu.unicen.isistan.asistan.tourwithme;
 
-import static android.os.AsyncTask.Status.FINISHED;
-import static android.os.AsyncTask.Status.RUNNING;
-
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
@@ -21,17 +15,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
-
+import com.google.gson.Gson;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
-import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
-import ar.edu.unicen.isistan.asistan.views.asistan.MainActivity;
-import ar.edu.unicen.isistan.asistan.views.asistan.live.LiveFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesMapFragment;
-import io.opencensus.common.Scope;
 
 public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapFragment.OnFragmentInteractionListener {
 
@@ -105,8 +93,11 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void showGroupClick() {
         Intent intent = new Intent(this, GroupActivity.class);
+        String arrayAsString = new Gson().toJson(profileGenerator.getUserCategoryPreferences());
+        intent.putExtra("tourwithme.userCategoryPreferences", arrayAsString);
         startActivity(intent);
     }
 

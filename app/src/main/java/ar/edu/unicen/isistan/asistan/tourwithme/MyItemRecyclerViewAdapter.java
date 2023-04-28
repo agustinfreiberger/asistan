@@ -3,14 +3,12 @@ package ar.edu.unicen.isistan.asistan.tourwithme;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.databinding.FragmentUserPreferencesBinding;
 
 import java.util.ArrayList;

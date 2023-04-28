@@ -98,6 +98,8 @@
     <string name="show_profile">Perfil</string>
     <string name="show_tour">Tour</string>
     <string name="show_groups">Grupo</string>
+    <string name="grupo_turistico">Grupo turístico</string>
+    <string name="usuarios_encontrados">Turistas cercanos</string>
 
 
 </resources>

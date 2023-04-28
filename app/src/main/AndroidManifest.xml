@@ -40,15 +40,18 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.asistan.MainActivity"
+        <activity
+            android:name=".views.asistan.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.login.LoginActivity"
-            android:label="@string/app_name"/>
-        <activity android:name=".views.login.ConfirmProfileActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".views.login.ConfirmProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".views.asistan.movements.visits.VisitActivity" />
         <activity android:name=".views.asistan.movements.visits.PlaceSelectorActivity" />
