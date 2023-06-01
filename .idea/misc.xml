@@ -9,12 +9,19 @@
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/drawable/ic_remove_button.xml" value="0.2595" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/drawable/ic_show_profile.xml" value="0.2595" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/drawable/roundshapebutton.xml" value="0.2595" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/activity_group.xml" value="0.2" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/activity_place.xml" value="0.25" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/activity_profile.xml" value="0.16120218579234974" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/activity_tour.xml" value="0.16120218579234974" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/activity_tourwithme.xml" value="0.136" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_dashboard.xml" value="0.16120218579234974" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_home.xml" value="0.16120218579234974" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_live.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_movements.xml" value="0.1" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_my_map.xml" value="0.20108695652173914" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_my_places.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_my_stats.xml" value="0.190625" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_notifications.xml" value="0.16120218579234974" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_places.xml" value="0.20108695652173914" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_profile.xml" value="0.21875" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_recommendations.xml" value="0.1382488479262673" />
@@ -22,8 +29,10 @@
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_user_preferences_list.xml" value="0.2" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_user_preferences_list_list.xml" value="0.182518115942029" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/fragment_visits.xml" value="0.20108695652173914" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/list_item_group.xml" value="0.1" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/list_item_place.xml" value="0.21875" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/list_item_step.xml" value="0.21875" />
+        <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/list_row_users.xml" value="0.4" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/layout/list_suggestedlocations.xml" value="0.2" />
         <entry key="..\:/Users/agusl/source/asistan/app/src/main/res/menu/visit_activity_menu.xml" value="0.25416666666666665" />
       </map>
