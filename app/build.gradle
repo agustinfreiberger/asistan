@@ -81,6 +81,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'com.android.volley:volley:1.2.0'
     annotationProcessor "androidx.room:room-compiler:2.2.5"
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     implementation 'com.google.apis:google-api-services-people:v1-rev255-1.23.0'
