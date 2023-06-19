@@ -3,12 +3,11 @@ package ar.edu.unicen.isistan.asistan.tourwithme;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
-import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMPlace;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 
 public class TourGenerator extends AsyncTask{
 

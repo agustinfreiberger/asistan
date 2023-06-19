@@ -1,4 +1,4 @@
-package ar.edu.unicen.isistan.asistan.tourwithme;
+package ar.edu.unicen.isistan.asistan.tourwithme.views;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,15 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ar.edu.unicen.isistan.asistan.databinding.FragmentUserPreferencesBinding;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class UserPreferencesAdapter extends RecyclerView.Adapter<UserPreferencesAdapter.ViewHolder> {
 
     private final List<UserCategoryPreference> mValues;
 
-    public MyItemRecyclerViewAdapter(ArrayList<UserCategoryPreference> items) {
+    public UserPreferencesAdapter(ArrayList<UserCategoryPreference> items) {
         mValues = items;
     }
 

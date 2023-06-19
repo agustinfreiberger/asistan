@@ -1,7 +1,6 @@
-package ar.edu.unicen.isistan.asistan.tourwithme;
+package ar.edu.unicen.isistan.asistan.tourwithme.views;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -10,16 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import ar.edu.unicen.isistan.asistan.R;
-import ar.edu.unicen.isistan.asistan.databinding.FragmentUserPreferencesBinding;
 import ar.edu.unicen.isistan.asistan.databinding.ListItemGroupBinding;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
 
-public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
     private ArrayList<UserInfoDTO> usersList;
 
 
-    public GroupAdapter(ArrayList<UserInfoDTO> usersList){
+    public UsersAdapter(ArrayList<UserInfoDTO> usersList){
         this.usersList = usersList;
     }
 
@@ -30,7 +28,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UsersAdapter.ViewHolder holder, int position) {
         String name = usersList.get(position).getName() +" "+usersList.get(position).getLastName();
         int age = usersList.get(position).getAge();
 

@@ -1,14 +1,12 @@
-package ar.edu.unicen.isistan.asistan.tourwithme;
+package ar.edu.unicen.isistan.asistan.tourwithme.models;
 
 import com.google.gson.Gson;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
 import ar.edu.unicen.isistan.asistan.storage.database.geolocation.Coordinate;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 
 //Clase que se utiliza para enviar info entre dispositivos
 public class UserInfoDTO implements Serializable {

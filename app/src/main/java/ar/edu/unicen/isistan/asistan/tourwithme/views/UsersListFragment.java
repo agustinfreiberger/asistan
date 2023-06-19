@@ -1,25 +1,22 @@
-package ar.edu.unicen.isistan.asistan.tourwithme;
+package ar.edu.unicen.isistan.asistan.tourwithme.views;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 
 import ar.edu.unicen.isistan.asistan.R;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 
-/**
- * A fragment representing a list of Items.
- */
-public class UserPreferencesListFragment extends Fragment {
+public class UsersListFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -32,7 +29,7 @@ public class UserPreferencesListFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public UserPreferencesListFragment() {
+    public UsersListFragment() {
     }
 
     // TODO: Customize parameter initialization
@@ -67,8 +64,9 @@ public class UserPreferencesListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(myPreferences));
+            recyclerView.setAdapter(new UserPreferencesAdapter(myPreferences));
         }
         return view;
     }
 }
+

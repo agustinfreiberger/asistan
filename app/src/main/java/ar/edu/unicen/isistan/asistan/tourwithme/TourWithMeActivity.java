@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
+import ar.edu.unicen.isistan.asistan.tourwithme.views.UserPreferencesListFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesMapFragment;
 
 public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapFragment.OnFragmentInteractionListener {

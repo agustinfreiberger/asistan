@@ -1,4 +1,4 @@
-package ar.edu.unicen.isistan.asistan.tourwithme;
+package ar.edu.unicen.isistan.asistan.tourwithme.models;
 
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 

@@ -1,6 +1,5 @@
 package ar.edu.unicen.isistan.asistan.tourwithme;
 
-import android.media.tv.TvContract;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.view.View;
@@ -12,12 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.commutes.Commute;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.visits.Visit;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserPoiPreference;
 
 public class ProfileGenerator extends AsyncTask {
 
