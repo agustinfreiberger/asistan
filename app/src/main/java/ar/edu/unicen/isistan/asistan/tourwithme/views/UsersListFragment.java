@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
 
 public class UsersListFragment extends Fragment {
 
@@ -23,20 +24,20 @@ public class UsersListFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
 
-    private static ArrayList<UserCategoryPreference> myPreferences;
+    private static ArrayList<UserInfoDTO> usersList = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public UsersListFragment() {
+    public UsersListFragment(ArrayList<UserInfoDTO> users) {
+        usersList = users;
     }
 
     // TODO: Customize parameter initialization
-    public static UserPreferencesListFragment newInstance(int columnCount, ArrayList<UserCategoryPreference> preferences) {
-        UserPreferencesListFragment fragment = new UserPreferencesListFragment();
+    public static UsersListFragment newInstance(int columnCount, ArrayList<UserInfoDTO> users) {
+        UsersListFragment fragment = new UsersListFragment(users);
         Bundle args = new Bundle();
-        myPreferences = preferences;
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
@@ -53,7 +54,7 @@ public class UsersListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_preferences_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -64,7 +65,7 @@ public class UsersListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new UserPreferencesAdapter(myPreferences));
+            recyclerView.setAdapter(new UsersAdapter(usersList));
         }
         return view;
     }

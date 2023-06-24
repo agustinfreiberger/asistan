@@ -26,11 +26,6 @@ public class ProfileGenerator extends AsyncTask {
     ProgressBar loadingProfile;
 
 
-    public ProfileGenerator() {
-        this.userPoiPreferenceList = new ArrayList();
-        this.userCategoryPreferenceList = new ArrayList<>();
-    }
-
     public ProfileGenerator(ProgressBar progressBar)
     {
         this.userPoiPreferenceList = new ArrayList();

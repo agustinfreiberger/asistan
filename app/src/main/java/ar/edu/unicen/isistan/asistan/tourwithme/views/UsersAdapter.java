@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import ar.edu.unicen.isistan.asistan.databinding.ListItemGroupBinding;
+import ar.edu.unicen.isistan.asistan.databinding.FragmentUserBinding;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
@@ -24,7 +24,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(ListItemGroupBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new ViewHolder(FragmentUserBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         private TextView nameView;
         private TextView ageView;
 
-        public ViewHolder(ListItemGroupBinding binding) {
+        public ViewHolder(FragmentUserBinding binding) {
             super(binding.getRoot());
             nameView = binding.userNameTextView;
             ageView = binding.userAgeTextView;

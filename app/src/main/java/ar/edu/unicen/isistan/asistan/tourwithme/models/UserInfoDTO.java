@@ -21,6 +21,7 @@ public class UserInfoDTO implements Serializable {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
+        location = new Coordinate();
         this.location.setLatitude(x);
         this.location.setLongitude(y);
     }
