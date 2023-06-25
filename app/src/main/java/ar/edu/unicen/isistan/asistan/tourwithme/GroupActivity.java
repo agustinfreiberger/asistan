@@ -36,38 +36,33 @@ import ar.edu.unicen.isistan.asistan.tracker.mobility.state.TrackerState;
 public class GroupActivity extends AppCompatActivity {
 
 
-    RecyclerView foundUsersRecyclerView;
-
-    static UsersAdapter adapter;
     TrackerState trackerState;
     RequestQueue mQueue;
     User myUser;
     static ArrayList<UserInfoDTO> foundUsersList = new ArrayList<>();
-
+    UsersListFragment fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
-
         mQueue = Volley.newRequestQueue(this);
         trackerState = new TrackerState();
+
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            fragment = new UsersListFragment(getUsuariosCercanos());
+            transaction.replace(R.id.group_frame_layout, fragment);
+            transaction.commit();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        getUsuariosCercanos(); //TODO:ver que getUsuarios traiga bien los datos y luego se pasen bien al fragment de aca abajo
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new UsersListFragment(foundUsersList);
-        transaction.replace(R.id.groupRecyclerView, fragment);
-        transaction.commit();
-
     }
 
-    private void getUsuariosCercanos(){
+    private ArrayList<UserInfoDTO> getUsuariosCercanos(){
         trackerState.init();
         GeoLocation lastLocation = trackerState.getLastValidLocation();
 
@@ -100,6 +95,8 @@ public class GroupActivity extends AppCompatActivity {
             });
 
         mQueue.add(jsonObjectResponse);
+
+        return foundUsersList;
     }
 
     public String sendUserData() {

@@ -16,7 +16,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
     private ArrayList<UserInfoDTO> usersList;
 
-
     public UsersAdapter(ArrayList<UserInfoDTO> usersList){
         this.usersList = usersList;
     }
@@ -54,7 +53,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         public void setData(String name, int age) {
             nameView.setText(name);
-            ageView.setText(age);
+            ageView.setText(String.valueOf(age));
         }
     }
 }

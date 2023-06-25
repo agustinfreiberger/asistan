@@ -24,12 +24,12 @@ public class UsersListFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
 
+    private RecyclerView foundUsersRecyclerView;
+
+    private static UsersAdapter adapter;
     private static ArrayList<UserInfoDTO> usersList = new ArrayList<>();
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+
     public UsersListFragment(ArrayList<UserInfoDTO> users) {
         usersList = users;
     }
@@ -59,13 +59,14 @@ public class UsersListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            foundUsersRecyclerView = (RecyclerView) view;
+            adapter = new UsersAdapter(usersList);
             if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                foundUsersRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                foundUsersRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new UsersAdapter(usersList));
+            foundUsersRecyclerView.setAdapter(adapter);
         }
         return view;
     }
