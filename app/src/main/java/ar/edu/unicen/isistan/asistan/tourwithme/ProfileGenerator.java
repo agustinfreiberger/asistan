@@ -38,14 +38,13 @@ public class ProfileGenerator extends AsyncTask {
         return this.userCategoryPreferenceList;
     }
 
-
-
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         loadingProfile.setVisibility(View.GONE);
     }
 
+    //Obtiene las preferencias de pois visitados
     @Override
     protected Object doInBackground(Object[] objects) {
 
@@ -86,11 +85,10 @@ public class ProfileGenerator extends AsyncTask {
                             loadedCommute = Database.getInstance().mobility().selectCommuteAndContext(commute.getId());
 
                             //Tomo sólo el viaje con destino al POI
-                            //TODO: Tomar solo los lugares turísticos (no Casa, ni hospitales, etc...)
                             if (loadedCommute.getDestination() != null && loadedCommute.getDestination().getPlaceId() == visit.getPlaceId())
                             {
-                                averageTravelDuration += commute.duration();
-                                cantViajes++;
+                                    averageTravelDuration += commute.duration();
+                                    cantViajes++;
                             }
                         }
                         //Promedio de duración de viaje a ese destino
@@ -107,14 +105,17 @@ public class ProfileGenerator extends AsyncTask {
                     userInterestInPlace2 = (averageVisitDuration + intTravelTime) / 2;
 
                     poi = Database.getInstance().mobility().selectPlace(visit.getPlaceId()); //Si no existe devuelve null
-                    userPoiPreferenceList.add(new UserPoiPreference(poi, userInterestInPlace2));
+                    //Tomo sólo los POIS turísticos (no Casa, hospitales, etc...)
+                    if(poi != null && PlaceCategory.isPoi(poi.getPlaceCategory()))
+                    {
+                        userPoiPreferenceList.add(new UserPoiPreference(poi, userInterestInPlace2));
+                    }
                 }
                 averageVisitDuration = 0;
                 cantVisitas = 0;
                 averageTravelDuration = 0;
                 cantViajes = 0;
             }
-
         }
 
         //TODO: agregar un emoticon de 'Listo' cuando termina
@@ -122,8 +123,7 @@ public class ProfileGenerator extends AsyncTask {
     }
 
 
-    //unas vez que tengo los intereses de cada lugar pondero por categorías
-
+    //Una vez que tengo los intereses de cada lugar pondero por categorías
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<UserCategoryPreference> getUserCategoryPreferences()
     {

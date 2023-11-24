@@ -51,6 +51,7 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/native-image/org.mongodb/bson/native-image.properties'
     }
 
     compileOptions {
@@ -98,7 +99,7 @@ dependencies {
     implementation 'com.github.MKergall:osmbonuspack:6.6.0'
     implementation 'com.github.florent37:viewtooltip:1.2.2'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.gms:play-services-nearby:18.4.0'
+    implementation 'org.mongodb:mongodb-driver-sync:4.10.2'
 }
 
 repositories {

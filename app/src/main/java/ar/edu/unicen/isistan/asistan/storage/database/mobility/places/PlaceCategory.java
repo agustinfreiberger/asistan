@@ -280,4 +280,13 @@ public enum PlaceCategory {
         }
     }
 
+    public static boolean isPoi(int placeCategoryId){
+        if(placeCategoryId == 1500 ||placeCategoryId == 220 || placeCategoryId == 222 || placeCategoryId == 224
+                || (placeCategoryId >= 601 && placeCategoryId <= 614) || (placeCategoryId >= 801 && placeCategoryId <= 806)
+                || (placeCategoryId >= 901 && placeCategoryId <= 912) || placeCategoryId == 1002 || placeCategoryId == 1003 || (placeCategoryId >= 1102 && placeCategoryId <= 1104)){
+            return true;
+        }
+        return false;
+    }
+
 }
