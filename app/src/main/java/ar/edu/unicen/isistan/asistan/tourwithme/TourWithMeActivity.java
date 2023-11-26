@@ -86,11 +86,12 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
         tourGenerator.GenerateTour(profileGenerator.getUserCategoryPreferences()); //genero la lista de lugares a recomendar
         tourPlaces.postValue(tourGenerator.tourList);
 
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        Fragment mapFragment = MyPlacesMapFragment.newInstance(tourPlaces);
-        ft.replace(R.id.myFrameLayout, mapFragment);
-        ft.commit();
+        Intent intent = new Intent(this, TourActivity.class);
+        intent.putExtra("tourwithme.tourPlaces", tourPlaces.getValue());
+        startActivity(intent);
+
         progress_Bar.setVisibility(View.GONE);
+
     }
 
 

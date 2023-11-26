@@ -28,6 +28,7 @@ public class TourGenerator extends AsyncTask{
         return null;
     }
 
+    //Genero el tour
     public void GenerateTour(List<UserCategoryPreference> categoriesPreferenceList){
         int tamano = 0;
         Place aux;

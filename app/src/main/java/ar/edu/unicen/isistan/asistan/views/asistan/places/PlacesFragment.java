@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,15 @@ public class PlacesFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    public static PlacesFragment newInstance(@NotNull MutableLiveData<ArrayList<Place>> places) {
+        PlacesFragment fragment = new PlacesFragment();
+        fragment.setPlaces(places);
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,18 +85,22 @@ public class PlacesFragment extends Fragment {
             }
         });
 
-        Fragment fragment = MyPlacesFragment.newInstance();
+
+        Fragment fragment = MyPlacesFragment.newInstance(places);
         FragmentManager fragmentManager = PlacesFragment.this.getChildFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_layout, fragment).commit();
 
         this.update();
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                PlacesFragment.this.loadData();
-            }
-        });
+        if(this.places.getValue() != null && this.places.getValue().size() == 0){
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    PlacesFragment.this.loadData();
+                }
+            });
+        }
+
     }
 
     private void update() {
@@ -116,8 +130,14 @@ public class PlacesFragment extends Fragment {
         listener = null;
     }
 
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    private void setPlaces(@NotNull MutableLiveData<ArrayList<Place>> places) {
+        this.places.postValue(places.getValue());
     }
 
 }

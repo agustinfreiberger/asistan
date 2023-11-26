@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:name=".application.Asistan"
         android:allowBackup="false"
@@ -26,7 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".TourActivity"
+            android:exported="false" />
         <activity
             android:name=".views.LauncherActivity"
             android:theme="@android:style/Theme.NoDisplay">
@@ -56,6 +57,8 @@
         <activity android:name=".views.login.PrivacyPolicyActivity" />
         <activity android:name=".tourwithme.TourWithMeActivity" /> <!-- Periodically restart sync works -->
         <activity android:name=".tourwithme.GroupActivity" />
+        <activity android:name=".tourwithme.TourActivity" />
+
         <receiver
             android:name=".application.AlarmReceiver"
             android:enabled="true"

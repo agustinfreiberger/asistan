@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,6 +52,15 @@ public class MyPlacesFragment extends Fragment {
         return fragment;
     }
 
+    public static MyPlacesFragment newInstance(@NotNull MutableLiveData<ArrayList<Place>> places) {
+        MyPlacesFragment fragment = new MyPlacesFragment();
+        fragment.setPlaces(places);
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +80,10 @@ public class MyPlacesFragment extends Fragment {
             RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this.getContext(),3);
             this.recyclerView.setLayoutManager(layoutManager);
 
-            this.load();
+            if(this.places != null && this.places.size() == 0){
+                this.load();
+            }
+
         }
     }
 
@@ -98,6 +112,31 @@ public class MyPlacesFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void setPlaces(MutableLiveData<ArrayList<Place>> places) {
+
+        places.observe(this, new Observer<ArrayList<Place>>() {
+            @Override
+            public void onChanged(ArrayList<Place> places) {
+                if(places != null && places.size() > 0) {
+                    MyPlacesFragment.this.places.clear();
+                    for (Place place : places) {
+                        if (place.getPlaceCategory() >= 0) {
+                            MyPlacesFragment.this.places.add(place);
+                        }
+                    }
+                    MyPlacesFragment.this.adapter = new MyPlacesAdapter(MyPlacesFragment.this, MyPlacesFragment.this.places);
+                    if (MyPlacesFragment.this.getActivity() != null) {
+                        MyPlacesFragment.this.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MyPlacesFragment.this.recyclerView.setAdapter(MyPlacesFragment.this.adapter);
+                            }
+                        });
+                    }
+                }
+            }});
     }
 
     @Override
