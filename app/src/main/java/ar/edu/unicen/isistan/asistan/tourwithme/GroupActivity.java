@@ -1,20 +1,20 @@
 package ar.edu.unicen.isistan.asistan.tourwithme;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,35 +23,41 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import ar.edu.unicen.isistan.asistan.R;
+import ar.edu.unicen.isistan.asistan.storage.database.Database;
 import ar.edu.unicen.isistan.asistan.storage.database.geolocation.GeoLocation;
 import ar.edu.unicen.isistan.asistan.storage.database.reports.userstate.UserState;
 import ar.edu.unicen.isistan.asistan.storage.preferences.user.User;
 import ar.edu.unicen.isistan.asistan.storage.preferences.user.UserManager;
 import ar.edu.unicen.isistan.asistan.synchronizer.reports.userstate.UserStateReporter;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
-import ar.edu.unicen.isistan.asistan.tourwithme.views.UsersAdapter;
-import ar.edu.unicen.isistan.asistan.tourwithme.views.UsersListFragment;
-import ar.edu.unicen.isistan.asistan.tracker.mobility.state.TrackerState;
+import ar.edu.unicen.isistan.asistan.tourwithme.views.GroupFragment;
+import ar.edu.unicen.isistan.asistan.tourwithme.views.GroupListFragment;
+import ar.edu.unicen.isistan.asistan.views.asistan.movements.MovementsFragment;
+import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesMapFragment;
 
-public class GroupActivity extends AppCompatActivity {
+public class GroupActivity extends AppCompatActivity implements GroupFragment.OnFragmentInteractionListener, MovementsFragment.OnFragmentInteractionListener, MyPlacesMapFragment.OnFragmentInteractionListener, GroupListFragment.OnFragmentInteractionListener {
 
 
-    TrackerState trackerState;
-    RequestQueue mQueue;
-    User myUser;
-    static ArrayList<UserInfoDTO> foundUsersList = new ArrayList<>();
-    UsersListFragment fragment;
+    private RequestQueue mQueue;
+    private User myUser;
+    private static ArrayList<UserInfoDTO> foundUsersList = new ArrayList<>();
+    private GroupFragment fragment;
+    private ProgressBar progress_Bar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
+
+        progress_Bar = findViewById(R.id.progressBar);
+        progress_Bar.setVisibility(View.VISIBLE);
+
         mQueue = Volley.newRequestQueue(this);
-        trackerState = new TrackerState();
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            fragment = new UsersListFragment(getUsuariosCercanos());
+
+            fragment = GroupFragment.newInstance(getUsuariosCercanos());
             transaction.replace(R.id.group_frame_layout, fragment);
             transaction.commit();
         }
@@ -63,8 +69,8 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     private ArrayList<UserInfoDTO> getUsuariosCercanos(){
-        trackerState.init();
-        GeoLocation lastLocation = trackerState.getLastValidLocation();
+
+        GeoLocation lastLocation = Database.getInstance().geoLocation().lastTrusted().getValue();
 
         //String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/UsuariosCercanos?x=%s&y=%s",lastLocation.getLongitude(), lastLocation.getLongitude());
 
@@ -82,6 +88,7 @@ public class GroupActivity extends AppCompatActivity {
 
                             foundUsersList.add(foundUser);
                     }
+                    progress_Bar.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -106,6 +113,11 @@ public class GroupActivity extends AppCompatActivity {
         UserInfoDTO userInfoDTO = new UserInfoDTO(myUser.getName(), myUser.getLastName(), myUser.getAge(), userState.getLocation().getLatitude(), userState.getLocation().getLongitude());
 
         return null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
 
