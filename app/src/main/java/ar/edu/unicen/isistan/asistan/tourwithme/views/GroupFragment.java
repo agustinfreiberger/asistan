@@ -125,7 +125,7 @@ public class GroupFragment extends Fragment {
         for (UserInfoDTO user: usuariosCercanos) {
             placeUsuario = new Place();
             areaUsuario = new Circle(user.getLocation(),1);
-            placeUsuario.setDescription(user.getName() +" "+user.getLastName());
+            placeUsuario.setName(user.getName() +" "+user.getLastName());
             placeUsuario.setArea(areaUsuario);
             placeUsuario.setPlaceCategory(1099);
             usuariosUbicacion.add(placeUsuario);
