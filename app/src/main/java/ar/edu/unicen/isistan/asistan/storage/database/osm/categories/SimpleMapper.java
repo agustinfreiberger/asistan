@@ -1,6 +1,10 @@
 package ar.edu.unicen.isistan.asistan.storage.database.osm.categories;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+
+import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 
 public class SimpleMapper {
@@ -32,4 +36,16 @@ public class SimpleMapper {
         return result;
     }
 
+    public boolean containsSubCategory(PlaceCategory category){
+        for (PlaceCategory placeCategory: map.values()) {
+            if(placeCategory.getCode() == category.getCode()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Collection<PlaceCategory> getMapValues(){
+        return map.values();
+    }
 }

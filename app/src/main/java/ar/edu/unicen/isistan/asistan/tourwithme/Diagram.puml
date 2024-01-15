@@ -1,0 +1,163 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+TourWithMeActivity o-- TourGenerator
+TourWithMeActivity o-- ProfileGenerator
+GroupActivity *-- UserInfoDTO
+UserInfoDTO o-- UserCategoryPreference
+TourGenerator o-- UserCategoryPreference
+ProfileGenerator o-- UserCategoryPreference
+TourGenerator o-- Place
+TourWithMeActivity o-- Place
+Place --  Visit
+TourWithMeActivity --> TourActivity
+TourWithMeActivity --> GroupActivity
+TourActivity <-- Place
+
+
+class TourWithMeActivity {
+
+    - FragmentManager fragmentManager;
+    - ProfileGenerator profileGenerator;
+    - TourGenerator tourGenerator;
+    - Button btn_showProfile;
+    - Button btn_showTour;
+    - Button btn_showGroup;
+    + ProgressBar progress_Bar;
+    # static MutableLiveData<ArrayList<Place>> tourPlaces;
+
+
+
+    + void onCreate(@Nullable Bundle savedInstanceState)
+    + void onFragmentInteraction(Uri uri)
+    - void showProfileClick()
+
+
+    - void showTourClick()
+
+
+    - void showGroupClick()
+   }
+
+class GroupActivity{
+
+
+    - RequestQueue mQueue;
+    - User myUser;
+    - static ArrayList<UserInfoDTO> foundUsersList;
+    - GroupFragment fragment;
+    - ProgressBar progress_Bar;
+
+
+    + void onCreate(@Nullable Bundle savedInstanceState)
+
+
+    + void onStart()
+    - ArrayList<UserInfoDTO> getUsuariosCercanos()
+    - String sendUserData()
+    + void onFragmentInteraction(Uri uri)
+}
+
+class TourActivity{
+    # void onCreate(Bundle savedInstanceState)
+    # void onStart()
+    + void onFragmentInteraction(Uri uri)
+}
+
+class TourGenerator {
+
+    - List<OSMPlace> placesList;
+    + ArrayList<Place> tourList;
+    - int tamanoMaximo = 5;
+
+    + TourGenerator()
+
+
+    # Object doInBackground(Object[] objects)
+    + void GenerateTour(List<UserCategoryPreference> categoriesPreferenceList)
+}
+
+class ProfileGenerator {
+
+    -List <UserPoiPreference> userPoiPreferenceList;
+    -ArrayList <UserCategoryPreference> userCategoryPreferenceList;
+    -ProgressBar loadingProfile;
+
+    + ProfileGenerator(ProgressBar progressBar)
+    + ArrayList<UserCategoryPreference> getUserCategoryPreferenceList()
+    + ArrayList<UserCategoryPreference> getUserCategoryPreferences()
+
+
+    # void onPostExecute(Object o)
+    # Object doInBackground(Object[] objects)
+
+}
+
+class UserInfoDTO {
+
+    - String name;
+    - String lastName;
+    - int age;
+    - Coordinate location;
+    - List<UserCategoryPreference> preferences;
+
+    + UserInfoDTO(String name, String lastName, int age, double x, double y)
+
+
+    + String getName()
+    + String getLastName()
+    + int getAge()
+    + Coordinate getLocation()
+    + void setLocation(Coordinate location)
+    + List<UserCategoryPreference> getPreferences()
+
+
+    + void setPreferences(List<UserCategoryPreference> preferences)
+
+}
+
+class UserCategoryPreference {
+    - PlaceCategory category;
+    - Float preference;
+
+    + UserCategoryPreference(PlaceCategory category, float preference)
+    + PlaceCategory getCategory()
+    + Float getPreference()
+
+}
+
+class Place {
+
+    private long id;
+    private boolean upload;
+    private String name;
+    private String description;
+    private int placeCategory;
+    private boolean fixedLocation;
+    private String osmId;
+    private Area area;
+    private transient List<Visit> visits;
+    private Bound bound;
+
+    public Place()
+    public boolean isFixedLocation()
+    public List<Visit> getVisits()
+    public void setVisits(List<Visit> visits)
+    public boolean equals(Object o)
+}
+
+class Visit {
+
+    private long id;
+    private Coordinate center;
+    private int category;
+    private long placeId;
+    private Place place;
+    private transient Commute previous;
+    private transient Commute next;
+
+    public Visit()
+    public Visit(@NotNull Visit origin, @NotNull Visit destination)
+}
+
+@enduml

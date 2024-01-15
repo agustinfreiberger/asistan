@@ -1,4 +1,4 @@
-package ar.edu.unicen.isistan.asistan.tourwithme;
+package ar.edu.unicen.isistan.asistan.tourwithme.generators;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -172,6 +173,10 @@ public class ProfileGenerator extends AsyncTask {
         for (PlaceCategory key:categoriesPreferenceList.keySet()) {
             userCategoryPreferenceList.add(new UserCategoryPreference(key,categoriesPreferenceList.get(key).floatValue()/interesTotal));
         }
+
+        //Ordeno de mayor a menor
+        userCategoryPreferenceList.sort(Comparator.comparing(UserCategoryPreference::getPreference).reversed());
+
         return  userCategoryPreferenceList;
     }
 

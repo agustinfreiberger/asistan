@@ -54,12 +54,6 @@ public class UserInfoDTO implements Serializable {
         this.preferences = preferences;
     }
 
-
-    public byte[] ToByteArray(){
-        Gson userInfoGSON = new Gson();
-        String userJson = userInfoGSON.toJson(this);
-        return userJson.getBytes();
-    }
 }
 
 

@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
+import ar.edu.unicen.isistan.asistan.tourwithme.generators.ProfileGenerator;
+import ar.edu.unicen.isistan.asistan.tourwithme.generators.TourGenerator;
 import ar.edu.unicen.isistan.asistan.tourwithme.views.UserPreferencesListFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesMapFragment;
 
@@ -80,11 +82,10 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void showTourClick(){
+    private void showTourClick(){
         progress_Bar.setVisibility(View.VISIBLE);
 
-        tourGenerator.GenerateTour(profileGenerator.getUserCategoryPreferences()); //genero la lista de lugares a recomendar
-        tourPlaces.postValue(tourGenerator.tourList);
+        tourPlaces.postValue(tourGenerator.GenerateTour(profileGenerator.getUserCategoryPreferences()));
 
         Intent intent = new Intent(this, TourActivity.class);
         intent.putExtra("tourwithme.tourPlaces", tourPlaces.getValue());

@@ -54,6 +54,8 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
 
         mQueue = Volley.newRequestQueue(this);
 
+
+
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -74,7 +76,7 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
 
         //String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/UsuariosCercanos?x=%s&y=%s",lastLocation.getLongitude(), lastLocation.getLongitude());
 
-        String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/UsuariosCercanos?x=-37.32310632584254&y=-59.14021300998831");
+        String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/GetUsuarios");
 
         JsonArrayRequest jsonObjectResponse = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
