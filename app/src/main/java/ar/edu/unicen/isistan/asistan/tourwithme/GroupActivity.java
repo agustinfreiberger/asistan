@@ -74,8 +74,6 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
 
         GeoLocation lastLocation = Database.getInstance().geoLocation().lastTrusted().getValue();
 
-        //String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/UsuariosCercanos?x=%s&y=%s",lastLocation.getLongitude(), lastLocation.getLongitude());
-
         String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/GetUsuarios");
 
         JsonArrayRequest jsonObjectResponse = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
@@ -85,10 +83,14 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
                     for (int i = 0; i<response.length();i++){
                             Log.d("Leyendo response de: ",url +"---"+response.getString(i));
                             JSONObject userJson = response.getJSONObject(i);
-                            UserInfoDTO foundUser = new UserInfoDTO(userJson.getString("Name"),"",0,userJson.getJSONObject("Location").getDouble("X"),userJson.getJSONObject("Location").getDouble("Y"));
+                            UserInfoDTO foundUser = new UserInfoDTO(userJson.getString("name"),"",0,userJson.getDouble("latitud"),userJson.getDouble("longitud"));
 
+                        for (int index = 0; index<userJson.getJSONArray("preferences").length(); index++) {
+                            JSONObject prefJson = userJson.getJSONArray("preferences").getJSONObject(index);
+                            foundUser.addPreference(prefJson.getInt("placecategory"), (float) prefJson.getDouble("preference"));
+                        }
 
-                            foundUsersList.add(foundUser);
+                        foundUsersList.add(foundUser);
                     }
                     progress_Bar.setVisibility(View.GONE);
                 } catch (JSONException e) {
