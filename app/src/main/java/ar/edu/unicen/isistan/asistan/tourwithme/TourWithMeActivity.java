@@ -99,8 +99,6 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showGroupClick() {
         Intent intent = new Intent(this, GroupActivity.class);
-        String arrayAsString = new Gson().toJson(profileGenerator.getUserCategoryPreferences());
-        intent.putExtra("tourwithme.userCategoryPreferences", arrayAsString);
         startActivity(intent);
     }
 

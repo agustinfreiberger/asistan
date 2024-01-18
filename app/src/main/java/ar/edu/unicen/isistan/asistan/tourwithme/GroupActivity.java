@@ -53,26 +53,20 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
         progress_Bar.setVisibility(View.VISIBLE);
 
         mQueue = Volley.newRequestQueue(this);
+        foundUsersList = getUsuariosCercanos();
 
-
-
-        if (savedInstanceState == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            fragment = GroupFragment.newInstance(getUsuariosCercanos());
-            transaction.replace(R.id.group_frame_layout, fragment);
-            transaction.commit();
-        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        fragment = GroupFragment.newInstance(foundUsersList);
+        transaction.replace(R.id.group_frame_layout, fragment);
+        transaction.commit();
     }
-
     private ArrayList<UserInfoDTO> getUsuariosCercanos(){
-
-        GeoLocation lastLocation = Database.getInstance().geoLocation().lastTrusted().getValue();
 
         String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/GetUsuarios");
 
@@ -80,6 +74,9 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
             @Override
             public void onResponse(JSONArray response) {
                 try {
+                    if(foundUsersList.size() >0){
+                        foundUsersList.clear();
+                    }
                     for (int i = 0; i<response.length();i++){
                             Log.d("Leyendo response de: ",url +"---"+response.getString(i));
                             JSONObject userJson = response.getJSONObject(i);
