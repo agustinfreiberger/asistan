@@ -1,12 +1,17 @@
 package ar.edu.unicen.isistan.asistan.tourwithme;
 
+import static ar.edu.unicen.isistan.asistan.tourwithme.TourWithMeActivity.tourPlaces;
+
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -21,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
@@ -29,40 +35,78 @@ import ar.edu.unicen.isistan.asistan.storage.database.reports.userstate.UserStat
 import ar.edu.unicen.isistan.asistan.storage.preferences.user.User;
 import ar.edu.unicen.isistan.asistan.storage.preferences.user.UserManager;
 import ar.edu.unicen.isistan.asistan.synchronizer.reports.userstate.UserStateReporter;
+import ar.edu.unicen.isistan.asistan.tourwithme.generators.TourGenerator;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
 import ar.edu.unicen.isistan.asistan.tourwithme.views.GroupFragment;
 import ar.edu.unicen.isistan.asistan.tourwithme.views.GroupListFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.movements.MovementsFragment;
+import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesMapFragment;
+import ar.edu.unicen.isistan.asistan.views.asistan.places.PlacesFragment;
 
-public class GroupActivity extends AppCompatActivity implements GroupFragment.OnFragmentInteractionListener, MovementsFragment.OnFragmentInteractionListener, MyPlacesMapFragment.OnFragmentInteractionListener, GroupListFragment.OnFragmentInteractionListener {
-
+public class GroupActivity extends AppCompatActivity implements GroupFragment.OnFragmentInteractionListener, MovementsFragment.OnFragmentInteractionListener, MyPlacesMapFragment.OnFragmentInteractionListener, GroupListFragment.OnFragmentInteractionListener, PlacesFragment.OnFragmentInteractionListener, MyPlacesFragment.OnFragmentInteractionListener {
 
     private RequestQueue mQueue;
     private User myUser;
     private static ArrayList<UserInfoDTO> foundUsersList = new ArrayList<>();
     private GroupFragment fragment;
     private ProgressBar progress_Bar;
+    private Button tourButton;
+    private TourGenerator tourGenerator;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
 
         progress_Bar = findViewById(R.id.progressBar);
+        tourButton = findViewById(R.id.groupTourButton);
         progress_Bar.setVisibility(View.VISIBLE);
 
+
+        tourGenerator = new TourGenerator();
         mQueue = Volley.newRequestQueue(this);
         foundUsersList = getUsuariosCercanos();
 
+        tourButton.setOnClickListener(view ->
+                onTourClick()
+        );
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
         super.onStart();
 
+        ArrayList<UserCategoryPreference> allGroupPreferences = new ArrayList<>();
+
+        for (UserInfoDTO user : foundUsersList) {
+            allGroupPreferences.addAll(user.getPreferences());
+        }
+
+        tourPlaces.postValue(tourGenerator.GenerateTour(allGroupPreferences));
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         fragment = GroupFragment.newInstance(foundUsersList);
+        transaction.replace(R.id.group_frame_layout, fragment);
+        transaction.commit();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void onTourClick(){
+
+        ArrayList<UserCategoryPreference> allGroupPreferences = new ArrayList<>();
+
+        for (UserInfoDTO user : foundUsersList) {
+            allGroupPreferences.addAll(user.getPreferences());
+        }
+
+        tourPlaces.postValue(tourGenerator.GenerateTour(allGroupPreferences));
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        PlacesFragment fragment = PlacesFragment.newInstance(tourPlaces);
         transaction.replace(R.id.group_frame_layout, fragment);
         transaction.commit();
     }
@@ -120,6 +164,7 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 }
 
 
