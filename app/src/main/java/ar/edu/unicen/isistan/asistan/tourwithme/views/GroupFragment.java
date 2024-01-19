@@ -1,5 +1,7 @@
 package ar.edu.unicen.isistan.asistan.tourwithme.views;
 
+import static ar.edu.unicen.isistan.asistan.tourwithme.GroupActivity.groupTourPlaces;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,14 +29,14 @@ import ar.edu.unicen.isistan.asistan.utils.geo.areas.Area;
 import ar.edu.unicen.isistan.asistan.utils.geo.areas.Circle;
 import ar.edu.unicen.isistan.asistan.views.asistan.movements.MovementsFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesMapFragment;
+import ar.edu.unicen.isistan.asistan.views.asistan.places.PlacesFragment;
 
 public class GroupFragment extends Fragment {
 
-    private ArrayList<UserInfoDTO> foundUsersList = new ArrayList<>();
 
     private GroupFragment.OnFragmentInteractionListener listener;
-
-    private MutableLiveData<ArrayList<Place>> places = new MutableLiveData<>();
+    private ArrayList<UserInfoDTO> foundUsersList = new ArrayList<>();
+    private MutableLiveData<ArrayList<Place>> peoplePlaces = new MutableLiveData<>();
 
     public GroupFragment() {
     }
@@ -73,11 +75,13 @@ public class GroupFragment extends Fragment {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.navigation_map:
-                        fragment = MyPlacesMapFragment.newInstance(places);
+                        fragment = MyPlacesMapFragment.newInstance(peoplePlaces);
                         break;
-                    default:
+                    case R.id.people:
                         fragment = GroupListFragment.newInstance(foundUsersList);
                         break;
+                    default:
+                        fragment = PlacesFragment.newInstance(groupTourPlaces);
                 }
 
                 FragmentManager fragmentManager = GroupFragment.this.getChildFragmentManager();
@@ -87,7 +91,7 @@ public class GroupFragment extends Fragment {
             }
         });
 
-
+        //Agrego esto para que sin apretar ningun botón del menú se muestre la lista de usuarios.
         Fragment fragment = GroupListFragment.newInstance(foundUsersList);
         FragmentManager fragmentManager = GroupFragment.this.getChildFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_layout, fragment).commit();
@@ -131,7 +135,7 @@ public class GroupFragment extends Fragment {
             usuariosUbicacion.add(placeUsuario);
         }
 
-        places.postValue(usuariosUbicacion);
+        peoplePlaces.postValue(usuariosUbicacion);
     }
 
 }

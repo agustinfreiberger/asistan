@@ -1,19 +1,17 @@
 package ar.edu.unicen.isistan.asistan.tourwithme;
 
-import static ar.edu.unicen.isistan.asistan.tourwithme.TourWithMeActivity.tourPlaces;
-
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,11 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ar.edu.unicen.isistan.asistan.R;
-import ar.edu.unicen.isistan.asistan.storage.database.Database;
-import ar.edu.unicen.isistan.asistan.storage.database.geolocation.GeoLocation;
+import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.reports.userstate.UserState;
 import ar.edu.unicen.isistan.asistan.storage.preferences.user.User;
 import ar.edu.unicen.isistan.asistan.storage.preferences.user.UserManager;
@@ -52,8 +48,8 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
     private static ArrayList<UserInfoDTO> foundUsersList = new ArrayList<>();
     private GroupFragment fragment;
     private ProgressBar progress_Bar;
-    private Button tourButton;
     private TourGenerator tourGenerator;
+    public static MutableLiveData<ArrayList<Place>> groupTourPlaces = new MutableLiveData<>();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -62,17 +58,12 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
         setContentView(R.layout.activity_group);
 
         progress_Bar = findViewById(R.id.progressBar);
-        tourButton = findViewById(R.id.groupTourButton);
         progress_Bar.setVisibility(View.VISIBLE);
 
 
         tourGenerator = new TourGenerator();
         mQueue = Volley.newRequestQueue(this);
         foundUsersList = getUsuariosCercanos();
-
-        tourButton.setOnClickListener(view ->
-                onTourClick()
-        );
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -86,7 +77,7 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
             allGroupPreferences.addAll(user.getPreferences());
         }
 
-        tourPlaces.postValue(tourGenerator.GenerateTour(allGroupPreferences));
+        groupTourPlaces.postValue(tourGenerator.GenerateTour(allGroupPreferences));
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         fragment = GroupFragment.newInstance(foundUsersList);
@@ -94,22 +85,6 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
         transaction.commit();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void onTourClick(){
-
-        ArrayList<UserCategoryPreference> allGroupPreferences = new ArrayList<>();
-
-        for (UserInfoDTO user : foundUsersList) {
-            allGroupPreferences.addAll(user.getPreferences());
-        }
-
-        tourPlaces.postValue(tourGenerator.GenerateTour(allGroupPreferences));
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        PlacesFragment fragment = PlacesFragment.newInstance(tourPlaces);
-        transaction.replace(R.id.group_frame_layout, fragment);
-        transaction.commit();
-    }
     private ArrayList<UserInfoDTO> getUsuariosCercanos(){
 
         String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/GetUsuarios");

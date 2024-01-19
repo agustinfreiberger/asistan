@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
-import com.google.gson.Gson;
 import java.util.ArrayList;
 import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
@@ -33,9 +32,7 @@ public class TourWithMeActivity extends FragmentActivity implements MyPlacesMapF
     private Button btn_showTour;
     private Button btn_showGroup;
     public ProgressBar progress_Bar;
-
-
-    protected static MutableLiveData<ArrayList<Place>> tourPlaces = new
+    public static MutableLiveData<ArrayList<Place>> tourPlaces = new
             MutableLiveData<>();
 
     @RequiresApi(api = Build.VERSION_CODES.N)

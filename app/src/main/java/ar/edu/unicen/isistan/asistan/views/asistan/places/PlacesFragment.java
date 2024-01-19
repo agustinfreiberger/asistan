@@ -90,9 +90,8 @@ public class PlacesFragment extends Fragment {
         FragmentManager fragmentManager = PlacesFragment.this.getChildFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_layout, fragment).commit();
 
-        this.update();
 
-        if(this.places.getValue() != null && this.places.getValue().size() == 0){
+        if(this.places.getValue() != null && this.places.getValue().isEmpty()){
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -103,9 +102,6 @@ public class PlacesFragment extends Fragment {
 
     }
 
-    private void update() {
-
-    }
 
     private void loadData() {
         Database database = Database.getInstance();
@@ -139,5 +135,4 @@ public class PlacesFragment extends Fragment {
     private void setPlaces(@NotNull MutableLiveData<ArrayList<Place>> places) {
         this.places.postValue(places.getValue());
     }
-
 }
