@@ -18,8 +18,8 @@
 
     <FrameLayout
         android:id="@+id/group_frame_layout"
-        android:layout_width="403dp"
-        android:layout_height="622dp"
+        android:layout_width="400dp"
+        android:layout_height="648dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

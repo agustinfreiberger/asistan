@@ -104,6 +104,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="age">Edad</string>
     <string name="preferencias">Preferencias</string>
-
-
+    <string name="tituloTWM">Viaja Conmigo</string>
+    <string name="mensajePrincipalTWM">Encuentra tesoros ocultos, explora maravillas locales y crea recuerdos inolvidables en cada rincón del mundo. ¡Que tu próxima aventura comience aquí!</string>
+    <string name="vivis_cerca">¿Dónde te encontras?</string>
+    <string name="esteblece_tu_ubicacion">Establecé tu ubicación para ver quiénes están en tu barrio o alrededores. De lo contrario, no vas a poder hacer match con otra gente</string>
+    <string name="todo">TODO</string>
 </resources>
