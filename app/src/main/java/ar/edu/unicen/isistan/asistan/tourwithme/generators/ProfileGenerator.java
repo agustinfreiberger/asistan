@@ -171,7 +171,7 @@ public class ProfileGenerator extends AsyncTask {
        //hago la ponderacion y la guardo
        final float interesTotalFinal = interesTotal;
         for (PlaceCategory key:categoriesPreferenceList.keySet()) {
-            userCategoryPreferenceList.add(new UserCategoryPreference(key,categoriesPreferenceList.get(key).floatValue()/interesTotal));
+            userCategoryPreferenceList.add(new UserCategoryPreference(key.getCode(),categoriesPreferenceList.get(key).floatValue()/interesTotal));
         }
 
         //Ordeno de mayor a menor

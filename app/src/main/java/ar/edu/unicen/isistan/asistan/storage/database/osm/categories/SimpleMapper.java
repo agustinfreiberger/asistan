@@ -36,9 +36,9 @@ public class SimpleMapper {
         return result;
     }
 
-    public boolean containsSubCategory(PlaceCategory category){
+    public boolean containsSubCategory(int category){
         for (PlaceCategory placeCategory: map.values()) {
-            if(placeCategory.getCode() == category.getCode()){
+            if(placeCategory.getCode() == category){
                 return true;
             }
         }

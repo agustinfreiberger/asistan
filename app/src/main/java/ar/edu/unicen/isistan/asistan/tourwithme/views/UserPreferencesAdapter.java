@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ar.edu.unicen.isistan.asistan.databinding.FragmentUserPreferencesBinding;
+import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 
 import java.util.ArrayList;
@@ -33,8 +34,8 @@ public class UserPreferencesAdapter extends RecyclerView.Adapter<UserPreferences
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.imageView.setImageResource(mValues.get(position).getCategory().getMarkerSrc());
-        holder.mIdView.setText(mValues.get(position).getCategory().getName());
+        holder.imageView.setImageResource(PlaceCategory.get(mValues.get(position).getPlacecategory()).getMarkerSrc());
+        holder.mIdView.setText(PlaceCategory.get(mValues.get(position).getPlacecategory()).getName());
         holder.mContentView.setText(mValues.get(position).getPreference().toString());
     }
 

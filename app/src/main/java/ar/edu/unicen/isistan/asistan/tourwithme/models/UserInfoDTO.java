@@ -1,33 +1,42 @@
 package ar.edu.unicen.isistan.asistan.tourwithme.models;
 
-import com.google.gson.Gson;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import ar.edu.unicen.isistan.asistan.storage.database.geolocation.Coordinate;
-import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
-import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 
 //Clase que se utiliza para enviar info entre dispositivos
 public class UserInfoDTO implements Serializable {
 
+    private UUID id;
     private String name;
     private String lastName;
     private int age;
-    private Coordinate location;
+    private double latitud;
+    private double longitud;
     private List<UserCategoryPreference> preferences;
 
+
+    public UserInfoDTO(){
+    }
     public UserInfoDTO(String name, String lastName, int age, double x, double y) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
-        location = new Coordinate();
-        this.location.setLatitude(x);
-        this.location.setLongitude(y);
+        this.setLatitud(x);
+        this.setLongitud(y);
         this.preferences = new ArrayList<>();
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -42,12 +51,25 @@ public class UserInfoDTO implements Serializable {
         return age;
     }
 
-    public Coordinate getLocation() {
-        return location;
+    public void setLocation(double latitud, double longitud){
+         this.latitud = latitud;
+         this.longitud = longitud;
     }
 
-    public void setLocation(Coordinate location) {
-        this.location = location;
+    public void setLatitud(double latitud){
+        this.latitud = latitud;
+    }
+
+    public void setLongitud(double longitud){
+        this.longitud = longitud;
+    }
+
+    public double getLatitud(){
+        return this.latitud;
+    }
+
+    public double getLongitud(){
+        return this.longitud;
     }
 
     public List<UserCategoryPreference> getPreferences() {
@@ -59,7 +81,7 @@ public class UserInfoDTO implements Serializable {
     }
 
     public void addPreference(int category, float preference){
-        this.preferences.add(new UserCategoryPreference(PlaceCategory.get(category), preference));
+        this.preferences.add(new UserCategoryPreference(category, preference));
     }
 }
 

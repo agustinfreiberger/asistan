@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import ar.edu.unicen.isistan.asistan.R;
+import ar.edu.unicen.isistan.asistan.storage.database.geolocation.Coordinate;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
 import ar.edu.unicen.isistan.asistan.utils.geo.areas.Area;
@@ -32,7 +33,6 @@ import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesMapFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.PlacesFragment;
 
 public class GroupFragment extends Fragment {
-
 
     private GroupFragment.OnFragmentInteractionListener listener;
     private ArrayList<UserInfoDTO> foundUsersList = new ArrayList<>();
@@ -128,7 +128,7 @@ public class GroupFragment extends Fragment {
 
         for (UserInfoDTO user: usuariosCercanos) {
             placeUsuario = new Place();
-            areaUsuario = new Circle(user.getLocation(),1);
+            areaUsuario = new Circle(new Coordinate(user.getLatitud(),user.getLongitud()),1);
             placeUsuario.setName(user.getName() +" "+user.getLastName());
             placeUsuario.setArea(areaUsuario);
             placeUsuario.setPlaceCategory(1099);

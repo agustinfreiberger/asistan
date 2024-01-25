@@ -362,7 +362,7 @@ public class CategoryMapper {
         return PlaceCategory.UNSPECIFIED;
     }
 
-    public ArrayList<PlaceCategory> getRelatedCategories(PlaceCategory category){
+    public ArrayList<PlaceCategory> getRelatedCategories(int category){
         ArrayList<PlaceCategory> relatedCategories = new ArrayList<>();
 
         for (int i = 1; i < KEYS.length; i++ ) {

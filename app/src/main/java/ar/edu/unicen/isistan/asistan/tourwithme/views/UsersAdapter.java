@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unicen.isistan.asistan.databinding.FragmentUserBinding;
+import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
 
@@ -73,7 +74,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
             for (UserCategoryPreference preference : preferences) {
                 categoryIcon = new ImageView(this.innerLinearLayout.getContext());
-                categoryIcon.setImageResource(preference.getCategory().getMarkerSrc());
+                categoryIcon.setImageResource(PlaceCategory.get(preference.getPlacecategory()).getMarkerSrc());
                 innerLinearLayout.addView(categoryIcon);
             }
             nestedScrollView.addView(innerLinearLayout);
