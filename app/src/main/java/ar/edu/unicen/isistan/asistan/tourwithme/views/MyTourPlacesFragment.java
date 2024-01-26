@@ -1,35 +1,32 @@
-package ar.edu.unicen.isistan.asistan.views.asistan.places;
+package ar.edu.unicen.isistan.asistan.tourwithme.views;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ar.edu.unicen.isistan.asistan.R;
-import ar.edu.unicen.isistan.asistan.storage.database.Database;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.edit.PlaceActivity;
 
-public class MyPlacesFragment extends Fragment {
-
+public class MyTourPlacesFragment extends Fragment {
     public static final int PLACE_REQUEST_CODE = 1;
 
     private OnFragmentInteractionListener listener;
@@ -40,20 +37,20 @@ public class MyPlacesFragment extends Fragment {
     private ArrayList<Place> places;
     private Parcelable listState;
 
-    public MyPlacesFragment() {
+    public MyTourPlacesFragment() {
         this.places = new ArrayList<>();
         this.listState = null;
     }
 
-    public static MyPlacesFragment newInstance() {
-        MyPlacesFragment fragment = new MyPlacesFragment();
+    public static MyTourPlacesFragment newInstance() {
+        MyTourPlacesFragment fragment = new MyTourPlacesFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static MyPlacesFragment newInstance(@NotNull MutableLiveData<ArrayList<Place>> places) {
-        MyPlacesFragment fragment = new MyPlacesFragment();
+    public static MyTourPlacesFragment newInstance(@NotNull MutableLiveData<ArrayList<Place>> places) {
+        MyTourPlacesFragment fragment = new MyTourPlacesFragment();
         fragment.setPlaces(places);
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -80,39 +77,9 @@ public class MyPlacesFragment extends Fragment {
             RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this.getContext(),3);
             this.recyclerView.setLayoutManager(layoutManager);
 
-            if(this.places != null && this.places.isEmpty()){
-                this.load();
-            }
-
         }
     }
 
-    private void load() {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (MyPlacesFragment.this.getContext() != null) {
-                    MyPlacesFragment.this.places.clear();
-
-                    List<Place> everyPlace = Database.getInstance().mobility().allPlaces();
-                    for (Place place: everyPlace) {
-                        if (place.getPlaceCategory() >= 0) {
-                            MyPlacesFragment.this.places.add(place);
-                        }
-                    }
-                    MyPlacesFragment.this.adapter = new MyPlacesAdapter(MyPlacesFragment.this, MyPlacesFragment.this.places);
-                    if (MyPlacesFragment.this.getActivity() != null) {
-                        MyPlacesFragment.this.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                MyPlacesFragment.this.recyclerView.setAdapter(MyPlacesFragment.this.adapter);
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
 
     private void setPlaces(MutableLiveData<ArrayList<Place>> places) {
 
@@ -120,18 +87,18 @@ public class MyPlacesFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<Place> places) {
                 if(places != null && places.size() > 0) {
-                    MyPlacesFragment.this.places.clear();
+                    MyTourPlacesFragment.this.places.clear();
                     for (Place place : places) {
                         if (place.getPlaceCategory() >= 0) {
-                            MyPlacesFragment.this.places.add(place);
+                            MyTourPlacesFragment.this.places.add(place);
                         }
                     }
-                    MyPlacesFragment.this.adapter = new MyPlacesAdapter(MyPlacesFragment.this, MyPlacesFragment.this.places);
-                    if (MyPlacesFragment.this.getActivity() != null) {
-                        MyPlacesFragment.this.getActivity().runOnUiThread(new Runnable() {
+                    MyTourPlacesFragment.this.adapter = new MyTourPlacesAdapter(MyTourPlacesFragment.this, MyTourPlacesFragment.this.places);
+                    if (MyTourPlacesFragment.this.getActivity() != null) {
+                        MyTourPlacesFragment.this.getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                MyPlacesFragment.this.recyclerView.setAdapter(MyPlacesFragment.this.adapter);
+                                MyTourPlacesFragment.this.recyclerView.setAdapter(MyTourPlacesFragment.this.adapter);
                             }
                         });
                     }

@@ -133,7 +133,6 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
         tourPlaces.postValue(tourGenerator.GenerateTour(profileGenerator.getUserCategoryPreferences()));
 
         Intent intent = new Intent(this, TourActivity.class);
-        intent.putExtra("tourwithme.tourPlaces", tourPlaces.getValue());
         startActivity(intent);
         progress_Bar.setVisibility(View.GONE);
     }

@@ -25,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import ar.edu.unicen.isistan.asistan.R;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
@@ -33,12 +32,15 @@ import ar.edu.unicen.isistan.asistan.tourwithme.generators.TourGenerator;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
 import ar.edu.unicen.isistan.asistan.tourwithme.views.GroupFragment;
 import ar.edu.unicen.isistan.asistan.tourwithme.views.GroupListFragment;
+import ar.edu.unicen.isistan.asistan.tourwithme.views.MyTourPlacesFragment;
+import ar.edu.unicen.isistan.asistan.tourwithme.views.MyTourPlacesMapFragment;
+import ar.edu.unicen.isistan.asistan.tourwithme.views.TourPlacesFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.movements.MovementsFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesMapFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.PlacesFragment;
 
-public class GroupActivity extends AppCompatActivity implements GroupFragment.OnFragmentInteractionListener, MovementsFragment.OnFragmentInteractionListener, MyPlacesMapFragment.OnFragmentInteractionListener, GroupListFragment.OnFragmentInteractionListener, PlacesFragment.OnFragmentInteractionListener, MyPlacesFragment.OnFragmentInteractionListener {
+public class GroupActivity extends AppCompatActivity implements GroupFragment.OnFragmentInteractionListener, MovementsFragment.OnFragmentInteractionListener, MyPlacesMapFragment.OnFragmentInteractionListener, GroupListFragment.OnFragmentInteractionListener, PlacesFragment.OnFragmentInteractionListener, MyPlacesFragment.OnFragmentInteractionListener, TourPlacesFragment.OnFragmentInteractionListener, MyTourPlacesFragment.OnFragmentInteractionListener, MyTourPlacesMapFragment.OnFragmentInteractionListener {
 
     private RequestQueue mQueue;
     private static ArrayList<UserInfoDTO> foundUsersList = new ArrayList<>();

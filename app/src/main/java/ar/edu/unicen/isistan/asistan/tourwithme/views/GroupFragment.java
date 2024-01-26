@@ -81,7 +81,7 @@ public class GroupFragment extends Fragment {
                         fragment = GroupListFragment.newInstance(foundUsersList);
                         break;
                     default:
-                        fragment = PlacesFragment.newInstance(groupTourPlaces);
+                        fragment = TourPlacesFragment.newInstance(groupTourPlaces);
                 }
 
                 FragmentManager fragmentManager = GroupFragment.this.getChildFragmentManager();
