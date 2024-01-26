@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -48,13 +49,14 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
     private ProfileGenerator profileGenerator;
     private TourGenerator tourGenerator;
     private ConstraintLayout textLayout;
+    private UserInfoDTO myUserInfoDTO;
+    private Coordinate currentLocation;
+
+    private Boolean profileSend;
     public ProgressBar progress_Bar;
     public static MutableLiveData<ArrayList<Place>> tourPlaces = new
             MutableLiveData<>();
 
-    public UserInfoDTO myUserInfoDTO;
-
-    public Coordinate currentLocation;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -68,7 +70,7 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
         Button btn_showTour = findViewById(R.id.btn_showTour);
         Button btn_showGroup = findViewById(R.id.btn_showGroup);
         progress_Bar = findViewById(R.id.progressBar);
-
+        profileSend = false;
 
         fragmentManager = getSupportFragmentManager();
         tourGenerator = new TourGenerator();
@@ -84,26 +86,33 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
                 showProfileClick()
         );
 
-        btn_showGroup.setOnClickListener(view ->
-                showGroupClick()
-        );
+        btn_showGroup.setOnClickListener(view -> {
+            if(profileSend){
+                showGroupClick();
+            }else{
+                Toast.makeText(TourWithMeActivity.this, "Buscando turistas cercanos...", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        loadCurrentLocation();
+        if(!profileSend){
+            loadCurrentLocation();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    loadUserData();
+                    sendUserData();
+                    profileSend = true;
+                    Toast.makeText(TourWithMeActivity.this, "Perfil actualizado con éxito!", Toast.LENGTH_LONG).show();
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadUserData();
-                sendUserData();
-            }
-        }, 5000);
-
+                }
+            }, 10000);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -126,23 +135,16 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
         Intent intent = new Intent(this, TourActivity.class);
         intent.putExtra("tourwithme.tourPlaces", tourPlaces.getValue());
         startActivity(intent);
-
         progress_Bar.setVisibility(View.GONE);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showGroupClick() {
         Intent intent = new Intent(this, GroupActivity.class);
-        intent.putExtra("guid", myUserInfoDTO.getId().toString());
+        intent.putExtra("name", myUserInfoDTO.getName());
         intent.putExtra("latitud", myUserInfoDTO.getLatitud());
         intent.putExtra("longitud", myUserInfoDTO.getLongitud());
         startActivity(intent);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     private void loadUserData(){
@@ -157,9 +159,9 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
     }
 
     private void loadCurrentLocation() {
-            Database.getInstance().geoLocation().lastTrusted().observe(this, location -> {
-                currentLocation = location.getCoordinate();
-            });
+        Database.getInstance().geoLocation().lastTrusted().observe(this, location -> {
+            currentLocation = location.getCoordinate();
+        });
     }
 
     private void sendUserData(){
@@ -194,5 +196,10 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

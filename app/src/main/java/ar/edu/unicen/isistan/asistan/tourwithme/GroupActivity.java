@@ -45,7 +45,7 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
     private GroupFragment fragment;
     private ProgressBar progress_Bar;
     private TourGenerator tourGenerator;
-    private UserInfoDTO myUserInfoDTO;
+    private UserInfoDTO myUserInfoDTO = new UserInfoDTO();
     public static MutableLiveData<ArrayList<Place>> groupTourPlaces = new MutableLiveData<>();
 
     public GroupActivity() {
@@ -59,10 +59,9 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
 
         progress_Bar = findViewById(R.id.progressBar);
         progress_Bar.setVisibility(View.VISIBLE);
-        myUserInfoDTO = new UserInfoDTO();
 
         Intent intent = getIntent();
-        myUserInfoDTO.setId(UUID.fromString(intent.getStringExtra("guid")));
+        myUserInfoDTO.setName(intent.getStringExtra("name"));
         myUserInfoDTO.setLocation(intent.getDoubleExtra("latitud", 0.0),intent.getDoubleExtra("longitud", 0.0) );
 
         tourGenerator = new TourGenerator();
@@ -88,7 +87,7 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
     }
     private ArrayList<UserInfoDTO> getUsuariosCercanosYSimilares(){
 
-        String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/GetUsuariosCercanosYSimilares?Id=%s&lat=%s&longitud=%s", myUserInfoDTO.getId(),myUserInfoDTO.getLatitud(), myUserInfoDTO.getLongitud());
+        String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/GetUsuariosCercanosYSimilares?name=%s&lat=%s&longitud=%s", myUserInfoDTO.getName(),myUserInfoDTO.getLatitud(), myUserInfoDTO.getLongitud());
 
         JsonArrayRequest jsonObjectResponse = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
