@@ -51,7 +51,6 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
     private ConstraintLayout textLayout;
     private UserInfoDTO myUserInfoDTO;
     private Coordinate currentLocation;
-
     private Boolean profileSend;
     public ProgressBar progress_Bar;
     public static MutableLiveData<ArrayList<Place>> tourPlaces = new
@@ -62,6 +61,13 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Compruebo si hay conexión a internet
+        if (!ConnectivityUtils.isNetworkAvailable(getApplicationContext())) {
+            Toast.makeText(this, "No hay conexión a internet disponible", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
 
         setContentView(R.layout.activity_tourwithme);
         textLayout = findViewById(R.id.text_twm_layout);
@@ -95,21 +101,21 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onStart() {
         super.onStart();
-
         if(!profileSend){
             loadCurrentLocation();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    //progress_Bar.setVisibility(View.GONE);
                     loadUserData();
                     sendUserData();
                     profileSend = true;
-                    Toast.makeText(TourWithMeActivity.this, "Perfil actualizado con éxito!", Toast.LENGTH_LONG).show();
-
+                    //Toast.makeText(TourWithMeActivity.this, "Perfil actualizado con éxito!", Toast.LENGTH_LONG).show();
                 }
             }, 10000);
         }
@@ -128,13 +134,10 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showTourClick(){
-        progress_Bar.setVisibility(View.VISIBLE);
 
         tourPlaces.postValue(tourGenerator.GenerateTour(profileGenerator.getUserCategoryPreferences()));
-
         Intent intent = new Intent(this, TourActivity.class);
         startActivity(intent);
-        progress_Bar.setVisibility(View.GONE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
