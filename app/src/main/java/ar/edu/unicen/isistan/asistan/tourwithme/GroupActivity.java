@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -20,7 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,10 +57,9 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group);
 
+        setContentView(R.layout.activity_group);
         progress_Bar = findViewById(R.id.progressBar);
-        progress_Bar.setVisibility(View.VISIBLE);
 
         Intent intent = getIntent();
         myUserInfoDTO.setName(intent.getStringExtra("name"));
@@ -68,7 +67,7 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
 
         tourGenerator = new TourGenerator();
         mQueue = Volley.newRequestQueue(this);
-
+        foundUsersList = getUsuariosCercanosYSimilares();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -76,44 +75,45 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
     protected void onStart() {
         super.onStart();
 
-        foundUsersList = getUsuariosCercanosYSimilares();
+        progress_Bar.setVisibility(View.VISIBLE);
 
-        groupTourPlaces.postValue(tourGenerator.GenerateGroupTour(foundUsersList));
-
-        progress_Bar.setVisibility(View.GONE);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        fragment = GroupFragment.newInstance(foundUsersList);
-        transaction.replace(R.id.group_frame_layout, fragment);
-        transaction.commit();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progress_Bar.setVisibility(View.GONE);
+                groupTourPlaces.postValue(tourGenerator.GenerateGroupTour(foundUsersList));
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                fragment = GroupFragment.newInstance(foundUsersList);
+                transaction.replace(R.id.group_frame_layout, fragment);
+                transaction.commit();
+            }
+        }, 5000);
     }
+
     private ArrayList<UserInfoDTO> getUsuariosCercanosYSimilares(){
 
         String url = String.format("https://tourwithmeapi.azurewebsites.net/Group/GetUsuariosCercanosYSimilares?name=%s&lat=%s&longitud=%s", myUserInfoDTO.getName(),myUserInfoDTO.getLatitud(), myUserInfoDTO.getLongitud());
 
-        JsonArrayRequest jsonObjectResponse = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                try {
-                    if(foundUsersList.size() >0){
-                        foundUsersList.clear();
-                    }
-                    for (int i = 0; i<response.length();i++){
-                        Log.d("Leyendo response de: ",url +"---"+response.getString(i));
-                        JSONObject userJson = response.getJSONObject(i);
-                        UserInfoDTO foundUser = new UserInfoDTO(userJson.getString("name"),"",userJson.getInt("age"),userJson.getDouble("latitud"),userJson.getDouble("longitud"));
-
-                        for (int index = 0; index<userJson.getJSONArray("preferences").length(); index++) {
-                            JSONObject prefJson = userJson.getJSONArray("preferences").getJSONObject(index);
-                            foundUser.addPreference(prefJson.getInt("placecategory"), (float) prefJson.getDouble("preference"));
-                        }
-
-                        foundUsersList.add(foundUser);
-                    }
-                    progress_Bar.setVisibility(View.GONE);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        JsonArrayRequest jsonObjectResponse = new JsonArrayRequest(url, response -> {
+            try {
+                if(foundUsersList.size() >0){
+                    foundUsersList.clear();
                 }
+                for (int i = 0; i<response.length();i++){
+                    Log.d("Leyendo response de: ",url +"---"+response.getString(i));
+                    JSONObject userJson = response.getJSONObject(i);
+                    UserInfoDTO foundUser = new UserInfoDTO(userJson.getString("name"),"",userJson.getInt("age"),userJson.getDouble("latitud"),userJson.getDouble("longitud"));
+
+                    for (int index = 0; index<userJson.getJSONArray("preferences").length(); index++) {
+                        JSONObject prefJson = userJson.getJSONArray("preferences").getJSONObject(index);
+                        foundUser.addPreference(prefJson.getInt("placecategory"), (float) prefJson.getDouble("preference"));
+                    }
+
+                    foundUsersList.add(foundUser);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }, new Response.ErrorListener() {
             @Override
