@@ -258,14 +258,11 @@ public class CategoryMapper {
         tourismMap.put("viewpoint",PlaceCategory.VIEWPOINT);
         tourismMap.put("theme_park",PlaceCategory.THEME_PARK);
         tourismMap.put("museum",PlaceCategory.MUSEUM);
-        tourismMap.put("information",PlaceCategory.PUBLIC_ORGANIZATION);
-        tourismMap.put("hotel",PlaceCategory.ACCOMMODATION);
-        tourismMap.put("hostel",PlaceCategory.ACCOMMODATION);
-        tourismMap.put("guest_house",PlaceCategory.ACCOMMODATION);
         tourismMap.put("gallery",PlaceCategory.MUSEUM);
         tourismMap.put("aquarium",PlaceCategory.AQUARIUM);
         tourismMap.put("caravan_site",PlaceCategory.CAMP_SITE);
         tourismMap.put("camp_site",PlaceCategory.CAMP_SITE);
+        tourismMap.put("attraction",PlaceCategory.ATTRACTION);
         this.mappers.put("tourism",new SimpleMapper(PlaceCategory.UNSPECIFIED,tourismMap));
 
         HashMap<String, PlaceCategory> landuseMap = new HashMap<>();

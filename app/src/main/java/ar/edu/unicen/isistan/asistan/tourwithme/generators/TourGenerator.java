@@ -82,10 +82,6 @@ public class TourGenerator extends AsyncTask{
         CategoryMapper categoryMapper = new CategoryMapper(true);
         ArrayList<String> agregados = new ArrayList<>();
 
-        if(tourList.size() == 5){
-            return tourList;
-        }
-
         List<PlaceCategory> bestCategories = getMorePreferedCategories(groupUsers);
 
         if(!bestCategories.isEmpty() && !placesList.isEmpty())

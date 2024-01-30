@@ -40,6 +40,7 @@ import ar.edu.unicen.isistan.asistan.storage.preferences.user.UserManager;
 import ar.edu.unicen.isistan.asistan.tourwithme.generators.ProfileGenerator;
 import ar.edu.unicen.isistan.asistan.tourwithme.generators.TourGenerator;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
+import ar.edu.unicen.isistan.asistan.tourwithme.utils.ConnectivityUtils;
 import ar.edu.unicen.isistan.asistan.tourwithme.views.UserPreferencesListFragment;
 import ar.edu.unicen.isistan.asistan.views.asistan.places.MyPlacesMapFragment;
 

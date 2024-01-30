@@ -1,4 +1,4 @@
-package ar.edu.unicen.isistan.asistan.tourwithme;
+package ar.edu.unicen.isistan.asistan.tourwithme.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
