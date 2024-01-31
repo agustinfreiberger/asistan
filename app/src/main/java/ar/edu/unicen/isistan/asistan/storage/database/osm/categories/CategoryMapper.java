@@ -219,7 +219,6 @@ public class CategoryMapper {
         HashMap<String, PlaceCategory> leisureMap = new HashMap<>();
         leisureMap.put("amusement_arcade",PlaceCategory.AMUSEMENT_ARCADE);
         leisureMap.put("bowling_alley",PlaceCategory.BOWLING);
-        leisureMap.put("fitness_center",PlaceCategory.GYM);
         leisureMap.put("sports_centre",PlaceCategory.SPORT_CLUB);
         leisureMap.put("stadium",PlaceCategory.STADIUM);
         leisureMap.put("miniature_golf",PlaceCategory.MINIATURE_GOLF);
@@ -263,6 +262,7 @@ public class CategoryMapper {
         tourismMap.put("caravan_site",PlaceCategory.CAMP_SITE);
         tourismMap.put("camp_site",PlaceCategory.CAMP_SITE);
         tourismMap.put("attraction",PlaceCategory.ATTRACTION);
+        tourismMap.put("park",PlaceCategory.PARK);
         this.mappers.put("tourism",new SimpleMapper(PlaceCategory.UNSPECIFIED,tourismMap));
 
         HashMap<String, PlaceCategory> landuseMap = new HashMap<>();
@@ -338,8 +338,6 @@ public class CategoryMapper {
         shopMap.put("radiotechnics",PlaceCategory.ELECTRICAL);
         shopMap.put("fireplace",PlaceCategory.FURNITURE);
         shopMap.put("vacuum_cleaner",PlaceCategory.ELECTRONICS);
-        shopMap.put("pet",PlaceCategory.VETERINARY);
-        shopMap.put("pet_grooming",PlaceCategory.VETERINARY);
         this.mappers.put("shop",new SimpleMapper(PlaceCategory.SHOP,shopMap));
     }
 
