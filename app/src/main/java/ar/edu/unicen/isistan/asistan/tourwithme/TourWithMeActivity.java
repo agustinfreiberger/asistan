@@ -39,6 +39,7 @@ import ar.edu.unicen.isistan.asistan.storage.preferences.user.User;
 import ar.edu.unicen.isistan.asistan.storage.preferences.user.UserManager;
 import ar.edu.unicen.isistan.asistan.tourwithme.generators.ProfileGenerator;
 import ar.edu.unicen.isistan.asistan.tourwithme.generators.TourGenerator;
+import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
 import ar.edu.unicen.isistan.asistan.tourwithme.utils.ConnectivityUtils;
 import ar.edu.unicen.isistan.asistan.tourwithme.views.UserPreferencesListFragment;
@@ -53,6 +54,7 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
     private UserInfoDTO myUserInfoDTO;
     private Coordinate currentLocation;
     private Boolean profileSend;
+    private ArrayList<UserCategoryPreference> myPreferences;
     public ProgressBar progress_Bar;
     public static MutableLiveData<ArrayList<Place>> tourPlaces = new
             MutableLiveData<>();
@@ -77,6 +79,7 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
         Button btn_showTour = findViewById(R.id.btn_showTour);
         Button btn_showGroup = findViewById(R.id.btn_showGroup);
         progress_Bar = findViewById(R.id.progressBar);
+        myPreferences = new ArrayList<>();
         profileSend = false;
 
         fragmentManager = getSupportFragmentManager();
@@ -112,7 +115,6 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //progress_Bar.setVisibility(View.GONE);
                     loadUserData();
                     sendUserData();
                     profileSend = true;
@@ -124,21 +126,43 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showProfileClick() {
-        textLayout.setVisibility(View.GONE);
-
         FragmentTransaction ft = fragmentManager.beginTransaction();
 
-        Fragment listFragment = UserPreferencesListFragment.newInstance(1, profileGenerator.getUserCategoryPreferences());
-        ft.replace(R.id.myFrameLayout, listFragment);
-        ft.commit();
+        if(myPreferences.isEmpty()){ //Hago el chequeo para no generar las preferencias dos veces.
+            myPreferences = profileGenerator.getUserCategoryPreferences();
+            if(myPreferences.isEmpty()){
+                Toast.makeText(TourWithMeActivity.this, "No se han identificado preferencias", Toast.LENGTH_LONG).show();
+            }else{
+                textLayout.setVisibility(View.GONE);
+                Fragment listFragment = UserPreferencesListFragment.newInstance(1, myPreferences);
+                ft.replace(R.id.myFrameLayout, listFragment);
+                ft.commit();
+            }
+        } else {
+            textLayout.setVisibility(View.GONE);
+            Fragment listFragment = UserPreferencesListFragment.newInstance(1, myPreferences);
+            ft.replace(R.id.myFrameLayout, listFragment);
+            ft.commit();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void showTourClick(){
 
-        tourPlaces.postValue(tourGenerator.GenerateTour(profileGenerator.getUserCategoryPreferences()));
-        Intent intent = new Intent(this, TourActivity.class);
-        startActivity(intent);
+        if(myPreferences.isEmpty()){  //Hago el chequeo para no generar las preferencias dos veces.
+            myPreferences = profileGenerator.getUserCategoryPreferences();
+            if(myPreferences.isEmpty()){
+                Toast.makeText(TourWithMeActivity.this, "No existen preferencias para generar el tour", Toast.LENGTH_LONG).show();
+            } else {
+                tourPlaces.postValue(tourGenerator.GenerateTour(myPreferences));
+                Intent intent = new Intent(this, TourActivity.class);
+                startActivity(intent);
+            }
+        }else{
+            tourPlaces.postValue(tourGenerator.GenerateTour(myPreferences));
+            Intent intent = new Intent(this, TourActivity.class);
+            startActivity(intent);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
