@@ -80,7 +80,7 @@ public class UserInfoDTO implements Serializable {
     }
 
     public void setPreferences(List<UserCategoryPreference> preferences) {
-        this.preferences = preferences;
+        this.preferences.addAll(preferences);
     }
 
     public void addPreference(int category, float preference){

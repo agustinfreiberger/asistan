@@ -1,11 +1,15 @@
 package ar.edu.unicen.isistan.asistan.tourwithme.generators;
 
+import static ar.edu.unicen.isistan.asistan.tourwithme.TourWithMeActivity.myPreferences;
+import static ar.edu.unicen.isistan.asistan.tourwithme.TourWithMeActivity.tourPlaces;
+
 import android.os.AsyncTask;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
@@ -41,6 +45,7 @@ public class TourGenerator extends AsyncTask{
         CategoryMapper categoryMapper = new CategoryMapper(true);
         ArrayList<String> agregados = new ArrayList<>();
 
+
         if(tourList.size() == 5){
             return tourList;
         }
@@ -73,9 +78,16 @@ public class TourGenerator extends AsyncTask{
 
     //Genero el tour para el grupo
     public ArrayList<Place> GenerateGroupTour(List<UserInfoDTO> groupUsers){
-        if(tourList.size() >0){
+
+        //Si el usuario encontrado no tiene preferencias, el tour es el generado para una persona.
+        if(groupUsers.size() == 1 && (groupUsers.get(0).getPreferences()  == null || groupUsers.get(0).getPreferences().isEmpty())){
+            return tourPlaces.getValue();
+        }
+
+        if(!tourList.isEmpty()){
             tourList.clear();
         }
+
 
         int tamano = 0;
         Place aux;
@@ -112,7 +124,10 @@ public class TourGenerator extends AsyncTask{
     private List<PlaceCategory> getMorePreferedCategories(List<UserInfoDTO> groupUsers){
         List<UserCategoryPreference> allCategories = new ArrayList<>();
 
-        //Obtengo el listado de categorias unicas
+        //Agrego mis preferencias
+        allCategories.addAll(myPreferences);
+
+        //Obtengo el listado de categorias unicas de los usuarios cercanos
         for (UserInfoDTO user: groupUsers) {
             for (UserCategoryPreference userPreference: user.getPreferences()) {
                 if(!allCategories.contains(userPreference)){
@@ -121,25 +136,27 @@ public class TourGenerator extends AsyncTask{
             }
         }
 
-        float minPreference = Integer.MAX_VALUE;
+        List<UserCategoryPreference> categoryDifferenceArray = new ArrayList<>();
         List<PlaceCategory> bestCategories = new ArrayList<>();
 
-        //Filtro para obtener las que tienen menor diferencia entre los miembros
+        //Armo el arreglo de diferencias
         for (UserCategoryPreference category: allCategories) {
-            if(calculateDifference(groupUsers, category.getPlacecategory()) < minPreference){
-                bestCategories.add(PlaceCategory.get(category.getPlacecategory()));
-            }
+            categoryDifferenceArray.add(new UserCategoryPreference(category.getPlacecategory(),calculateDifference(groupUsers,category.getPlacecategory())));
+        }
+
+        //Ordeno las diferencias de mayor a menor
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            categoryDifferenceArray.sort(Comparator.comparing(UserCategoryPreference::getPreference).reversed());
+        }
+
+        for (UserCategoryPreference userCategoryPreference: categoryDifferenceArray) {
+            bestCategories.add(PlaceCategory.get(userCategoryPreference.getPlacecategory()));
         }
 
         return bestCategories;
     }
 
     private static float calculateDifference(List<UserInfoDTO> users, int category) {
-        if (users == null || users.isEmpty()) {
-            // Handle empty input
-            return 0;
-        }
-
         float maxPreference = Integer.MIN_VALUE;
         float minPreference = Integer.MAX_VALUE;
 
@@ -151,7 +168,6 @@ public class TourGenerator extends AsyncTask{
             }
         }
 
-        // Calculate the difference between the max and min preferences
         return maxPreference - minPreference;
     }
 }

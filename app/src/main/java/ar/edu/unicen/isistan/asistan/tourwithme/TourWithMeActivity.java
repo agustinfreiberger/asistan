@@ -54,8 +54,8 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
     private UserInfoDTO myUserInfoDTO;
     private Coordinate currentLocation;
     private Boolean profileSend;
-    private ArrayList<UserCategoryPreference> myPreferences;
     public ProgressBar progress_Bar;
+    public static ArrayList<UserCategoryPreference> myPreferences;
     public static MutableLiveData<ArrayList<Place>> tourPlaces = new
             MutableLiveData<>();
 
@@ -118,7 +118,6 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
                     loadUserData();
                     sendUserData();
                     profileSend = true;
-                    //Toast.makeText(TourWithMeActivity.this, "Perfil actualizado con éxito!", Toast.LENGTH_LONG).show();
                 }
             }, 10000);
         }
@@ -179,9 +178,9 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
         myUserInfoDTO = new UserInfoDTO(myUser.getName(), myUser.getLastName(), myUser.getAge(), -1,-1);
         myUserInfoDTO.setId(UUID.randomUUID());
         myUserInfoDTO.setLocation(currentLocation.getLatitude(), currentLocation.getLongitude());
-
+        myPreferences = profileGenerator.getUserCategoryPreferences();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            myUserInfoDTO.setPreferences(profileGenerator.getUserCategoryPreferences());
+            myUserInfoDTO.setPreferences(myPreferences);
         }
     }
 

@@ -261,7 +261,6 @@ public class CategoryMapper {
         tourismMap.put("caravan_site",PlaceCategory.CAMP_SITE);
         tourismMap.put("camp_site",PlaceCategory.CAMP_SITE);
         tourismMap.put("attraction",PlaceCategory.ATTRACTION);
-        tourismMap.put("park",PlaceCategory.PARK);
         this.mappers.put("tourism",new SimpleMapper(PlaceCategory.UNSPECIFIED,tourismMap));
 
         HashMap<String, PlaceCategory> landuseMap = new HashMap<>();

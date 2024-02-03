@@ -1,6 +1,5 @@
 package ar.edu.unicen.isistan.asistan.map;
 
-import com.google.api.client.json.Json;
 import com.google.gson.JsonObject;
 
 import net.sf.geographiclib.Geodesic;
@@ -17,13 +16,12 @@ import java.util.Locale;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
 import ar.edu.unicen.isistan.asistan.storage.database.asistan.AsistanEvent;
 import ar.edu.unicen.isistan.asistan.storage.database.geolocation.Coordinate;
-import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMCity;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMDao;
-import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMDao_Impl;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMPlace;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OverpassAPI;
+import ar.edu.unicen.isistan.asistan.synchronizer.data.Data;
 
 public class MapContext {
 
@@ -124,7 +122,7 @@ public class MapContext {
     public void insertPOIS(){
         //ACA INSERTA LOS POIS DE TANDIL
         Database database = Database.getInstance();
-        OSMDao osmDao = new OSMDao_Impl(database);
+        OSMDao osmDao = Database.getInstance().openStreetMap();
 
         //VER DE MANDARLE EL {BOX} OBTENIDO DE LA LOCALIZACIÓN EN VEZ DE POR CONST
         ArrayList<JsonObject> tourism_attractions_tandil = new ArrayList<>(OverpassAPI.getPois(TANDIL_TOURISM_QUERY));

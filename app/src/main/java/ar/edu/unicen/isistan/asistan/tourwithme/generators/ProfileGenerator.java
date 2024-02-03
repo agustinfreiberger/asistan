@@ -17,6 +17,7 @@ import ar.edu.unicen.isistan.asistan.storage.database.mobility.commutes.Commute;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.visits.Visit;
+import ar.edu.unicen.isistan.asistan.storage.preferences.user.User;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserPoiPreference;
 
@@ -35,19 +36,17 @@ public class ProfileGenerator extends AsyncTask {
         this.execute();
     }
 
-    public ArrayList<UserCategoryPreference> getUserCategoryPreferenceList(){
-        return this.userCategoryPreferenceList;
-    }
-
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         loadingProfile.setVisibility(View.GONE);
     }
 
-    //Obtiene las preferencias de pois visitados
+    //Obtiene las preferencias
     @Override
     protected Object doInBackground(Object[] objects) {
+
+        //Obtiene las preferencias de pois visitados
 
         //Todas las visitas a pois únicas (agrupadas por place_id)
         List<Visit> allUserVisits = Database.getInstance().mobility().selectVisits();
@@ -119,65 +118,58 @@ public class ProfileGenerator extends AsyncTask {
             }
         }
 
-        //TODO: agregar un emoticon de 'Listo' cuando termina
-        return null;
-    }
+        //Una vez que tengo los intereses de cada lugar pondero por categorías
 
-
-    //Una vez que tengo los intereses de cada lugar pondero por categorías
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<UserCategoryPreference> getUserCategoryPreferences()
-    {
         //Utilizo un hashmap para poder ir acumulando los interéses dentro de
         // las categorías por eficiencia (recorro menos veces el arreglo ya que accedo por O(1))
         HashMap<PlaceCategory, Float> categoriesPreferenceList  = new HashMap<>();
         float interesTotal = 0;
 
         //Limpio para actualizarla en caso que haya nuevas visitas registradas.
-        if(categoriesPreferenceList.size() >0){
-            categoriesPreferenceList.clear();
-        }
-
         if(userCategoryPreferenceList.size() >0){
             userCategoryPreferenceList.clear();
         }
 
-       if(userPoiPreferenceList != null && userPoiPreferenceList.size() > 1)
-       {
-           for (UserPoiPreference userPoiPreference:userPoiPreferenceList)
-           {
-               //filtro las categorías que no sirven
-               if(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()) != PlaceCategory.HOME && PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()) != PlaceCategory.OTHERS)
-               {
-                   if(!categoriesPreferenceList.containsKey(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()).getName()))
-                   {
-                       //cargo el hashmap de categorías con la suma de intereses
-                        categoriesPreferenceList.put(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()), userPoiPreference.getPreference());
-                        interesTotal = interesTotal + userPoiPreference.getPreference();
-                   }
-                   else
-                   {
-                       categoriesPreferenceList.computeIfPresent(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()),
-                               (key, val) -> val + userPoiPreference.getPreference());
-                   }
-               }
-           }
-       }else{
-           //Si es null o tiene un lugar directamente la devuelvo vacia
-           return userCategoryPreferenceList;
-       }
-
-
-       //hago la ponderacion y la guardo
-       final float interesTotalFinal = interesTotal;
-        for (PlaceCategory key:categoriesPreferenceList.keySet()) {
-            userCategoryPreferenceList.add(new UserCategoryPreference(key.getCode(),categoriesPreferenceList.get(key).floatValue()/interesTotal));
+        if(userPoiPreferenceList != null){
+            if(userPoiPreferenceList.size() >= 1)
+            {
+                for (UserPoiPreference userPoiPreference:userPoiPreferenceList)
+                {
+                    //filtro las categorías que no sirven
+                    if(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()) != PlaceCategory.HOME && PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()) != PlaceCategory.OTHERS)
+                    {
+                        if(!categoriesPreferenceList.containsKey(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()).getName()))
+                        {
+                            //cargo el hashmap de categorías con la suma de intereses
+                            categoriesPreferenceList.put(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()), userPoiPreference.getPreference());
+                            interesTotal = interesTotal + userPoiPreference.getPreference();
+                        }
+                        else
+                        {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                categoriesPreferenceList.computeIfPresent(PlaceCategory.get(userPoiPreference.getPlace().getPlaceCategory()),
+                                        (key, val) -> val + userPoiPreference.getPreference());
+                            }
+                        }
+                    }
+                }
+                //hago la ponderacion y la guardo
+                for (PlaceCategory key:categoriesPreferenceList.keySet()) {
+                    userCategoryPreferenceList.add(new UserCategoryPreference(key.getCode(),categoriesPreferenceList.get(key).floatValue()/interesTotal));
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    userCategoryPreferenceList.sort(Comparator.comparing(UserCategoryPreference::getPreference).reversed());
+                }
+            }else{
+                return null;
+            }
         }
 
-        //Ordeno de mayor a menor
-        userCategoryPreferenceList.sort(Comparator.comparing(UserCategoryPreference::getPreference).reversed());
+        return null;
+    }
 
-        return  userCategoryPreferenceList;
+    public ArrayList<UserCategoryPreference> getUserCategoryPreferences() {
+        return userCategoryPreferenceList;
     }
 
     //Interés de usuario en una categoría. ej: "pub"
