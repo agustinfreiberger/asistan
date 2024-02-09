@@ -65,7 +65,7 @@ public class GroupActivity extends AppCompatActivity implements GroupFragment.On
         myUserInfoDTO.setName(intent.getStringExtra("name"));
         myUserInfoDTO.setLocation(intent.getDoubleExtra("latitud", 0.0),intent.getDoubleExtra("longitud", 0.0) );
 
-        tourGenerator = new TourGenerator();
+        tourGenerator = new TourGenerator(myUserInfoDTO.getLatitud(), myUserInfoDTO.getLongitud());
         mQueue = Volley.newRequestQueue(this);
         foundUsersList = getUsuariosCercanosYSimilares();
     }

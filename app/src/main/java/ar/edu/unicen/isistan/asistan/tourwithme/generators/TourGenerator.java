@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
+import ar.edu.unicen.isistan.asistan.storage.database.geolocation.Coordinate;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.Place;
 import ar.edu.unicen.isistan.asistan.storage.database.mobility.places.PlaceCategory;
+import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMArea;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.OSMPlace;
 import ar.edu.unicen.isistan.asistan.storage.database.osm.categories.CategoryMapper;
 import ar.edu.unicen.isistan.asistan.tourwithme.models.UserCategoryPreference;
@@ -21,19 +23,39 @@ import ar.edu.unicen.isistan.asistan.tourwithme.models.UserInfoDTO;
 
 public class TourGenerator extends AsyncTask{
 
+    Coordinate currentLocation;
     private List<OSMPlace> placesList;
+    private List<OSMArea> areasList;
     public ArrayList<Place> tourList;
     private int tamanoMaximo = 5;
 
-    public TourGenerator(){
+
+    public TourGenerator (){
         placesList = new ArrayList<>();
         tourList = new ArrayList<>();
+        currentLocation = new Coordinate();
+    }
+
+    public TourGenerator(double latitud, double longitud){
+        placesList = new ArrayList<>();
+        tourList = new ArrayList<>();
+        this.currentLocation = new Coordinate(latitud,longitud);
         this.execute();
     }
 
+
+    public Coordinate getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(double latitud, double longitud) {
+        this.currentLocation = new Coordinate(latitud, longitud);
+        this.execute();
+    }
     @Override
     protected Object doInBackground(Object[] objects) {
         placesList = Database.getInstance().mobility().allOSMPlaces2();
+        areasList = Database.getInstance().openStreetMap().nearAreas(currentLocation, 4000);
         return null;
     }
 
@@ -45,21 +67,22 @@ public class TourGenerator extends AsyncTask{
         CategoryMapper categoryMapper = new CategoryMapper(true);
         ArrayList<String> agregados = new ArrayList<>();
 
-
         if(tourList.size() == 5){
             return tourList;
         }
 
+
         if(!categoriesPreferenceList.isEmpty() && !placesList.isEmpty())
         {
-            for (OSMPlace lugar : placesList) {
+            for (OSMArea area: areasList) {                    //Reviso primero las áreas y luego los lugares
                 for (UserCategoryPreference categoria : categoriesPreferenceList) {
                     for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getPlacecategory())) {
-                        if (lugar.getCategory() == placeCategory.getCode()) {
+                        if (area.getCategory() == placeCategory.getCode()) {
                             if (tamano < tamanoMaximo) {
-                                if (!agregados.contains(lugar.getName())) {
+                                if (!agregados.contains(area.getName())) {
                                     aux = new Place();
-                                    lugar.export(aux);
+                                    aux.setArea(area.getArea());
+                                    area.export(aux);
                                     tourList.add(aux);
                                     agregados.add(aux.getName());
                                     tamano++;
@@ -71,10 +94,31 @@ public class TourGenerator extends AsyncTask{
                     }
                 }
             }
-        }
+
+            if(tamano < tamanoMaximo){
+                for (OSMPlace lugar : placesList) {
+                    for (UserCategoryPreference categoria : categoriesPreferenceList) {
+                            for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getPlacecategory())) {
+                                if (lugar.getCategory() == placeCategory.getCode()) {
+                                    if (tamano < tamanoMaximo) {
+                                        if (!agregados.contains(lugar.getName())) {
+                                            aux = new Place();
+                                            lugar.export(aux);
+                                            tourList.add(aux);
+                                            agregados.add(aux.getName());
+                                            tamano++;
+                                        }
+                                    } else {
+                                        return tourList;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         return tourList;
     }
-
 
     //Genero el tour para el grupo
     public ArrayList<Place> GenerateGroupTour(List<UserInfoDTO> groupUsers){
@@ -170,4 +214,5 @@ public class TourGenerator extends AsyncTask{
 
         return maxPreference - minPreference;
     }
+
 }

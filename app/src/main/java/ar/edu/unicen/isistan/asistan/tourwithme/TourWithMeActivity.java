@@ -83,14 +83,18 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
         profileSend = false;
 
         fragmentManager = getSupportFragmentManager();
-        tourGenerator = new TourGenerator();
 
         progress_Bar.setVisibility(View.VISIBLE);
         profileGenerator = new ProfileGenerator(progress_Bar);
+        tourGenerator = new TourGenerator();
 
-        btn_showTour.setOnClickListener(view ->
-                showTourClick()
-        );
+        btn_showTour.setOnClickListener(view -> {
+                if(profileSend){
+                    showTourClick();
+                } else {
+                    Toast.makeText(TourWithMeActivity.this, "Obteniendo lugares cercanos...", Toast.LENGTH_LONG).show();
+                }
+        });
 
         btn_showProfile.setOnClickListener(view ->
                 showProfileClick()
@@ -182,6 +186,8 @@ public class TourWithMeActivity extends AppCompatActivity implements MyPlacesMap
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             myUserInfoDTO.setPreferences(myPreferences);
         }
+
+        tourGenerator.setCurrentLocation(currentLocation.getLatitude(),currentLocation.getLongitude());
     }
 
     private void loadCurrentLocation() {

@@ -2,6 +2,7 @@
 'https://plantuml.com/class-diagram
 
 TourWithMeActivity o-- TourGenerator
+GroupActivity o-- TourGenerator
 TourWithMeActivity o-- ProfileGenerator
 GroupActivity *-- UserInfoDTO
 UserInfoDTO o-- UserCategoryPreference

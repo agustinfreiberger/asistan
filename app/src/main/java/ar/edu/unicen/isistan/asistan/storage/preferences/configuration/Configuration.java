@@ -16,7 +16,7 @@ public class Configuration {
         this.programmedTime = false;
         this.startTime = new Time(10,0);
         this.endTime= new Time(22,0);
-        this.mapView = MapController.Map.GOOGLE_MAPS.getCode();
+        this.mapView = MapController.Map.OPEN_STREET_MAP.getCode();
     }
 
     public boolean isRunning() {

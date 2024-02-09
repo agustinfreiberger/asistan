@@ -51,13 +51,15 @@ public abstract class OSMDao {
 
     /* OSMAreas */
 
-    @Query("SELECT * FROM " + OSMArea.TABLE_NAME + " WHERE NOT((west > :east) OR (:west > east) OR (south > :north) OR (:south > north))")
+    @Query("SELECT * FROM " + OSMArea.TABLE_NAME + " WHERE NOT((west > :east) OR (:west > east) OR (south > :north) OR (:south > north)) AND name IS NOT null")
     public abstract List<OSMArea> allAreas(double north, double south, double east, double west);
 
     public List<OSMArea> nearAreas(Coordinate location, double maxDistance) {
         Bound bound = new Bound(location,maxDistance);
         return this.allAreas(bound.getNorth(), bound.getSouth(), bound.getEast(), bound.getWest());
     }
+
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insert(OSMArea area);
