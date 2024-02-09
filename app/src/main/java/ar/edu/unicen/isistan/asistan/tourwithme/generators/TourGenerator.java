@@ -142,14 +142,15 @@ public class TourGenerator extends AsyncTask{
 
         if(!bestCategories.isEmpty() && !placesList.isEmpty())
         {
-            for (OSMPlace lugar : placesList) {
+            for (OSMArea area: areasList) {                    //Reviso primero las áreas y luego los lugares
                 for (PlaceCategory categoria : bestCategories) {
                     for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getCode())) {
-                        if (lugar.getCategory() == placeCategory.getCode()) {
+                        if (area.getCategory() == placeCategory.getCode()) {
                             if (tamano < tamanoMaximo) {
-                                if (!agregados.contains(lugar.getName())) {
+                                if (!agregados.contains(area.getName())) {
                                     aux = new Place();
-                                    lugar.export(aux);
+                                    aux.setArea(area.getArea());
+                                    area.export(aux);
                                     tourList.add(aux);
                                     agregados.add(aux.getName());
                                     tamano++;
@@ -161,6 +162,28 @@ public class TourGenerator extends AsyncTask{
                     }
                 }
             }
+            if(tamano < tamanoMaximo){
+                for (OSMPlace lugar : placesList) {
+                    for (PlaceCategory categoria : bestCategories) {
+                        for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getCode())) {
+                            if (lugar.getCategory() == placeCategory.getCode()) {
+                                if (tamano < tamanoMaximo) {
+                                    if (!agregados.contains(lugar.getName())) {
+                                        aux = new Place();
+                                        lugar.export(aux);
+                                        tourList.add(aux);
+                                        agregados.add(aux.getName());
+                                        tamano++;
+                                    }
+                                } else {
+                                    return tourList;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
         return tourList;
     }
