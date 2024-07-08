@@ -9,6 +9,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import ar.edu.unicen.isistan.asistan.storage.database.Database;
@@ -27,7 +28,7 @@ public class TourGenerator extends AsyncTask{
     private List<OSMPlace> placesList;
     private List<OSMArea> areasList;
     public ArrayList<Place> tourList;
-    private int tamanoMaximo = 5;
+    private final int tamanoMaximo = 30;
 
 
     public TourGenerator (){
@@ -41,11 +42,6 @@ public class TourGenerator extends AsyncTask{
         tourList = new ArrayList<>();
         this.currentLocation = new Coordinate(latitud,longitud);
         this.execute();
-    }
-
-
-    public Coordinate getCurrentLocation() {
-        return currentLocation;
     }
 
     public void setCurrentLocation(double latitud, double longitud) {
@@ -67,19 +63,24 @@ public class TourGenerator extends AsyncTask{
         CategoryMapper categoryMapper = new CategoryMapper(true);
         ArrayList<String> agregados = new ArrayList<>();
 
-        if(tourList.size() == 5){
-            return tourList;
+        if(tourList.size() >= 5){
+            return shuffleTour();
         }
-
 
         if(!categoriesPreferenceList.isEmpty() && !placesList.isEmpty())
         {
-            for (OSMArea area: areasList) {                    //Reviso primero las áreas y luego los lugares
-                for (UserCategoryPreference categoria : categoriesPreferenceList) {
-                    for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getPlacecategory())) {
-                        if (area.getCategory() == placeCategory.getCode()) {
-                            if (tamano < tamanoMaximo) {
-                                if (!agregados.contains(area.getName())) {
+            for (OSMArea area: areasList) //Reviso primero las áreas y luego los lugares
+            {
+                for (UserCategoryPreference categoria : categoriesPreferenceList)
+                {
+                    for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getPlacecategory())) //Busco lugares de categorías similares
+                    {
+                        if (area.getCategory() == placeCategory.getCode())
+                        {
+                            if (tamano < (tamanoMaximo/2))
+                            {
+                                if (!agregados.contains(area.getName()))
+                                {
                                     aux = new Place();
                                     aux.setArea(area.getArea());
                                     area.export(aux);
@@ -87,37 +88,47 @@ public class TourGenerator extends AsyncTask{
                                     agregados.add(aux.getName());
                                     tamano++;
                                 }
-                            } else {
-                                return tourList;
+                            }
+                            else
+                            {
+                                break;
                             }
                         }
                     }
                 }
             }
 
-            if(tamano < tamanoMaximo){
-                for (OSMPlace lugar : placesList) {
-                    for (UserCategoryPreference categoria : categoriesPreferenceList) {
-                            for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getPlacecategory())) {
-                                if (lugar.getCategory() == placeCategory.getCode()) {
-                                    if (tamano < tamanoMaximo) {
-                                        if (!agregados.contains(lugar.getName())) {
-                                            aux = new Place();
-                                            lugar.export(aux);
-                                            tourList.add(aux);
-                                            agregados.add(aux.getName());
-                                            tamano++;
-                                        }
-                                    } else {
-                                        return tourList;
-                                    }
+            for (OSMPlace lugar : placesList)
+            {
+                for (UserCategoryPreference categoria : categoriesPreferenceList)
+                {
+                    for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getPlacecategory()))
+                    {
+                        if (lugar.getCategory() == placeCategory.getCode())
+                        {
+                            if (tamano < tamanoMaximo)
+                            {
+                                if (!agregados.contains(lugar.getName()))
+                                {
+                                    aux = new Place();
+                                    lugar.export(aux);
+                                    tourList.add(aux);
+                                    agregados.add(aux.getName());
+                                    tamano++;
                                 }
+                            }
+                            else
+                            {
+                                return shuffleTour();
                             }
                         }
                     }
                 }
+
             }
-        return tourList;
+        }
+
+        return shuffleTour();
     }
 
     //Genero el tour para el grupo
@@ -138,15 +149,20 @@ public class TourGenerator extends AsyncTask{
         CategoryMapper categoryMapper = new CategoryMapper(true);
         ArrayList<String> agregados = new ArrayList<>();
 
-        List<PlaceCategory> bestCategories = getMorePreferedCategories(groupUsers);
+        List<PlaceCategory> bestCategories = GetGroupPreferedCategories(groupUsers);
 
         if(!bestCategories.isEmpty() && !placesList.isEmpty())
         {
             for (OSMArea area: areasList) {                    //Reviso primero las áreas y luego los lugares
-                for (PlaceCategory categoria : bestCategories) {
+
+                for (PlaceCategory categoria : bestCategories)
+                {
                     for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getCode())) {
-                        if (area.getCategory() == placeCategory.getCode()) {
-                            if (tamano < tamanoMaximo) {
+
+                        if (area.getCategory() == placeCategory.getCode())
+                        {
+                            if (tamano < (tamanoMaximo/2))
+                            {
                                 if (!agregados.contains(area.getName())) {
                                     aux = new Place();
                                     aux.setArea(area.getArea());
@@ -156,28 +172,26 @@ public class TourGenerator extends AsyncTask{
                                     tamano++;
                                 }
                             } else {
-                                return tourList;
+                                break;
                             }
                         }
                     }
                 }
             }
-            if(tamano < tamanoMaximo){
-                for (OSMPlace lugar : placesList) {
-                    for (PlaceCategory categoria : bestCategories) {
-                        for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getCode())) {
-                            if (lugar.getCategory() == placeCategory.getCode()) {
-                                if (tamano < tamanoMaximo) {
-                                    if (!agregados.contains(lugar.getName())) {
-                                        aux = new Place();
-                                        lugar.export(aux);
-                                        tourList.add(aux);
-                                        agregados.add(aux.getName());
-                                        tamano++;
-                                    }
-                                } else {
-                                    return tourList;
+            for (OSMPlace lugar : placesList) {
+                for (PlaceCategory categoria : bestCategories) {
+                    for (PlaceCategory placeCategory : categoryMapper.getRelatedCategories(categoria.getCode())) {
+                        if (lugar.getCategory() == placeCategory.getCode()) {
+                            if (tamano < tamanoMaximo) {
+                                if (!agregados.contains(lugar.getName())) {
+                                    aux = new Place();
+                                    lugar.export(aux);
+                                    tourList.add(aux);
+                                    agregados.add(aux.getName());
+                                    tamano++;
                                 }
+                            } else {
+                                return shuffleTour();
                             }
                         }
                     }
@@ -185,10 +199,16 @@ public class TourGenerator extends AsyncTask{
             }
 
         }
-        return tourList;
+
+        return shuffleTour();
     }
 
-    private List<PlaceCategory> getMorePreferedCategories(List<UserInfoDTO> groupUsers){
+    public ArrayList<Place> shuffleTour(){
+        Collections.shuffle(tourList);
+        return new ArrayList<>(tourList.subList(0,5));
+    }
+
+    private List<PlaceCategory> GetGroupPreferedCategories(List<UserInfoDTO> groupUsers){
         List<UserCategoryPreference> allCategories = new ArrayList<>();
 
         //Agrego mis preferencias
@@ -208,7 +228,7 @@ public class TourGenerator extends AsyncTask{
 
         //Armo el arreglo de diferencias
         for (UserCategoryPreference category: allCategories) {
-            categoryDifferenceArray.add(new UserCategoryPreference(category.getPlacecategory(),calculateDifference(groupUsers,category.getPlacecategory())));
+            categoryDifferenceArray.add(new UserCategoryPreference(category.getPlacecategory(), GetGroupCategoryInterestDifference(groupUsers,category.getPlacecategory())));
         }
 
         //Ordeno las diferencias de mayor a menor
@@ -223,7 +243,7 @@ public class TourGenerator extends AsyncTask{
         return bestCategories;
     }
 
-    private static float calculateDifference(List<UserInfoDTO> users, int category) {
+    private static float GetGroupCategoryInterestDifference(List<UserInfoDTO> users, int category) {
         float maxPreference = Integer.MIN_VALUE;
         float minPreference = Integer.MAX_VALUE;
 

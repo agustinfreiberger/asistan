@@ -66,7 +66,6 @@ public class LoginActivity extends Activity {
                 .requestIdToken(getString(R.string.client_id))
                 .requestScopes(new Scope(Scopes.PLUS_ME))
                 .requestProfile()
-                .requestEmail()
                 .requestId()
                 .build();
 

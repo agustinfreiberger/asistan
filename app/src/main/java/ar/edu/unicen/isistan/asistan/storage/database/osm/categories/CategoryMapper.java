@@ -11,7 +11,7 @@ public class CategoryMapper {
 
     private String[] KEYS = { "aeroway", "shop", "amenity", "craft", "leisure", "natural", "tourism", "landuse", "building" };
 
-    private String[] TourKEYS = { "cultural", "shop" , "amenity", "natural", "building" };
+    private String[] TourKEYS = { "cultural", "shop" , "amenity", "natural", "building", "sports", "food" };
 
     private HashMap<String,SimpleMapper> mappers;
 
@@ -215,6 +215,14 @@ public class CategoryMapper {
         culturalMap.put("planetarium",PlaceCategory.PLANETARIUM);
         this.mappers.put("cultural",new SimpleMapper(PlaceCategory.UNSPECIFIED,culturalMap));
 
+        HashMap<String, PlaceCategory> sportsMap = new HashMap<>();
+        sportsMap.put("sports_centre",PlaceCategory.SPORT_CLUB);
+        sportsMap.put("stadium",PlaceCategory.STADIUM);
+        sportsMap.put("golf_course",PlaceCategory.GOLF);
+        sportsMap.put("miniature_golf",PlaceCategory.MINIATURE_GOLF);
+        sportsMap.put("horse_riding",PlaceCategory.HORSE_RIDING);
+        this.mappers.put("sports",new SimpleMapper(PlaceCategory.UNSPECIFIED,sportsMap));
+
         HashMap<String, PlaceCategory> naturalMap = new HashMap<>();
         naturalMap.put("wood",PlaceCategory.WOOD);
         naturalMap.put("scrub",PlaceCategory.WOOD);
@@ -240,43 +248,35 @@ public class CategoryMapper {
         naturalMap.put("forest",PlaceCategory.WOOD);
         naturalMap.put("farmland",PlaceCategory.RURAL_AREA);
         naturalMap.put("recreation_ground",PlaceCategory.PARK);
-        naturalMap.put("sports_centre",PlaceCategory.SPORT_CLUB);
-        naturalMap.put("stadium",PlaceCategory.STADIUM);
-        naturalMap.put("miniature_golf",PlaceCategory.MINIATURE_GOLF);
         naturalMap.put("dog_park",PlaceCategory.PARK);
-        naturalMap.put("golf_course",PlaceCategory.GOLF);
-        naturalMap.put("horse_riding",PlaceCategory.HORSE_RIDING);
         naturalMap.put("marina",PlaceCategory.PORT);
         this.mappers.put("natural",new SimpleMapper(PlaceCategory.UNSPECIFIED,naturalMap));
 
 
         HashMap<String, PlaceCategory> amenityMap = new HashMap<>();
-        amenityMap.put("bar",PlaceCategory.CAFE);
-        amenityMap.put("biergarten",PlaceCategory.RESTAURANT);
-        amenityMap.put("cafe",PlaceCategory.CAFE);
-        amenityMap.put("fast_food",PlaceCategory.FAST_FOOD);
-        amenityMap.put("ice_cream",PlaceCategory.ICE_CREAM);
-        amenityMap.put("pub",PlaceCategory.PUB);
-        amenityMap.put("restaurant",PlaceCategory.RESTAURANT);
         amenityMap.put("casino",PlaceCategory.CASINO);
         amenityMap.put("cinema",PlaceCategory.CINEMA);
         amenityMap.put("nightclub",PlaceCategory.NIGHT_CLUB);
-        amenityMap.put("internet_cafe",PlaceCategory.CAFE);
         this.mappers.put("amenity",new SimpleMapper(PlaceCategory.UNSPECIFIED,amenityMap));
 
+
+        HashMap<String, PlaceCategory> foodMap = new HashMap<>();
+        foodMap.put("bar",PlaceCategory.CAFE);
+        foodMap.put("biergarten",PlaceCategory.RESTAURANT);
+        foodMap.put("cafe",PlaceCategory.CAFE);
+        foodMap.put("fast_food",PlaceCategory.FAST_FOOD);
+        foodMap.put("ice_cream",PlaceCategory.ICE_CREAM);
+        foodMap.put("internet_cafe",PlaceCategory.CAFE);
+        foodMap.put("restaurant",PlaceCategory.RESTAURANT);
+        foodMap.put("pub",PlaceCategory.PUB);
+        this.mappers.put("food",new SimpleMapper(PlaceCategory.UNSPECIFIED,foodMap));
+
         HashMap<String, PlaceCategory> buildingMap = new HashMap<>();
-        buildingMap.put("hotel",PlaceCategory.ACCOMMODATION);
         buildingMap.put("commercial",PlaceCategory.COMMERCE);
-        buildingMap.put("office",PlaceCategory.OFFICE);
         buildingMap.put("supermarket",PlaceCategory.SUPERMARKET);
         buildingMap.put("retail",PlaceCategory.SHOPPING);
-        buildingMap.put("cathedral",PlaceCategory.CHURCH);
-        buildingMap.put("church",PlaceCategory.CHURCH);
-        buildingMap.put("temple",PlaceCategory.CHURCH);
-        buildingMap.put("synagogue",PlaceCategory.CHURCH);
-        buildingMap.put("government",PlaceCategory.PUBLIC_ORGANIZATION);
-        buildingMap.put("university",PlaceCategory.UNIVERSITY);
-        buildingMap.put("public",PlaceCategory.PUBLIC_ORGANIZATION);
+        buildingMap.put("mall",PlaceCategory.SHOPPING);
+        buildingMap.put("marketplace",PlaceCategory.MARKETPLACE);
         this.mappers.put("building",new SimpleMapper(PlaceCategory.UNSPECIFIED,buildingMap));
 
         HashMap<String, PlaceCategory> shopMap = new HashMap<>();
@@ -296,7 +296,6 @@ public class CategoryMapper {
         shopMap.put("department_store",PlaceCategory.SHOPPING);
         shopMap.put("general",PlaceCategory.DAIRY_STORE);
         shopMap.put("kiosk",PlaceCategory.KIOSK);
-        shopMap.put("mall",PlaceCategory.SHOPPING);
         shopMap.put("supermarket",PlaceCategory.SUPERMARKET);
         shopMap.put("clothes",PlaceCategory.CLOTHES);
         shopMap.put("fashion",PlaceCategory.CLOTHES);
@@ -323,7 +322,6 @@ public class CategoryMapper {
         shopMap.put("mobile_phone",PlaceCategory.ELECTRONICS);
         shopMap.put("radiotechnics",PlaceCategory.ELECTRICAL);
         shopMap.put("fireplace",PlaceCategory.FURNITURE);
-        shopMap.put("marketplace",PlaceCategory.MARKETPLACE);
         this.mappers.put("shop",new SimpleMapper(PlaceCategory.SHOP,shopMap));
     }
 
@@ -349,6 +347,7 @@ public class CategoryMapper {
         for (int i = 1; i < TourKEYS.length; i++ ) {
                 if (this.mappers.get(TourKEYS[i]).containsSubCategory(category)) {
                     relatedCategories.addAll(this.mappers.get(TourKEYS[i]).getMapValues());
+                    break;
                 }
         }
         return relatedCategories;
